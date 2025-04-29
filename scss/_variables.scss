@@ -1,0 +1,20 @@
+// Variables
+
+$body-bg:              #ffffff;
+$body-color:           #262626; // 15%
+$primary:              #3399cc; // hsl(200, 60%, 50%)
+$secondary:            #ff9933; // hsl(30, 100%, 60%)
+$link-color:           #4d4d4d; // 30%
+$link-hover-color:     $primary;
+
+$breakpoint-sm:        600px;
+$breakpoint-md:        900px;
+$breakpoint-lg:        1200px;
+
+$font-size-base:       16px;
+$root-font-size:       min(3.84vw, $font-size-base);
+
+$font-family-base:     "Noto Sans JP", "Yu Gothic", sans-serif;
+$font-weight-base:     500; // Specific setting for "Yu Gothic"
+$line-height-base:     28.8 / ($font-size-base / ($font-size-base * 0 + 1)); // 単位除去
+$letter-spacing-base:  0;

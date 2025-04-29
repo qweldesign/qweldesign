@@ -1,0 +1,60 @@
+/**
+ * Normalize
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: $root-font-size;
+}
+ 
+body {
+  margin: 0; // Remove the margin in all browsers
+  background-color: $body-bg;
+  color: $body-color;
+  font-family: $font-family-base;
+  font-weight: $font-weight-base;
+  line-height: $line-height-base;
+  letter-spacing: $letter-spacing-base;
+  -webkit-text-size-adjust: 100%; // Prevent adjustments of font size after orientation changes in iOS
+}
+
+a {
+  &, &:active {
+    color: $link-color;
+    text-decoration: none;
+  }
+  
+  &:hover, &:focus {
+    color: $link-hover-color;
+    text-decoration: underline;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  margin: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  text-align: left;
+}
+
+button, input, select, textarea {
+  font: inherit;  // Change the font styles in all browsers
+}

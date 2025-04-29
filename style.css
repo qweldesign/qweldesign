@@ -1,0 +1,60 @@
+/**
+ * Normalize
+ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: min(3.84vw, 16px);
+}
+
+body {
+  margin: 0;
+  background-color: #ffffff;
+  color: #262626;
+  font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
+  font-weight: 500;
+  line-height: 1.8;
+  letter-spacing: 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+a, a:active {
+  color: #4d4d4d;
+  text-decoration: none;
+}
+a:hover, a:focus {
+  color: #3399cc;
+  text-decoration: underline;
+}
+
+img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+figure {
+  display: block;
+  margin: 0;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th {
+  text-align: left;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
+
+/**
+ * Section
+ */
