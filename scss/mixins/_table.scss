@@ -1,0 +1,48 @@
+// Table
+
+@mixin make-table() {
+  thead, tbody {
+    width: 100%;
+  }
+
+  thead {
+    border: 0; // Reset
+  }
+
+  tr {
+    border-block-end: 1px solid theme-color("lighter");
+
+    &:first-child {
+      border-block-start: 1px solid theme-color("lighter");
+    }
+  }
+
+  th, td {
+    padding: space();
+    border: 0; // Reset
+  }
+}
+
+@mixin table() {
+  width: 100%;
+
+  @media (max-width: breakpoint("sm") - 0.1px) {
+    &, thead, tbody, tr, th, td {
+      display: block;
+    }
+  }
+
+  @include make-table();
+}
+
+@mixin fluid-table($width: 72rem) {
+  width: 100%;
+  overflow-x: auto;
+
+  table {
+    width: $width;
+    margin: 0 auto;
+  }
+
+  @include make-table();
+}

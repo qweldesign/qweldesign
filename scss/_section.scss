@@ -1,14 +1,17 @@
 /**
- * Section
+ * Project - Section
  */
 
-%__section {
-  position: relative;
-  padding: 3rem 0;
-}
+.section {
+  &__inner {
+    padding-block: space("large");
+  }
 
-%__container {
-  width: min(100%, 75rem); // 1200px 左右24pxずつpaddingで、内寸1152px
-  margin: 0 auto;
-  padding: 0 clamp(0.75rem, 2%, 1.5rem);
+  &__container {
+    @include container();
+  }
+
+  &__row {
+    @include row();
+  }
 }

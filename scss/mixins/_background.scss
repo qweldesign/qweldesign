@@ -1,0 +1,10 @@
+// Background
+
+@mixin background($key: $theme-accent) {
+  background-color: theme-color($key);
+  color: color-yiq($key);
+
+  a {
+    @include link-text(color-yiq($key), color-yiq($key))
+  }
+}

@@ -1,5 +1,37 @@
 @charset "utf-8";
 
+/**
+ * Style.css
+ * このファイルは QWEL Project の一部です。
+ * Part of the QWEL Project © QWEL.DESIGN 2025
+ * Licensed under GPL v3 – see https://qwel.design/
+ */
+
+// Customize
 @import "variables";
+
+// Settings
+@import "settings/colorSystem";
+@import "settings/gridSystem";
+@import "settings/typography";
+
+// Mixins
+@import "mixins/background";
+@import "mixins/button";
+@import "mixins/form";
+@import "mixins/table";
+@import "mixins/type";
+
+// Foundation
+@import "root";
 @import "normalize";
+
+// Projects
 @import "section";
+
+// Utility
+//@import "utilities/flex";
+//@import "utilities/flexItem";
+@import "utilities/spacing";
+@import "utilities/text";
+@import "utilities/visibility";

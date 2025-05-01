@@ -1,5 +1,5 @@
 /**
- * Normalize
+ * Foundation - Normalize
  */
 
 *,
@@ -10,29 +10,63 @@
 
 html {
   font-size: $root-font-size;
+  scroll-behavior: smooth;
 }
- 
+
 body {
   margin: 0; // Remove the margin in all browsers
   background-color: $body-bg;
   color: $body-color;
-  font-family: $font-family-base;
-  font-weight: $font-weight-base;
-  line-height: $line-height-base;
-  letter-spacing: $letter-spacing-base;
+  @include body();
   -webkit-text-size-adjust: 100%; // Prevent adjustments of font size after orientation changes in iOS
 }
 
+h1, h2, h3, h4, h5, h6 {
+  @include heading();
+}
+
+h1 {
+  font-size: $h1-font-size;
+}
+
+h2 {
+  font-size: $h2-font-size;
+}
+
+h3 {
+  font-size: $h3-font-size;
+}
+
+h4 {
+  font-size: $h4-font-size;
+}
+
+h5 {
+  font-weight: 700;
+  font-size: $h5-font-size;
+}
+
+h6 {
+  font-weight: 700;
+  font-size: $h6-font-size;
+}
+
+p,
+ol, ul,
+li {
+  margin-block: $default-margin;
+}
+
+small {
+  @include small-text();
+}
+
+blockquote {
+  @include blockquote();
+}
+
 a {
-  &, &:active {
-    color: $link-color;
-    text-decoration: none;
-  }
-  
-  &:hover, &:focus {
-    color: $link-hover-color;
-    text-decoration: underline;
-  }
+  @include link-text();
 }
 
 img {
@@ -43,7 +77,12 @@ img {
 
 figure {
   display: block;
-  margin: 0;
+  margin-block: $default-margin;
+}
+
+figcaption {
+  @include small-text();
+  text-align: center;
 }
 
 table {

@@ -1,0 +1,130 @@
+// Grid System
+
+// ルート要素にて定義
+// これを基準とした1remを、全ての寸法の基本単位とする
+$font-size-base:   16px !default;
+$root-font-size:   min(3.84vw, $font-size-base) !default; // 4vw以下推奨
+
+// 基準幅
+$grid-base:        6rem !default;
+
+// 画像アスペクト比 (幅/高さ)
+$img-aspect-ratio: 8 / 5 !default;
+
+// 各BP別用途
+// xs: 1カラム (4グリッド: 24rem)
+// 文字サイズを流動させ、レイアウトを固定
+//
+// sm: 1〜2カラム (6グリッド: 36rem)
+// コンテナ幅を拡げ、文字サイズをpxに切り替え固定
+// このサイズのデバイスは少ないため、ほとんどxsのレイアウトを継承する
+// WordPressブロックエディタの都合上、BPを600pxで設置するのが望ましい
+//
+// md: 1〜3カラム (9グリッド: 54rem)
+// 画像:文章を1:2の割合で表示するリストレイアウトが可能
+//
+// lg: 1～4カラム (12グリッド: 72rem)
+// 幅広コンテナ使用時に4カラムレイアウトが可能
+// "md"からflexItemを伸長させる使い方でもOK
+
+// ブレイクポイント (BP)
+$breakpoints:      (
+  sm:                $font-size-base * 37.5, // WordPressブロックエディタのBP (600px)
+  md:                $font-size-base * 56.25,
+  lg:                $font-size-base * 75
+) !default;
+
+// BPの配列の接頭辞から値を返す関数
+@function breakpoint($key: "lg") {
+  @return map-get($breakpoints, $key);
+}
+
+// コンテナ幅
+// padding: clamp(12px, 2%, 24px)を左右に付与し、コンテナが収まる
+$container-widths: (
+  sm:                $grid-base * 6.25,  // 内寸 576px
+  md:                $grid-base * 9.375, // 内寸 864px theme.json settings.layout.contentSize の値
+  lg:                $grid-base * 12.5   // 内寸 1152px theme.json settings.layout.wideSize の値
+) !default;
+
+// BPの配列の接頭辞からコンテナ幅を返す関数
+@function container-width($key: "lg") {
+  @return var(--container-width--#{$key});
+}
+
+// ガター
+// 行を生成することで、コンテナの端とコンテンツ間が、それぞれ1.5rem空く仕様
+$gutter:         $grid-base / 8 !default;
+$container-pads: (
+  sm:              $gutter,
+  md:              clamp(#{$gutter}, 2%, #{$grid-base / 6}),
+  lg:              clamp(#{$gutter}, 2%, #{$grid-base / 4})
+) !default;
+
+// BPの配列の接頭辞からコンテナ内余白を返す関数
+@function container-pad($key: "lg") {
+  @return var(--container-pad--#{$key});
+}
+
+// 余白定義
+$spacing-values:   (
+  none:              0,
+  x-small:           $grid-base / 16,
+  small:             $grid-base / 8,
+  medium:            $grid-base / 4,
+  large:             $grid-base / 2,
+  x-large:           $grid-base
+) !default;
+
+// 余白の配列の接頭辞から値を返す関数
+@function space($key: "small") {
+  @return var(--spacing--#{$key});
+}
+
+// コンテナ生成
+@mixin make-container($key: "lg") {
+  margin-inline: auto;
+  padding-inline: container-pad($key);
+}
+
+@mixin container($key: "lg", $max-width: container-width($key)) {
+  width: min(100%, #{$max-width});
+  @include make-container($key);
+}
+
+// 行生成
+@mixin row($horizontal-align: space-around, $vertical-align: center, $has-gutter: false) {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: $horizontal-align;
+  align-items: $vertical-align;
+  // デフォルトではガター無し
+  @if $has-gutter == true {
+    margin-inline: calc(#{container-pad("sm")} * -1);
+  }
+}
+
+// 列生成
+@mixin col($size: 12, $flex-grow: false, $key: "xs") {
+  @if ($key == "xs") {
+    @if ($flex-grow == false) {
+      flex-grow: 0;
+    } @else {
+      flex-grow: $size;
+    }
+    flex-shrink: $size;
+    flex-basis: $size * $grid-base;
+  } @else {
+    @media (min-width: breakpoint($key)) {
+      @if ($flex-grow == false) {
+        flex-grow: 0;
+      } @else {
+        flex-grow: $size;
+      }
+      flex-shrink: $size;
+      flex-basis: $size * $grid-base;
+    }
+  }
+  width: 100%;
+  padding-inline: container-pad("sm");
+}

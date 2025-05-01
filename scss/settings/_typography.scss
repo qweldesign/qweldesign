@@ -1,0 +1,80 @@
+// Typography
+
+// 固有のフォント設定
+$font-family-sans:       "\"Noto Sans JP\"", "\"游ゴシック\"", "\"Yu Gothic\"", sans-serif !default;
+$font-family-serif:      "\"Noto Serif JP\"", "\"游明朝\"", "\"Yu Mincho\"", serif !default;
+$font-weight-sans:       400 !default; // 游ゴシック固有
+$font-weight-serif:      400 !default;
+
+// フォントサイズ
+$font-sizes:             (
+  x-small:                 0.75rem,  //  6/8
+  small:                   0.875rem, //  7/8
+  normal:                  1rem,     //  8/8
+  medium:                  1.125rem, //  9/8
+  large:                   1.25rem,  // 10/8
+  x-large:                 1.5rem,   // 12/8
+  xx-large:                2rem,     // 16/8
+) !default;
+
+// 文字サイズの配列からサイズを抽出する関数 ($keyで指定)
+@function font-size($key: "normal") {
+  @return var(--font-size--#{$key});
+}
+
+// body
+$body-typography:        (
+  font-family:             $font-family-sans,
+  font-weight:             $font-weight-sans,
+  line-height:             28.8 / ($font-size-base / ($font-size-base * 0 + 1)), // 単位除去
+  letter-spacing:          0
+) !default;
+
+@mixin body() {
+  @each $prop, $value in $body-typography {
+    #{$prop}: var(--#{$prop}-base);
+  }
+}
+
+// 余白
+$default-margin:         space() !default;
+
+// 見出し
+$heading-typography:     (
+  margin-block-start:      space("medium"),
+  margin-block-end:        $default-margin,
+  font-family:             $font-family-sans,
+  font-weight:             $font-weight-sans,
+  line-height:             1.2,
+  letter-spacing:          0
+) !default;
+
+@mixin heading() {
+  @each $prop, $value in $heading-typography {
+    #{$prop}: var(--heading-#{$prop});
+  }
+}
+
+$h1-font-size:           font-size("x-large") !default;
+$h2-font-size:           font-size("x-large") !default;
+$h3-font-size:           font-size("large") !default;
+$h4-font-size:           font-size("medium") !default;
+$h5-font-size:           font-size("normal") !default; // bold
+$h6-font-size:           font-size("small") !default; // bold
+
+// small
+$small-typography:       (
+  font-size:               font-size("small"),
+  line-height:             2,
+  letter-spacing:          0
+) !default;
+
+@mixin small-text() {
+  @each $prop, $value in $small-typography {
+    #{$prop}: var(--small-#{$prop});
+  }
+}
+
+// リンク文字の装飾
+$link-decoration:        none !default;
+$link-hover-decoration:  underline !default;

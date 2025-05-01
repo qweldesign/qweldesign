@@ -1,0 +1,38 @@
+/**
+ * Root
+ */
+
+:root {
+  @each $key, $color in $theme-colors {
+    --color--#{$key}: #{$color};
+    --color--#{$key}--active: #{color-activate($key)};
+  }
+
+  @each $key, $width in $container-widths {
+    --container-width--#{$key}: #{$width};
+  }
+
+  @each $key, $width in $container-pads {
+    --container-pad--#{$key}: #{$width};
+  }
+
+  @each $key, $value in $spacing-values {
+    --spacing--#{$key}: #{$value};
+  }
+
+  @each $key, $value in $body-typography {
+    --#{$key}-base: #{$value};
+  }
+
+  @each $key, $value in $heading-typography {
+    --heading-#{$key}: #{$value};
+  }
+  
+  @each $key, $size in $font-sizes {
+    --font-size--#{$key}: #{$size};
+  }
+
+  @each $key, $value in $small-typography {
+    --small-#{$key}: #{$value};
+  }
+}
