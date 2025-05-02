@@ -1,0 +1,20 @@
+/**
+ * Form
+ */
+
+.form {
+  @include form();
+
+  &__table {
+    @include table();
+    margin-block-end: space("medium");
+
+    th {
+      width: 12rem;
+    }
+  }
+
+  &__buttons {
+    @include row(center);
+  }
+}

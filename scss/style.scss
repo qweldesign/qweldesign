@@ -26,8 +26,28 @@
 @import "root";
 @import "normalize";
 
+// Layout
+@import "header";
+@import "gNav";
+@import "footer";
+
+// Components
+@import "icon";
+@import "backToTop";
+@import "button";
+@import "cover";
+@import "drawerMenu";
+@import "embed";
+@import "preloader";
+@import "responsiveColor";
+@import "slider";
+
 // Projects
+@import "hero";
 @import "section";
+@import "postItem";
+@import "postList";
+@import "form";
 
 // Utility
 //@import "utilities/flex";

@@ -1,2 +1,5 @@
 # VS code
 .vscode/
+
+# Node_modules
+node_modules/
