@@ -1,2 +1,59 @@
 // Variables
 
+$colors:             (
+  primary:             #209fdf, // hsl(200, 75%, 50%)
+  secondary:           #ffc080, // hsl(30, 100%, 75%)
+  tertiary:            #99cc33  // hsl(80, 60%, 50%)
+);
+
+$grid-base:            6rem;
+
+$breakpoints:        (
+  sm:                  600px,
+  md:                  800px,
+  lg:                  1000px
+);
+
+$container-widths:   (
+  sm:                  600px,
+  md:                  800px,
+  lg:                  1000px
+);
+
+$gutter:             $grid-base / 8;
+$container-pads:     (
+  sm:                  $gutter,
+  md:                  clamp(#{$gutter}, 2%, #{$grid-base / 6}), // 16px
+  lg:                  clamp(#{$gutter}, 2%, #{$grid-base / 4.8}) // 20px
+);
+
+$font-family-sans:   "\"Noto Sans\"", sans-serif;
+$font-family-serif:  "\"Cormorant Garamond\"", "\"Noto Serif\"", serif;
+$font-weight-sans:   400;
+$font-weight-serif:  500;
+
+$body-typography:    (
+  font-family:         $font-family-sans,
+  font-weight:         $font-weight-sans,
+  line-height:         1.8,
+  letter-spacing:      0.02em
+);
+
+$default-margin:     $grid-base / 8;
+
+$heading-typography: (
+  margin-top:          space("medium"),
+  margin-bottom:       $default-margin,
+  font-family:         $font-family-serif,
+  font-weight:         $font-weight-serif,
+  line-height:         1.2,
+  letter-spacing:      0.04em
+);
+
+$button-gradient-enabled:  true;
+$button-transform-enabled: false;
+
+$back-to-top-pad:      1.5rem;
+$drawer-pad:           1.5rem;
+$drawer-breakpoint:    map-get($breakpoints, "lg");
+$drawer-image-filter:  none;

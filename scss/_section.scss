@@ -2,36 +2,106 @@
  * Project - Section
  */
 
+:target {
+  scroll-margin-block-start: space("x-large");
+}
+
 .section {
   &__inner {
-    padding-block: space("large");
-
-    :where(&) {
-      background-color: $body-bg;
-    }
-
-    // Test Responsive Color
-    :where(.section:nth-child(odd) &) {
-      @include background("darker");
-    }
-  }
-
-  &__heading {
-    margin: space("medium") 0;
-    text-align: center;
-    text-transform: capitalize;
+    padding-block: space();
+    background-color: $body-bg;
   }
 
   &__container {
-    padding-block-start: space() + space("medium");
-    padding-block-end: space("large");
+    @include container();
+    padding-block: space();
+  }
 
-    &:not(.section__container--md) {
-      @include container();
+  &__row {
+    @include row();
+  }
+
+  &__col {
+    padding: space("medium");
+  }
+
+  &__heading {
+    margin: space("medium") 0 space();
+
+    &::after {
+      content: "✶";
+      color: theme-color("secondary");
+      font-size: 1.25em;
+      margin-inline-start: space("x-small");
+    }
+  }
+
+  &__subHeading {
+    margin: 0 0 space("medium");
+    color: theme-color("dark");
+    font-size: 0.875rem;
+    letter-spacing: var(--heading-letter-spacing);
+
+    &::before {
+      content: "―";
+      color: theme-color("secondary");
+      font-weight: 700;
+      margin-inline-end: space("x-small");
+    }
+  }
+
+  &__content {
+    p {
+      text-align: justify;
     }
 
-    &--md {
-      @include container("md");
+    strong, em {
+      font-weight: 600;
+      font-style: normal;
+      color: theme-color("darker");
+      background-color: rgba(map-get($theme-colors, "secondary"), 0.15);
+      padding: 0 0.2em;
+      border-radius: 0.2em;
     }
+  }
+
+  &__list {
+    list-style-type: none;
+    padding: 0 space("medium");
+  }
+
+  &__listItem {
+    position: relative;
+
+    &::before {
+      content: '✶';
+      position: absolute;
+      top: -0.4em;
+      right: calc(100% + 0.4em);
+      color: color-active($theme-accent);
+      font-size: 1.5em;
+    }
+
+    h4 {
+      width: fit-content;
+      font-family: var(--font-family-base);
+      font-weight: 600;
+      font-style: normal;
+      font-size: 1rem;
+      color: theme-color("darker");
+      background-color: rgba(map-get($theme-colors, $theme-accent), 0.1);
+      padding: 0 0.2em;
+      border-radius: 0.2em;
+    }
+
+    p {
+      margin: space("x-small") 0;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__figure {
+    width: min(100%, 45rem);
+    margin: 0 auto;
   }
 }

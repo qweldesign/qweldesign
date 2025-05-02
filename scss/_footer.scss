@@ -3,7 +3,23 @@
  */
 
 .footer {
-  padding: space("x-large");
+  padding: space("x-large") 0;
   @include background($theme-accent);
   text-align: center;
+
+  &__inner {
+    @include row(center);
+    gap: space("large");
+    @include container();
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    @include small-text();
+
+    .icon {
+      margin-inline-end: space("x-small");
+    }
+  }
 }

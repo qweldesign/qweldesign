@@ -5,7 +5,7 @@
 .button {
   @include make-button();
 
-  @each $key, $color in $colors {
+  @each $key, $color in $theme-colors {
     &--#{$key} {
       @include make-button-color($key);
     }
@@ -21,5 +21,18 @@
   
   &--lg {
     @include make-block(22.5rem, 4.5rem);
+  }
+
+  &:has(.button__icon) {
+    @include row(center, center);
+  }
+
+  &__icon {
+    flex: 0 0 3.75rem;
+  }
+
+  &__text {
+    flex: 0 0 9rem;
+    padding-inline-end: 3rem;
   }
 }
