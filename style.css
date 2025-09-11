@@ -776,6 +776,94 @@ button, input, select, textarea {
 }
 
 /**
+ * Component - Modal
+ */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  width: 100%;
+  height: 100vh;
+  transition: opacity 0.5s ease;
+}
+.modal.is-hidden {
+  opacity: 0;
+}
+.modal[aria-hidden=true] {
+  visibility: hidden;
+}
+.modal__main {
+  position: absolute;
+  inset: 0;
+  z-index: 2000;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: min(100%, 36rem);
+  margin: auto;
+}
+.modal__main img {
+  width: auto;
+  height: 100%;
+}
+.modal__image {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.modal__image.is-loaded {
+  opacity: 1;
+}
+.modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1990;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+.modal__close, .modal__prev, .modal__next {
+  position: absolute;
+  z-index: 2010;
+  width: 3rem;
+  height: 3rem;
+  margin: auto;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.modal__close > .icon, .modal__prev > .icon, .modal__next > .icon {
+  border-radius: 0;
+  background-color: var(--color--primary);
+  transition: background-color 0.25s ease;
+}
+.modal__close > .icon > .icon__span, .modal__close > .icon > .icon__span::before, .modal__close > .icon > .icon__span::after, .modal__prev > .icon > .icon__span, .modal__prev > .icon > .icon__span::before, .modal__prev > .icon > .icon__span::after, .modal__next > .icon > .icon__span, .modal__next > .icon > .icon__span::before, .modal__next > .icon > .icon__span::after {
+  border-color: var(--color--lightest);
+}
+.modal__close:hover > .icon, .modal__prev:hover > .icon, .modal__next:hover > .icon {
+  background-color: var(--color--primary--active);
+}
+.modal__close:hover > .icon > .icon__span, .modal__close:hover > .icon > .icon__span::before, .modal__close:hover > .icon > .icon__span::after, .modal__prev:hover > .icon > .icon__span, .modal__prev:hover > .icon > .icon__span::before, .modal__prev:hover > .icon > .icon__span::after, .modal__next:hover > .icon > .icon__span, .modal__next:hover > .icon > .icon__span::before, .modal__next:hover > .icon > .icon__span::after {
+  border-color: var(--color--darkest);
+}
+.modal__close {
+  top: var(--spacing--small);
+  right: var(--spacing--small);
+}
+.modal__prev {
+  top: 0;
+  left: var(--spacing--small);
+  bottom: 0;
+}
+.modal__next {
+  top: 0;
+  right: var(--spacing--small);
+  bottom: 0;
+}
+
+[data-gallery-item] {
+  cursor: pointer;
+}
+
+/**
  * Component - Preloader
  */
 .preloader__overlay {
