@@ -1,0 +1,9 @@
+[submodule "demo"]
+	path = demo
+	url = https://github.com/qweldesign/qweldesign
+[submodule "creative"]
+	path = creative
+	url = https://github.com/qweldesign/qwel-creative
+[submodule "blog"]
+	path = blog
+	url = https://github.com/qweldesign/qwel-content-blog
