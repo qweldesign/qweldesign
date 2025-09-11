@@ -77,7 +77,7 @@ img {
 
 figure {
   display: block;
-  margin-block: $default-margin;
+  margin: $default-margin 0;
 }
 
 figcaption {

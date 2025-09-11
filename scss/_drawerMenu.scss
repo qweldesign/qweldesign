@@ -47,7 +47,7 @@ $drawer-image-filter:        invert(1) grayscale(1) brightness(4) !default;
     transform: rotateY(-180deg);
     transition: all 0.5s ease;
 
-    .drawer:not(.drawer--active):not(.drawer--ready) & {
+    .drawer:not(.is-active):not(.is-ready) & {
       opacity: 1;
       transform: rotateY(0);
     }
@@ -63,7 +63,7 @@ $drawer-image-filter:        invert(1) grayscale(1) brightness(4) !default;
     transform: rotateY(0);
     transition: all 0.5s ease;
 
-    .drawer:not(.drawer--active) & {
+    .drawer:not(.is-active) & {
       opacity: 0;
       transform: rotateY(180deg);
     }
@@ -83,7 +83,7 @@ $drawer-image-filter:        invert(1) grayscale(1) brightness(4) !default;
   text-align: center;
   transition: width 0.5s ease;
   
-  &:not(.drawerMenu--show) {
+  &.is-hidden {
     width: 0;
   }
   
@@ -97,11 +97,11 @@ $drawer-image-filter:        invert(1) grayscale(1) brightness(4) !default;
     text-align: left;
     opacity: 1;
     
-    &:not(.drawerMenu__inner--show) {
+    &.is-hidden {
       opacity: 0;
     }
 
-    &--collapse {
+    &.is-collapsed {
       display: none;
     }
   }
@@ -187,7 +187,7 @@ $drawer-image-filter:        invert(1) grayscale(1) brightness(4) !default;
   height: 100%;
   background-color: transparent;
 
-  &--collapse {
+  &.is-collapsed {
     display: none;
   }
 }
