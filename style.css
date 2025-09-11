@@ -21,12 +21,12 @@
   --color--lighter--active: #a6a6a6;
   --color--lightest: #ffffff;
   --color--lightest--active: #cccccc;
-  --color--primary: #3399cc;
-  --color--primary--active: #85c2e0;
-  --color--secondary: #ff9933;
-  --color--secondary--active: #cc6600;
-  --color--tertiary: #99cc33;
-  --color--tertiary--active: #5c7a1f;
+  --color--primary: hsl(203, 71%, 60%);
+  --color--primary--active: hsl(203, 71%, 80%);
+  --color--secondary: hsl(32, 85%, 48%);
+  --color--secondary--active: hsl(32, 85%, 68%);
+  --color--tertiary: hsl(70, 100%, 34%);
+  --color--tertiary--active: hsl(70, 100%, 54%);
   --container-width--sm: 37.5rem;
   --container-width--md: 56.25rem;
   --container-width--lg: 75rem;
