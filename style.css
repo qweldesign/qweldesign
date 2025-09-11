@@ -162,7 +162,7 @@ img {
 
 figure {
   display: block;
-  margin-block: var(--spacing--small);
+  margin: var(--spacing--small) 0;
 }
 
 figcaption {
