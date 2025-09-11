@@ -45,8 +45,8 @@
         </header>
         <section :id="sections['feature'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading util--pb_large">{{ sections['feature'].name }}</h2>
-            <div class="slider" data-gap="72">
+            <h2 class="section__heading util--pb_large" data-reveal>{{ sections['feature'].name }}</h2>
+            <div class="slider" data-gap="72" data-reveal>
               <figure class="slider__inner">
                 <figure class="slider__item" v-for="item in sections['feature'].items">
                   <img class="slider__image" :src="item.src">
@@ -58,8 +58,8 @@
         </section>
         <section :id="sections['about'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['about'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['about'].name }}</h2>
+            <div class="section__container" data-reveal>
               <article class="postItem postItem--single">
                 <figure class="postItem__image">
                   <img :src="sections['about'].src">
@@ -77,8 +77,8 @@
         </section>
         <section :id="sections['service'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['service'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['service'].name }}</h2>
+            <div class="section__container" data-reveal>
               <div class="postList postList--grid">
                 <div class="postList__item" v-for="item in sections['service'].items">
                   <section class="postItem">
@@ -106,8 +106,8 @@
         </section>
         <section :id="sections['news'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['news'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['news'].name }}</h2>
+            <div class="section__container" data-reveal>
               <ul class="postList postList--list">
                 <li class="postList__item" v-for="item in sections['news'].items">
                   <div class="postItem">
@@ -135,8 +135,8 @@
         </section>
         <section :id="sections['team'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['team'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['team'].name }}</h2>
+            <div class="section__container" data-reveal>
               <article class="postItem postItem--single">
                 <figure class="postItem__image">
                   <img :src="sections['team'].src">
@@ -154,16 +154,16 @@
         </section>
         <section :id="sections['access'].id" class="section">
           <div class="section__inner util--pb_none">
-            <h2 class="section__heading util--pb_large">{{ sections['access'].name }}</h2>
-            <div class="embed">
+            <h2 class="section__heading util--pb_large" data-reveal>{{ sections['access'].name }}</h2>
+            <div class="embed" data-reveal>
               <iframe :src="sections['access'].src"></iframe>
             </div>
           </div>
         </section>
         <section :id="sections['contact'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['contact'].name }}</h2>
-            <div class="section__container section__container--md">
+            <h2 class="section__heading" data-reveal>{{ sections['contact'].name }}</h2>
+            <div class="section__container section__container--md" data-reveal>
               <p class="util--text_center">{{ sections['contact'].description }}</p>
               <form class="form">
                 <table class="form__table">
