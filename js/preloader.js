@@ -30,7 +30,7 @@ export default class Preloader {
 
     // 背景を覆う
     this.preloader = document.createElement('div');
-    this.preloader.classList.add('preloader__overlay', 'preloader__overlay--show');
+    this.preloader.classList.add('preloader__overlay');
     this.preloader.style.backgroundColor = backgroundColor;
     this.elem.appendChild(this.preloader);
 
@@ -71,7 +71,7 @@ export default class Preloader {
     // エフェクト終了をbody要素に伝え、各要素をtransitionさせる
     document.body.classList.add('loaded');
     
-    this.preloader.classList.remove('preloader__overlay--show');
+    this.preloader.classList.add('is-hidden');
     promise.then(() => {
       this.preloader.removeEventListener('transitionend', callback);
       this.terminate();

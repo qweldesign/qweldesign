@@ -31,7 +31,7 @@ export default class Fader {
     // 2番目以降の要素を背面に移動し、フェードさせておく
     for (let i = 1; i < this.itemsCount; i++) {
       this.items[i].style.zIndex--;
-      this.items[i].classList.add('cover__image--fade');
+      this.items[i].classList.add('is-fade');
     }
 
     // 開始
@@ -65,10 +65,10 @@ export default class Fader {
       this.nav.appendChild(li);
     }
 
-    // 現アイテムに.--currrentを付与
+    // 現アイテムに.is-currrentを付与
     this.navItems = this.nav.children;
     this.navItems = this.nav.children;
-    this.navItems[this.currentIndex].classList.add('cover__navItem--current');
+    this.navItems[this.currentIndex].classList.add('is-current');
 
     this.elem.appendChild(this.nav);
 
@@ -122,10 +122,10 @@ export default class Fader {
     // アニメーション
     this.transitionEnd(current, () => {
       // フェードイン
-      current.classList.remove('cover__image--fade');
+      current.classList.remove('is-fade');
     }).then(() => {
       // トランジションが終了したら、前の要素をフェードさせておく
-      prev.classList.add('cover__image--fade');
+      prev.classList.add('is-fade');
     });
 
     // インデックスを継承
@@ -133,11 +133,11 @@ export default class Fader {
 
     // ナビゲーション
     if (this.hasNav) {
-      if (this.nav.querySelector('.cover__navItem--current')) {
-        this.nav.querySelector('.cover__navItem--current').classList.remove('cover__navItem--current');
+      if (this.nav.querySelector('.is-current')) {
+        this.nav.querySelector('.is-current').classList.remove('is-current');
       }
       this.navItems = this.nav.children;
-      this.navItems[this.currentIndex].classList.add('cover__navItem--current');
+      this.navItems[this.currentIndex].classList.add('is-current');
     }
   }
 

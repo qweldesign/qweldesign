@@ -15,7 +15,7 @@ export default class Embed {
     elems.forEach((elem) => {
       // 要素を生成
       const cover = document.createElement('div');
-      cover.classList.add('embed__cover', 'embed__cover--active');
+      cover.classList.add('embed__cover', 'is-active');
       elem.appendChild(cover);
       const info = document.createElement('p');
       info.textContent = infoText || 'クリックするとマップを拡大/縮小できるようになります。';
@@ -25,7 +25,7 @@ export default class Embed {
       const myTouch = 'ontouchend' in document && window.innerWidth < 1024 ? 'touchend' : 'click';
       cover.addEventListener(myTouch, () => {
         const promise = this.transitionEnd(cover, () => {
-          cover.classList.remove('embed__cover--active');
+          cover.classList.remove('is-active');
         }).then(() => {
           cover.remove();
         });
