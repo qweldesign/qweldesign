@@ -43,7 +43,7 @@ $cover-blur:             blur(1px) !default;
       }
     }
     
-    &--fade {
+    &.is-fade {
       opacity: 0;
       transition: none;
     }
@@ -70,7 +70,7 @@ $cover-blur:             blur(1px) !default;
     background-color: $cover-nav-active-color;
     cursor: pointer;
 
-    &:not(.cover__navItem--current) {
+    &:not(.is-current) {
       background-color: $cover-nav-color;
     }
   }

@@ -31,7 +31,7 @@
     color: $body-bg;
     transition: opacity 0.25s linear;
 
-    &:not(.embed__cover--active) {
+    &:not(.is-active) {
       opacity: 0;
     }
   }

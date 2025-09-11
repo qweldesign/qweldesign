@@ -26,7 +26,7 @@ $back-to-top-height:       3rem !default;
   cursor: default;
   pointer-events: none;
 
-  &--active {
+  &.is-active {
     opacity: 1;
     transform: translateY(0) rotateY(0);
     cursor: pointer;

@@ -42,7 +42,7 @@ $preloader-bg:       map-get($theme-colors, $theme-accent) !default;
     opacity: 1;
     transition: opacity 0.5s linear;
 
-    &:not(.preloader__overlay--show) {
+    &.is-hidden {
       opacity: 0;
     }
   }

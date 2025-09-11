@@ -23,7 +23,7 @@
   }
 
   &__container {
-    padding-block-start: space() + space("medium");
+    padding-block-start: calc(#{space()} + #{space("medium")});
     padding-block-end: space("large");
 
     &:not(.section__container--md) {

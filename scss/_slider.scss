@@ -35,11 +35,11 @@ $slider-nav-active-color:    $link-hover-color !default;
     position: relative;
     flex: 0 1 auto; 
     order: 0;
-    margin: 0;
+    margin-inline: auto;
     opacity: 1;
     transition: opacity 0.15s linear;
     
-    &:not(.slider__item--current) {
+    &:not(.is-current) {
       opacity: .5;
     }
 
@@ -111,7 +111,7 @@ $slider-nav-active-color:    $link-hover-color !default;
     background-color: $slider-nav-active-color;
     cursor: pointer;
 
-    &:not(.slider__navItem--current) {
+    &:not(.is-current) {
       background-color: $slider-nav-color;
     }
   }

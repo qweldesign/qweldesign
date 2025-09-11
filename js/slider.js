@@ -187,16 +187,16 @@ export default class Slider {
   // アイテムのアクティブ状態を管理
   setActiveTarget() {
     // スライダー内アイテム
-    if (this.inner.querySelector('.slider__item--current')) {
-      this.inner.querySelector('.slider__item--current').classList.remove('slider__item--current');
+    if (this.inner.querySelector('.is-current')) {
+      this.inner.querySelector('.is-current').classList.remove('is-current');
     }
-    this.items[this.currentIndex].classList.add('slider__item--current');
+    this.items[this.currentIndex].classList.add('is-current');
     // ナビゲーション
-    if (this.nav.querySelector('.slider__navItem--current')) {
-      this.nav.querySelector('.slider__navItem--current').classList.remove('slider__navItem--current');
+    if (this.nav.querySelector('.is-current')) {
+      this.nav.querySelector('.is-current').classList.remove('is-current');
     }
     this.navItems = this.nav.children;
-    this.navItems[this.currentIndex % this.itemsCount].classList.add('slider__navItem--current');
+    this.navItems[this.currentIndex % this.itemsCount].classList.add('is-current');
   }
 
   handleEvents() {

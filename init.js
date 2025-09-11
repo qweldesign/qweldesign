@@ -125,9 +125,9 @@ createApp(data).mount('#app');
 window.addEventListener('scroll', () => {
   const header = document.getElementById('header');
   if (0 < window.scrollY) {
-    header.classList.add('header--active');
+    header.classList.add('is-active');
   } else {
-    header.classList.remove('header--active');
+    header.classList.remove('is-active');
   }
 });
 
