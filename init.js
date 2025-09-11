@@ -163,6 +163,10 @@ new Preloader();
 import ResponsiveColor from './js/responsiveColor.js';
 new ResponsiveColor();
 
+// Reveal On Scroll
+import RevealOnScroll from './js/revealOnScroll.js';
+new RevealOnScroll();
+
 // Slider
 import Slider from './js/slider.js';
 new Slider();

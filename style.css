@@ -445,22 +445,22 @@ button, input, select, textarea {
 }
 .button--secondary, .button--secondary:active {
   background-color: var(--color--secondary);
-  color: var(--color--darkest);
+  color: var(--color--lightest);
 }
 .button--secondary:hover, .button--secondary:focus {
   background-color: var(--color--secondary--active);
-  color: var(--color--lightest);
+  color: var(--color--darkest);
 }
 .button--secondary:hover, .button--secondary:focus {
   box-shadow: 0 0 var(--spacing--small) var(--color--secondary);
 }
 .button--tertiary, .button--tertiary:active {
   background-color: var(--color--tertiary);
-  color: var(--color--darkest);
+  color: var(--color--lightest);
 }
 .button--tertiary:hover, .button--tertiary:focus {
   background-color: var(--color--tertiary--active);
-  color: var(--color--lightest);
+  color: var(--color--darkest);
 }
 .button--tertiary:hover, .button--tertiary:focus {
   box-shadow: 0 0 var(--spacing--small) var(--color--tertiary);
@@ -875,7 +875,7 @@ button, input, select, textarea {
   z-index: 900;
   width: 100%;
   height: 100vh;
-  background: #3399cc;
+  background: hsl(203, 71%, 60%);
   opacity: 1;
   transition: opacity 0.5s linear;
 }
@@ -973,6 +973,28 @@ button, input, select, textarea {
   filter: invert(1) grayscale(1) brightness(4);
 }
 
+/**
+ * Component - Reveal On Scroll
+ */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  will-change: opacity, transform;
+}
+
+.is-inview {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 /**
  * Component - Slider
  */
@@ -1283,8 +1305,8 @@ button, input, select, textarea {
 .form label {
   display: block;
 }
-.form label span.required {
-  color: #cc3333;
+.form label span.is-required {
+  color: var(--color--secondary);
   font-size: var(--small-font-size);
   line-height: var(--small-line-height);
   letter-spacing: var(--small-letter-spacing);

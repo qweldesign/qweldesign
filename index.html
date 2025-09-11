@@ -15,12 +15,12 @@
             <h1 class="gNav__siteBrand responsiveColor">
               <a href="/demo/">Sample Demo</a>
             </h1>
-            <ul class="gNav__primaryMenu util--visible_md">
+            <ul class="gNav__primaryMenu visible-md">
               <li class="gNav__menuItem" v-for="section in sections">
                 <a :href="`#${section.id}`" v-html="section.name"></a>
               </li>
             </ul>
-            <ul class="gNav__socialMenu util--visible_md">
+            <ul class="gNav__socialMenu visible-md">
               <template v-for="(item, key) in social">
                 <li class="gNav__menuItem gNav__menuItem--social" v-if="item">
                   <a :href="`https://${key}.com/`">
@@ -45,8 +45,8 @@
         </header>
         <section :id="sections['feature'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading util--pb_large">{{ sections['feature'].name }}</h2>
-            <div class="slider" data-gap="72">
+            <h2 class="section__heading pb-large" data-reveal>{{ sections['feature'].name }}</h2>
+            <div class="slider" data-gap="72" data-reveal>
               <figure class="slider__inner">
                 <figure class="slider__item" v-for="item in sections['feature'].items">
                   <img class="slider__image" :src="item.src">
@@ -58,8 +58,8 @@
         </section>
         <section :id="sections['about'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['about'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['about'].name }}</h2>
+            <div class="section__container" data-reveal>
               <article class="postItem postItem--single">
                 <figure class="postItem__image">
                   <img :src="sections['about'].src">
@@ -77,8 +77,8 @@
         </section>
         <section :id="sections['service'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['service'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['service'].name }}</h2>
+            <div class="section__container" data-reveal>
               <div class="postList postList--grid">
                 <div class="postList__item" v-for="item in sections['service'].items">
                   <section class="postItem">
@@ -106,8 +106,8 @@
         </section>
         <section :id="sections['news'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['news'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['news'].name }}</h2>
+            <div class="section__container" data-reveal>
               <ul class="postList postList--list">
                 <li class="postList__item" v-for="item in sections['news'].items">
                   <div class="postItem">
@@ -135,8 +135,8 @@
         </section>
         <section :id="sections['team'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['team'].name }}</h2>
-            <div class="section__container">
+            <h2 class="section__heading" data-reveal>{{ sections['team'].name }}</h2>
+            <div class="section__container" data-reveal>
               <article class="postItem postItem--single">
                 <figure class="postItem__image">
                   <img :src="sections['team'].src">
@@ -153,27 +153,27 @@
           </div>
         </section>
         <section :id="sections['access'].id" class="section">
-          <div class="section__inner util--pb_none">
-            <h2 class="section__heading util--pb_large">{{ sections['access'].name }}</h2>
-            <div class="embed">
+          <div class="section__inner pb-none">
+            <h2 class="section__heading pb-large" data-reveal>{{ sections['access'].name }}</h2>
+            <div class="embed" data-reveal>
               <iframe :src="sections['access'].src"></iframe>
             </div>
           </div>
         </section>
         <section :id="sections['contact'].id" class="section">
           <div class="section__inner">
-            <h2 class="section__heading">{{ sections['contact'].name }}</h2>
-            <div class="section__container section__container--md">
-              <p class="util--text_center">{{ sections['contact'].description }}</p>
+            <h2 class="section__heading" data-reveal>{{ sections['contact'].name }}</h2>
+            <div class="section__container section__container--md" data-reveal>
+              <p class="text-center">{{ sections['contact'].description }}</p>
               <form class="form">
                 <table class="form__table">
                   <tr>
-                    <th><label for="yourname">氏名<span class="required">*必須</span></label></th>
-                    <td><input id="yourname" size="30" type="text" name="氏名"></td>
+                    <th><label for="yourname">氏名<span class="is-required">*必須</span></label></th>
+                    <td><input id="yourname" size="30" type="text" name="氏名" required></td>
                   </tr>
                   <tr>
-                    <th><label for="youremail">メールアドレス<span class="required">*必須</span></label></th>
-                    <td><input id="youremail" size="30" type="email" name="Email"></td>
+                    <th><label for="youremail">メールアドレス<span class="is-required">*必須</span></label></th>
+                    <td><input id="youremail" size="30" type="email" name="Email" required></td>
                   </tr>
                   <tr>
                     <th><label for="yoursubject">題名</label></th>
