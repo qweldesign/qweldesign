@@ -1,0 +1,36 @@
+name: Generate Progress Report
+
+permissions:
+  issues: write
+  contents: read
+
+on:
+  workflow_dispatch:   # 手動実行トリガー
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate weekly progress
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const issuesClosed = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "closed",
+              since: new Date(Date.now() - 7*24*60*60*1000).toISOString()
+            });
+
+            let body = `# Progress Report\n\n## ✅ Closed Issues\n`;
+            for (const issue of issuesClosed.data) {
+              body += `- #${issue.number}\n`;
+            }
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Progress Report ${new Date().toISOString().slice(0,10)}`,
+              body
+            });

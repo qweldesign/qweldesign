@@ -1,0 +1,56 @@
+name: Move Issue on Label
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  move-to-review:
+    runs-on: ubuntu-latest
+    if: github.event.label.name == 'レビュー待ち'
+    steps:
+      - name: Set project status to レビュー待ち
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.PERSONAL_TOKEN }}
+          script: |
+            // 必要なIDを設定
+            const projectId = 'PVT_kwHOB0EuqM4BCoZU'; // プロジェクトのnode_id
+            const statusFieldId = 'PVTSSF_lAHOB0EuqM4BCoZUzg0yP8A'; // Statusフィールドのnode_id
+            const reviewOptionId = '13ea4e60'; // 「レビュー待ち」オプションのnode_id
+
+            // Issueをプロジェクトに追加（既に追加済みならスキップされる）
+            const addItem = await github.graphql(`
+              mutation($projectId:ID!, $contentId:ID!) {
+                addProjectV2ItemById(input: {projectId: $projectId, contentId: $contentId}) {
+                  item {
+                    id
+                  }
+                }
+              }
+            `, {
+              projectId,
+              contentId: context.payload.issue.node_id
+            });
+
+            const itemId = addItem.addProjectV2ItemById.item.id;
+
+            // ステータスを「レビュー待ち」に変更
+            await github.graphql(`
+              mutation($itemId:ID!, $fieldId:ID!, $optionId: String!) {
+                updateProjectV2ItemFieldValue(input: {
+                  projectId: "${projectId}",
+                  itemId: $itemId,
+                  fieldId: $fieldId,
+                  value: { singleSelectOptionId: $optionId }
+                }) {
+                  projectV2Item {
+                    id
+                  }
+                }
+              }
+            `, {
+              itemId,
+              fieldId: statusFieldId,
+              optionId: reviewOptionId
+            });
