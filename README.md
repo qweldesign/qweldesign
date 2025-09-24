@@ -65,9 +65,9 @@ As I was a piano repairman in my previous job, I enjoy hobbies like playing inst
 | プロジェクト | リポジトリ | カテゴリー | 特長 |
 |------------------------------------|------------|------------|------------------------------------|
 | [QWEL in Action](https://qwel.design/) | [qweldesign](https://github.com/qweldesign/qweldesign) | Portfolio | 愛読書「星の王子さま」をオマージュした作品集。<br>仕事に関する哲学についても語っている。 |
+| [版画ゆうびん舎](https://hangakobo.com/) | [hangakobo](https://github.com/qweldesign/hangakobo) | Self-made CMS | 版画家おさのなおこのアートギャラリー。<br>phpによるフルスクラッチCMSを運用中。 |
 | [越前海岸盛り上げ隊](https://discoverechizen.com/) | [qwel-wp-discoverechizen](https://github.com/qweldesign/qwel-wp-discoverechizen) | WordPress | 過疎問題に立ち向かう地域の町づくり団体。<br>自身がwebマスターを担って運用している。 |
-| [版画ゆうびん舎](https://hangakobo.com/) | [qwel-wp-hangakobo](https://github.com/qweldesign/qwel-wp-hangakobo) | WordPress | 版画家おさのなおこのアートギャラリー。<br>版画をwebで見せるデザイン上の工夫に注目。 |
-| [プログラミング教室](https://ac.qwel.design/) | [qwel-content-ac](https://github.com/qweldesign/qwel-content-ac) | SPA | 「つくる」喜びを、子どもたちへ。<br>自身が主催している子ども向けプログラミング教室。 |
+| [プログラミング教室](https://ac.qwel.design/) | [qwel-ac](https://github.com/qweldesign/qwel-ac) | SPA | 「つくる」喜びを、子どもたちへ。<br>自身が主催している子ども向けプログラミング教室。 |
 | [ツインズ (版画の灯)](https://hangakobo.com/feature/light/) | [hangakobo-light](https://github.com/qweldesign/hangakobo-light) | SPA | シンメトリーな演出と滑らかな動きを軸に構成。<br>視覚的インパクトを重視した実験的作品。 |
 | [RPG戦闘ロジック<br>(開発途上)](https://gurps.artofwar.site/) | [gurps](https://github.com/qweldesign/gurps) | RPG Logic | 自作アルゴリズムによる戦闘シミュレーション。<br>ゲーム設計とUI連携を模索した技術的挑戦。 |
 
