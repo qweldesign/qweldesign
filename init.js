@@ -27,7 +27,7 @@ const revealOnScroll = new RevealOnScroll();
 // Posts
 (async () => {
   // 記事データを取得
-  const res = await fetch('./blog/posts.json');
+  const res = await fetch('https://blog.qwel.design/api.php?count=3');
   const content = await res.json();
 
   const list = document.getElementById('post');
@@ -38,8 +38,8 @@ const revealOnScroll = new RevealOnScroll();
     const img = a.querySelector('.post__image');
     const date = a.querySelector('.post__date');
     const title = a.querySelector('.post__title');
-    a.setAttribute('href', `./blog/?post=${post.slug}`);
-    img.setAttribute('src', `./blog/images${post.imgUrl}`)
+    a.setAttribute('href', `https://blog.qwel.design/${post.slug}/`);
+    img.setAttribute('src', `https://blog.qwel.design${post.img}`)
     date.textContent = post.date;
     title.textContent = post.title;
     list.appendChild(item);
