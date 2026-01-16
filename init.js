@@ -19,3 +19,31 @@ new BackToTop();
 // Drawer Menu
 import DrawerMenu from './js/drawerMenu.js';
 new DrawerMenu();
+
+// Embed
+//import Embed from './js/embed.js';
+//new Embed();
+
+// Fader
+//import Fader from './js/fader.js';
+//new Fader();
+
+// Modal
+//import Modal from './js/modal.js';
+//new Modal();
+
+// Preloader
+//import Preloader from './js/preloader.js';
+//new Preloader();
+
+// Responsive Color
+//import ResponsiveColor from './js/responsiveColor.js';
+//new ResponsiveColor();
+
+// Reveal On Scroll
+import RevealOnScroll from './js/revealOnScroll.js';
+new RevealOnScroll();
+
+// Slider
+//import Slider from './js/slider.js';
+//new Slider();

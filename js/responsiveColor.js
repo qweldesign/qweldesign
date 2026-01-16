@@ -36,9 +36,9 @@ export default class ResponsiveColor {
 
     this.elems.forEach((elem) => {
       if (colorYiq) {
-        elem.classList.add('responsiveColor--change');
+        elem.classList.add('is-change');
       } else {
-        elem.classList.remove('responsiveColor--change');
+        elem.classList.remove('is-change');
       }
     });
   }

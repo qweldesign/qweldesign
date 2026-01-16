@@ -4,8 +4,8 @@
   label {
     display: block;
 
-    span.required {
-      color: #cc3333; //hsl(0, 60%, 50%)
+    span.is-required {
+      color: theme-color("secondary");
       @include small-text();
     }
   }

@@ -39,10 +39,10 @@ export default class BackToTop {
     window.addEventListener('scroll', () => {
       if (!this.isShown && window.innerHeight * this.size < window.scrollY) {
         this.isShown = true;
-        this.btn.classList.add('backToTop--active');
+        this.btn.classList.add('is-active');
       } else if (this.isShown && window.innerHeight * this.size >= window.scrollY) {
         this.isShown = false;
-        this.btn.classList.remove('backToTop--active');
+        this.btn.classList.remove('is-active');
       }
     });
 
