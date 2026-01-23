@@ -1,0 +1,11 @@
+/**
+ * Utility - Scroll Offset
+ */
+
+:root {
+  --scroll-offset: 0; // 変数を用意するのみ (JSで指定)
+}
+
+:target {
+  scroll-margin-block-start: var(--scroll-offset);
+}

@@ -193,8 +193,12 @@ button, input, select, textarea {
   top: 0;
   left: 0;
   z-index: 10;
+  height: 9rem;
   background-color: rgba(255, 255, 255, 0.7);
   transition: all 0.5s ease;
+}
+.header:not(.is-active) {
+  height: 6rem;
 }
 .header:hover {
   background-color: white;
@@ -212,11 +216,8 @@ button, input, select, textarea {
   width: min(100%, var(--container-width--lg));
   margin-inline: auto;
   padding-inline: var(--container-pad--lg);
-  height: 9rem;
+  height: 100%;
   transition: all 0.5s ease;
-}
-.gNav--shrink {
-  height: 6rem;
 }
 .gNav__siteBrand {
   display: block;
@@ -254,9 +255,8 @@ button, input, select, textarea {
 .gNav__menuItem {
   margin: 0;
 }
-.gNav__menuItem--social {
-  width: 3rem;
-  text-align: center;
+.gNav__menuItem.is-current {
+  font-weight: 700;
 }
 .gNav__menuItem a {
   display: block;
@@ -299,127 +299,6 @@ button, input, select, textarea {
 }
 .footer__item .icon {
   margin-inline-end: var(--spacing--x-small);
-}
-
-/**
- * Component - Icon
- */
-.icon {
-  position: relative;
-  display: inline-block;
-  width: 1.5rem;
-  height: 1.5rem;
-  overflow: hidden;
-  fill: currentColor;
-}
-.icon--md {
-  width: 2.25rem;
-  height: 2.25rem;
-}
-.icon--lg {
-  width: 3rem;
-  height: 3rem;
-}
-.icon__span {
-  position: relative;
-  display: block;
-  border-width: 0;
-  border-style: solid;
-  border-color: var(--color--lightest);
-  transition: border-color 0.25s ease;
-}
-.icon--menu .icon__span {
-  width: 60%;
-  height: 20%;
-  margin: 40% 20%;
-  border-block-start-width: 2px;
-  border-block-end-width: 2px;
-}
-.icon--close .icon__span::before, .icon--close .icon__span::after {
-  content: "";
-  position: absolute;
-  display: block;
-  width: 60%;
-  height: 4%;
-  margin: 48% 20%;
-  border: 1px solid var(--color--lightest);
-  transform: rotate(-45deg);
-}
-.icon--close .icon__span::after {
-  transform: rotate(45deg);
-}
-.icon--chevron-up .icon__span {
-  width: 30%;
-  height: 30%;
-  margin: 35%;
-  border-block-start-width: 2px;
-  border-inline-start-width: 2px;
-  transform: rotate(45deg) translate(10%, 10%);
-}
-.icon--chevron-down .icon__span {
-  width: 30%;
-  height: 30%;
-  margin: 35%;
-  border-inline-end-width: 2px;
-  border-block-end-width: 2px;
-  transform: rotate(45deg) translate(-10%, -10%);
-}
-.icon--chevron-left .icon__span {
-  width: 30%;
-  height: 30%;
-  margin: 35%;
-  border-inline-start-width: 2px;
-  border-block-end-width: 2px;
-  transform: rotate(45deg) translate(10%, -10%);
-}
-.icon--chevron-right .icon__span {
-  width: 30%;
-  height: 30%;
-  margin: 35%;
-  border-block-start-width: 2px;
-  border-inline-end-width: 2px;
-  transform: rotate(45deg) translate(-10%, 10%);
-}
-
-/**
- * Component - Back To Top
- */
-.backToTop {
-  position: fixed;
-  right: 1.5rem;
-  bottom: 1.5rem;
-  z-index: 1000;
-  display: block;
-  width: 3rem;
-  height: 3rem;
-  padding: 0;
-  opacity: 0;
-  transform: translateY(1rem) rotateY(-180deg);
-  transition: all 0.5s ease;
-  text-align: center;
-  outline: 0;
-  cursor: default;
-  pointer-events: none;
-}
-.backToTop.is-active {
-  opacity: 1;
-  transform: translateY(0) rotateY(0);
-  cursor: pointer;
-  pointer-events: auto;
-}
-.backToTop > .icon {
-  border-radius: 50%;
-  background-color: var(--color--primary);
-  transition: background-color 0.25s ease;
-}
-.backToTop > .icon > .icon__span, .backToTop > .icon > .icon__span::before, .backToTop > .icon > .icon__span::after {
-  border-color: var(--color--lightest);
-}
-.backToTop:hover > .icon {
-  background-color: var(--color--primary--active);
-}
-.backToTop:hover > .icon > .icon__span, .backToTop:hover > .icon > .icon__span::before, .backToTop:hover > .icon > .icon__span::after {
-  border-color: var(--color--darkest);
 }
 
 /**
@@ -573,6 +452,127 @@ button, input, select, textarea {
 }
 
 /**
+ * Component - Icon
+ */
+.icon {
+  position: relative;
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  overflow: hidden;
+  fill: currentColor;
+}
+.icon--md {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.icon--lg {
+  width: 3rem;
+  height: 3rem;
+}
+.icon__span {
+  position: relative;
+  display: block;
+  border-width: 0;
+  border-style: solid;
+  border-color: var(--color--lightest);
+  transition: border-color 0.25s ease;
+}
+.icon--menu .icon__span {
+  width: 60%;
+  height: 20%;
+  margin: 40% 20%;
+  border-block-start-width: 2px;
+  border-block-end-width: 2px;
+}
+.icon--close .icon__span::before, .icon--close .icon__span::after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 60%;
+  height: 4%;
+  margin: 48% 20%;
+  border: 1px solid var(--color--lightest);
+  transform: rotate(-45deg);
+}
+.icon--close .icon__span::after {
+  transform: rotate(45deg);
+}
+.icon--chevron-up .icon__span {
+  width: 30%;
+  height: 30%;
+  margin: 35%;
+  border-block-start-width: 2px;
+  border-inline-start-width: 2px;
+  transform: rotate(45deg) translate(10%, 10%);
+}
+.icon--chevron-down .icon__span {
+  width: 30%;
+  height: 30%;
+  margin: 35%;
+  border-inline-end-width: 2px;
+  border-block-end-width: 2px;
+  transform: rotate(45deg) translate(-10%, -10%);
+}
+.icon--chevron-left .icon__span {
+  width: 30%;
+  height: 30%;
+  margin: 35%;
+  border-inline-start-width: 2px;
+  border-block-end-width: 2px;
+  transform: rotate(45deg) translate(10%, -10%);
+}
+.icon--chevron-right .icon__span {
+  width: 30%;
+  height: 30%;
+  margin: 35%;
+  border-block-start-width: 2px;
+  border-inline-end-width: 2px;
+  transform: rotate(45deg) translate(-10%, 10%);
+}
+
+/**
+ * Component - Back To Top
+ */
+.backToTop {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  opacity: 0;
+  transform: translateY(1rem) rotateY(-180deg);
+  transition: all 0.5s ease;
+  text-align: center;
+  outline: 0;
+  cursor: default;
+  pointer-events: none;
+}
+.backToTop.is-active {
+  opacity: 1;
+  transform: translateY(0) rotateY(0);
+  cursor: pointer;
+  pointer-events: auto;
+}
+.backToTop > .icon {
+  border-radius: 50%;
+  background-color: var(--color--primary);
+  transition: background-color 0.25s ease;
+}
+.backToTop > .icon > .icon__span, .backToTop > .icon > .icon__span::before, .backToTop > .icon > .icon__span::after {
+  border-color: var(--color--lightest);
+}
+.backToTop:hover > .icon {
+  background-color: var(--color--primary--active);
+}
+.backToTop:hover > .icon > .icon__span, .backToTop:hover > .icon > .icon__span::before, .backToTop:hover > .icon > .icon__span::after {
+  border-color: var(--color--darkest);
+}
+
+/**
  * Component - Drawer Menu
  */
 .drawer {
@@ -599,7 +599,7 @@ button, input, select, textarea {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 1110;
+  z-index: 1111;
   opacity: 0;
   transform: rotateY(-180deg);
   transition: all 0.5s ease;
@@ -626,7 +626,7 @@ button, input, select, textarea {
   position: absolute;
   top: 0;
   right: 0;
-  z-index: 1100;
+  z-index: 1110;
   opacity: 1;
   transform: rotateY(0);
   transition: all 0.5s ease;
@@ -640,7 +640,7 @@ button, input, select, textarea {
   border-color: var(--color--lightest);
 }
 .drawer__close:hover > .icon {
-  background-color: var(--color--primary);
+  background-color: var(--color--primary--active);
 }
 .drawer__close:hover > .icon > .icon__span, .drawer__close:hover > .icon > .icon__span::before, .drawer__close:hover > .icon > .icon__span::after {
   border-color: var(--color--darkest);
@@ -707,28 +707,27 @@ button, input, select, textarea {
   text-decoration: none;
   transition: all 0.25s ease;
 }
-.drawerMenu__item a:hover {
+.drawerMenu__item:not(.siteBrand) a:hover {
   background-color: var(--color--primary--active);
   color: var(--color--darkest);
   fill: var(--color--darkest);
 }
-.drawerMenu__item--siteBrand {
+.drawerMenu__item.siteBrand {
   padding-block: 1rem;
   font-size: var(--font-size--x-large);
 }
-.drawerMenu__item--siteBrand a {
+.drawerMenu__item.siteBrand a {
   padding: 0 0 0 20%;
 }
-.drawerMenu__item--siteBrand img {
-  width: auto;
-  height: 3rem;
+.drawerMenu__item.siteBrand img {
+  width: 6rem;
 }
-.drawerMenu__item--social {
+.drawerMenu__item.social {
   width: -moz-fit-content;
   width: fit-content;
   padding-block: 1rem;
 }
-.drawerMenu__item--social a {
+.drawerMenu__item.social a {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -736,7 +735,7 @@ button, input, select, textarea {
   height: 3rem;
   padding: 0;
 }
-.drawerMenu__item--social img {
+.drawerMenu__item.social img {
   width: 100%;
   height: auto;
 }
@@ -757,34 +756,8 @@ button, input, select, textarea {
 }
 
 /**
- * Component - Reveal On Scroll
- */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  will-change: opacity, transform;
-}
-
-.is-inview {
-  opacity: 1;
-  transform: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
-  }
-}
-/**
  * Project - Section
  */
-:target {
-  scroll-margin-block-start: var(--spacing--x-large);
-}
-
 .section__inner {
   padding-block: var(--spacing--small);
   background-color: var(--color--lightest);
@@ -872,6 +845,39 @@ button, input, select, textarea {
   margin: 0 auto;
 }
 
+/**
+ * Utility - Scroll Offset
+ */
+:root {
+  --scroll-offset: 0;
+}
+
+:target {
+  scroll-margin-block-start: var(--scroll-offset);
+}
+
+/**
+ * Utility - Scroll Inview
+ */
+[data-readable] {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  will-change: opacity, transform;
+}
+
+.is-inview {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-readable] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
 /**
  * Utility - Spacing
  */

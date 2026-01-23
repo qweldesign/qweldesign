@@ -1,8 +1,8 @@
 /**
- * Component - Reveal On Scroll
+ * Utility - Scroll Inview
  */
 
-[data-reveal] {
+[data-readable] {
   opacity: 0;
   transform: translateY(12px);
   transition: opacity 0.5s ease, transform 0.5s ease;
@@ -15,7 +15,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] {
+  [data-readable] {
     opacity: 1;
     transform: none;
     transition: none;

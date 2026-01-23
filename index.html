@@ -22,18 +22,19 @@
     <link rel="icon" href="./favicon.ico">
   </head>
   <body>
-    <header id="header" class="header">
+    <div data-scroll-sentinel></div>
+    <header id="header" class="header" data-active-header>
       <nav id="gNav" class="gNav">
-        <h1 id="siteBrand" class="gNav__siteBrand">
+        <h1 id="siteBrand" class="gNav__siteBrand" data-site-brand>
           <a href="/">
             <img src="./logo_animation.svg" alt="QWEL in Action">
           </a>
         </h1>
-        <ul class="gNav__primaryMenu visible-md">
-          <li class="gNav__menuItem"><a href="#about">About QWEL</a></li>
-          <li class="gNav__menuItem"><a href="#creative">Creative Crafts</a></li>
-          <li class="gNav__menuItem"><a href="#components">UI/UX Components</a></li>
-          <li class="gNav__menuItem"><a href="#story">A Little Story</a></li>
+        <ul class="gNav__primaryMenu visible-lg" data-primary-menu>
+          <li class="gNav__menuItem" data-spy-nav><a href="#about">About QWEL</a></li>
+          <li class="gNav__menuItem" data-spy-nav><a href="#creative">Creative Crafts</a></li>
+          <li class="gNav__menuItem" data-spy-nav><a href="#components">UI/UX Components</a></li>
+          <li class="gNav__menuItem" data-spy-nav><a href="#story">A Little Story</a></li>
         </ul>
       </nav>
     </header>
@@ -44,12 +45,12 @@
             <figure class="section__figure">
               <img src="./assets/fig_about.jpg" loading="lazy">
             </figure>
-            <div id="about" class="section__content">
-              <div data-reveal>
+            <div id="about" class="section__content" data-spy-section>
+              <div data-readable>
                 <h2 class="section__heading">About QWEL</h2>
                 <p class="section__subHeading">QWELについて</p>
               </div>
-              <div data-reveal>
+              <div data-readable>
                 <p>Web開発・プログラミング教室を営む QWEL.DESIGN (クヴェルデザイン) のクラフト作品集 <strong>"QWEL in Action"</strong> へようこそ。</p>
                 <p>これまで、UI/UX開発を数多く手掛けてきましたが、中でも<em>インタラクション設計を得意とし、多くを JavaScript によるフルスクラッチ (Vanilla JS) で実装</em>しています。必要に応じて PHP や API 連携にも対応しています。</p>
                 <p>JavaScript は、「<strong>見える</strong>」「<strong>触れる</strong>」「<strong>反応する</strong>」世界をつくることができる言語です。<br>つまり、<em>ユーザー体験そのものを設計し、演出する</em>ことができます。</p>
@@ -63,22 +64,22 @@
       <section class="section">
         <div class="section__inner">
           <div class="section__container">
-            <div id="creative" class="section__content">
-              <div data-reveal>
+            <div id="creative" class="section__content" data-spy-section>
+              <div data-readable>
                 <h2 class="section__heading">Creative Crafts</h2>
                 <p class="section__subHeading">機能と表現の間にあるもの</p>
               </div>
-              <div data-reveal>
+              <div data-readable>
                 <p>QWEL.DESIGN の仕事としては、WordPressのオリジナルテーマ開発や、UI/UXの設計・実装が主な業務です。
                   <br>一方で、<em>純粋な好奇心と創作の楽しさ</em>から、インタラクティブなアニメーションやビジュアル表現にも取り組んできました。
                   <br>それらは、<em>機能と表現の間</em>にあるものとして、手を動かしながら少しずつ形にしてきた "クラフト" の記録です。</p>
               </div>
               <div class="section__row --pt_3 --pb_3">
-                <div class="section__col" data-reveal>
-                  <a class="button button--secondary button--md" href="./creative/">Creative Crafts (JS作品集)</a>
+                <div class="section__col" data-readable>
+                  <a class="button button--secondary button--md" href="./creative/">Creative Crafts</a>
                 </div>
-                <div class="section__col" data-reveal>
-                  <a class="button button--primary button--md" href="https://tools.qwel.design/">Creative Tools (PHP作品集)</a>
+                <div class="section__col" data-readable>
+                  <a class="button button--primary button--md" href="https://tools.qwel.design/">Creative Tools</a>
                 </div>
               </div>
             </div>
@@ -88,106 +89,120 @@
       <section class="section">
         <div class="section__inner">
           <div class="section__container">
-            <div id="components" class="section__content">
-              <div data-reveal>
+            <div id="components" class="section__content" data-spy-section>
+              <div data-readable>
                 <h2 class="section__heading">UI/UX Components</h2>
                 <p class="section__subHeading">実務用UI/UXコンポーネント</p>
               </div>
-              <div data-reveal>
-                <p>下記9つのコンポーネントは、どのようなwebサイトにも役に立つであろう、実務用UI/UXコンポーネントとしての定番作品です。</p>
-                <p>基本的な設計志向として、各コンポーネントは<em>SCSSとJSの2対1組のファイルのみ</em>で動きます。
+              <div data-readable>
+                <p>下記10のコンポーネントは、どのようなwebサイトにも役に立つであろう、実務用UI/UXコンポーネントとしての定番作品です。</p>
+                <p>基本的な設計志向として、既存の情報構造 (HTML) にdata属性を記述する以外には、<em>構造に介入せず、構造を再利用し、振る舞いだけを提供します</em>。</p>
+                <p>各コンポーネントは<em>SCSSとJSの2対1組のファイルのみ</em>で動きます。
                   <br>最軽量の形態として、各々バンドルし、1つのCSSファイルと、1つのJSファイルで済むことを目指しています。</p>
                 <p>JSファイルはモジュールとしてインポートして使用する前提で、<em>クラスのインスタンスを生成するだけで初期化</em>されます。
                   <br>WordPressに用いる場合などは、webpackでBabelを使用してバンドルを行う必要があります。</p>
                 <p>サンプル・デモは、下記ボタンからご覧いただけます。実際のインタラクティブな動きをぜひご体験ください。</p>
               </div>
               <div class="section__row py-3">
-                <div class="section__col" data-reveal>
+                <div class="section__col" data-readable>
                   <a class="button button--primary button--md" href="./demo/">SAMPLE DEMO</a>
                 </div>
               </div>
               <ul class="section__list">
-                <li class="section__listItem" data-reveal>
+                <li class="section__listItem" data-readable>
+                  <h3>ScrollToAnchor</h3>
+                  <h4>設計目的</h4>
+                  <p>Headerの高さをCSS変数にセットし、アンカーリンクのスクロール位置を補正します。</p>
+                  <p>当ページのような可変Headerを使用したい場合に有効です。</p>
+                  <h4>仕様概要</h4> 
+                  <p>Header要素に1つのdata属性を付与するだけで動作します。</p>
+                </li>
+                <li class="section__listItem" data-readable>
+                  <h3>ActiveHeader</h3>
+                  <h4>設計目的</h4>
+                  <p>Header要素のクラス切り替えをスクロールで制御します。</p>
+                  <p>当ページのような高さ可変Headerを使用したり、メインビジュアルに合わせて背景色を変化させたい場合に有効です。</p>
+                  <h4>仕様概要</h4> 
+                  <p>body直下に要素を設置し、1つのdata属性を付与するだけで動作します。</p>
+                </li>
+                <li class="section__listItem" data-readable>
+                  <h3>ScrollSpy</h3>
+                  <h4>設計目的</h4>
+                  <p>スクロール位置 (セクション) に応じてナビゲーションの状態を更新します。</p>
+                  <p>ランディングページなどで、ユーザーがどこを読んでいるかの理解を促します。</p>
+                  <h4>仕様概要</h4> 
+                  <p>監視対象セクションとナビゲーション項目に、1つのdata属性を付与するだけで動作します。</p>
+                  <p></p>
+                </li>
+                <li class="section__listItem" data-readable>
+                  <h3>ReadableOnScroll</h3>
+                  <h4>設計目的</h4>
+                  <p>画面を下へと読み進めていくと、要素がフワッと出現するUXです。</p>
+                  <p>セクションの区切りを明確にするのに役立ちます。</p>
+                  <h4>仕様概要</h4> 
+                  <p>フワッと出現させたい要素に1つのdata属性を付与するだけで動作します。</p>
+                  <p>パラメーターで様々な設定を制御できます。</p>
+                </li>
+                <li class="section__listItem" data-readable>
                   <h3>BackToTop</h3>
                   <h4>設計目的</h4>
-                  <p>よく見かける「トップへ戻る」ボタンです。</p>
+                  <p>よく見かける「トップへ戻る」ボタンを自動生成し、制御します。</p>
                   <p>モバイル閲覧時のストレス（スクロール疲れ、迷子など）を軽減する補助的なUXを目的として設置します。</p>
                   <p>フワッと出現し、ユーザーの邪魔にならない位置で自然に活用される設計を目指しています。</p>
                   <h4>仕様概要</h4> 
-                  <p>HTMLの記述が一切不要で動作し、パラメーターで出現のタイミングを制御できます。</p>
+                  <p>インスタンス化するだけで自動的にボタンが生成・制御されます。</p>
+                  <p>パラメーターで出現のタイミングを制御できます。</p>
                 </li>
-                <li class="section__listItem" data-reveal>
+                <li class="section__listItem" data-readable>
                   <h3>DrawerMenu</h3>
                   <h4>設計目的</h4>
-                  <p>よく見かける「ハンバーガーメニュー」のメニューとメニュー呼び出しボタンです。</p>
+                  <p>よく見かける「ハンバーガーメニュー」のメニューとメニュー呼び出しボタンを自動生成し、制御します。</p>
                   <p>モバイル閲覧時、横一杯に収まり切らないメニューを収める目的として設置します。</p>
                   <p>メニュー開閉時の各所スムースな動きは、綿密なインタラクション設計が成されています。</p>
                   <h4>仕様概要</h4> 
-                  <p>HTMLの記述が一切不要で動作し、パラメーターでクローンするロゴやメインメニューを指定できます。</p>
+                  <p>インスタンス化するだけで自動的にボタンが生成・制御されます。</p>
+                  <p>パラメーターでクローンするロゴ、メインメニュー、ソーシャルメニューを指定したり、独自テンプレートを指定することができます。</p>
                 </li>
-                <li class="section__listItem" data-reveal>
-                  <h3>Embed</h3>
+                <li class="section__listItem" data-readable>
+                  <h3>SafeEmbed</h3>
                   <h4>設計目的</h4>
                   <p>主にGoogleMapなど、埋め込みコンテンツに対して用いる補助的なUXです。</p>
                   <p>コンテンツにカバーを掛けて、一度タップ(クリック)操作してカバーを解除するまで、操作を受け付けません。</p>
                   <p>ユーザーに対してコンテンツが操作不能であることを、視覚的に伝えるため、演出を工夫しました。</p>
                   <h4>仕様概要</h4> 
-                  <p>GoogleMapなどのiframe要素をラップした要素に、クラス名を1つ付与するだけで動作します。</p>
+                  <p>GoogleMapなどのiframe要素をラップした要素に、データ属性を1つ付与するだけで動作します。</p>
                 </li>
-                <li class="section__listItem" data-reveal>
+                <li class="section__listItem" data-readable>
                   <h3>Fader</h3>
                   <h4>設計目的</h4>
                   <p>フェードアニメーションで画像が切り替わっていくカルーセルです。</p>
                   <p>フルサイズでメインビジュアルなどに使用するのに最適です。</p>
                   <p>このコンポーネントは美しく流れ変わる写真などに使用することを想定し、操作性を重要視していません。</p>
                   <h4>仕様概要</h4> 
-                  <p>仕様に沿ったHTML要素の構成を組むことで動作します。また、パラメーターで簡単に時間間隔を制御できます。</p>
+                  <p>仕様に沿ってdata属性を記述したHTMLの構成を組むことで動作します。</p>
+                  <p>data属性のパラメーターでアニメーションの時間間隔を制御できます。</p>
                 </li>
-                <li class="section__listItem" data-reveal>
+                <li class="section__listItem" data-readable>
                   <h3>Modal</h3>
                   <h4>設計目的</h4>
                   <p>ギャラリーなどで写真を拡大表示するUXです。</p>
                   <p>全体としては小さく写真を並べたいけれど、写真自体はきちんと見せたい場合に有効です。</p>
                   <h4>仕様概要</h4> 
-                  <p>拡大表示したい写真とそのラップ要素に、それぞれ1つのdata属性を付与するだけで使用できます。</p>
+                  <p>仕様に沿ってdata属性を記述したHTMLの構成を組むことで動作します。</p>
                 </li>
-                <li class="section__listItem" data-reveal>
-                  <h3>Preloadr</h3>
-                  <h4>設計目的</h4>
-                  <p>画像などを読み込み中の画面を隠し、アニメーションを表示させるUIです。</p>
-                  <p>待ち時間のストレスを軽減する他、カラーやロゴでブランドのイメージを伝えるUXとしても用いることができます。</p>
-                  <h4>仕様概要</h4>
-                  <p>body要素に適用するのが一般的ですが、サンプル・デモのように、先のFaderに適用させても美しいです。適用したい要素にクラス名を1つ付与するだけで、動作します。</p>
-                </li>
-                <li class="section__listItem" data-reveal>
-                  <h3>ResponsiveColor</h3>
-                  <h4>設計目的</h4>
-                  <p>ロゴやメニュー呼び出しボタンなどのフローティング要素の色を、背景色に対応させるUIです。</p>
-                  <p>トーンの異なる背景色を同ページ内で使用したいときなどに、UX向上のため重宝します。</p>
-                  <h4>仕様概要</h4> 
-                  <p></p>
-                  <p>ロゴの場合、クラス名を付与して動作させます。先のDrawerMenuの場合、パラメータでクラス名を付与するかどうか指定できます。</p>
-                </li>
-                <li class="section__listItem" data-reveal>
-                  <h3>RevealOnScroll</h3>
-                  <h4>設計目的</h4>
-                  <p>画面を下へと読み進めていくと、要素がフワッと出現するUXです。</p>
-                  <p>セクションの区切りを明確にするのに役立ちます。</p>
-                  <h4>仕様概要</h4> 
-                  <p>フワッと出現させたい要素に1つのdata属性を付与するだけで動作します。また、パラメーターで様々な設定を制御できます。</p>
-                </li>
-                <li class="section__listItem" data-reveal>
+                <li class="section__listItem" data-readable>
                   <h3>Slider</h3>
                   <h4>設計目的</h4>
                   <p>スライドアニメーションで画像が切り替わっていくカルーセルです。</p>
                   <p>数多くのバナーやロゴなどを並べる際に使用するのに最適です。</p>
                   <p>先のFaderに比べ、操作性を重要視して設計しました。フリック・ドラグ操作などへの対応もスクラッチで作りました。</p>
                   <h4>仕様概要</h4> 
-                  <p>仕様に沿ったHTML要素の構成を組むことで動作します。また、パラメーターで様々な設定を制御できます。</p>
+                  <p>仕様に沿ってdata属性を記述したHTMLの構成を組むことで動作します。</p>
+                  <p>data属性のパラメーターで様々な設定を制御できます。</p>
                 </li>
               </ul>
               <div class="section__row py-3">
-                <div class="section__col" data-reveal>
+                <div class="section__col" data-readable>
                   <a class="button button--primary button--md" href="./demo/">SAMPLE DEMO</a>
                 </div>
               </div>
@@ -198,15 +213,15 @@
       <section class="section">
         <div class="section__inner">
           <div class="section__container">
-            <figure class="section__figure" data-reveal>
+            <figure class="section__figure" data-readable>
               <img src="./assets/fig_story.jpg" loading="lazy">
             </figure>
-            <div id="story" class="section__content">
-              <div data-reveal>
+            <div id="story" class="section__content" data-spy-section>
+              <div data-readable>
                 <h2 class="section__heading">A Little Story</h2>
                 <p class="section__subHeading">ちいさな物語</p>
               </div>
-              <div data-reveal>
+              <div data-readable>
                 <p>屋号 QWEL の由来は、子ども向けプログラミング教室を開催しようと思い立ったとき、<em>子どもが入力し易いキーボードの左上の配列 "Q", "W", "E" から</em>決めました。最後の "L" は、総当たりで<em>響きを重視</em>しました。</p>
                 <p>だから、「<strong>優しさと共にある技術</strong>」がコンセプトです。</p>
                 <p>そして、"QWEL" の文字をプロペラ飛行機に模してデザインしたロゴには、機能と遊び心の両方を込めています。</p>
@@ -216,14 +231,14 @@
                 <p>QWEL にご興味を持っていただいた方には、<em>GitHubから制作実績・プロフィール</em>を見ていただいたり、<em>お問い合わせフォームからご意見・ご感想</em>をお寄せいただけますと嬉しいです。</p>
               </div>
               <div class="section__row --pt_3 --pb_3">
-                <div class="section__col" data-reveal>
+                <div class="section__col" data-readable>
                   <a class="button button--darker button--md" href="https://github.com/qweldesign">
                     <svg class="button__icon icon icon--si icon--github icon--md" width="36" height="36" aria-hidden="true">
                       <use href="./icons.svg#si-github"></use>
                     </svg>
                     <span class="button__text">GitHub</span></a>
                 </div>
-                <div class="section__col" data-reveal>
+                <div class="section__col" data-readable>
                   <a class="button button--primary button--md" href="https://tools.qwel.design/contact-form/">
                     <svg class="button__icon icon icon--si icon--mail icon--md" width="36" height="36" aria-hidden="true">
                       <use href="./icons.svg#si-mail"></use>

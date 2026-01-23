@@ -6,12 +6,8 @@
   @include row(flex-start);
   gap: space("large");
   @include container();
-  height: 9rem;
+  height: 100%;
   transition: all 0.5s ease;
-
-  &--shrink {
-    height: 6rem;
-  }
 
   &__siteBrand {
     display: block;
@@ -47,9 +43,8 @@
   &__menuItem {
     margin: 0;
 
-    &--social {
-      width: 3rem;
-      text-align: center;
+    &.is-current {
+      font-weight: 700;
     }
 
     a {

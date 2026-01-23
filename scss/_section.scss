@@ -2,10 +2,6 @@
  * Project - Section
  */
 
-:target {
-  scroll-margin-block-start: space("x-large");
-}
-
 .section {
   &__inner {
     padding-block: space();

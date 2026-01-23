@@ -1,49 +1,24 @@
-// G Nav Shrink
-window.addEventListener('scroll', () => {
-  const gNav = document.getElementById('gNav');
-  if (0 < window.scrollY) {
-    gNav.classList.add('gNav--shrink');
-  } else {
-    gNav.classList.remove('gNav--shrink');
+// Action Core
+import ActionCore from './js/action-core.js';
+new ActionCore.Preset();
+
+/**
+ * Auto Copyright
+ * © 2026 QWEL.DESIGN (https://qwel.design)
+ * Released under the MIT License.
+ * See LICENSE file for details.
+ */
+
+class AutoCopyright {
+  constructor(startYear, companyName, elem) {
+    elem ||= document.querySelector('.footer__copyright');
+    if (elem) elem.innerHTML = this.generate(startYear, companyName);
   }
-});
 
-// Auto Copyright
-import AutoCopyright from './js/autoCopyright.js';
+  generate(startYear, companyName) {
+    const currentYear = new Date().getFullYear();
+    return `&copy; ${startYear} - ${currentYear} ${companyName}`;
+  }
+}
+
 new AutoCopyright(2019, 'QWEL.DESIGN');
-
-// Back To Top
-import BackToTop from './js/backToTop.js';
-new BackToTop();
-
-// Drawer Menu
-import DrawerMenu from './js/drawerMenu.js';
-new DrawerMenu();
-
-// Embed
-//import Embed from './js/embed.js';
-//new Embed();
-
-// Fader
-//import Fader from './js/fader.js';
-//new Fader();
-
-// Modal
-//import Modal from './js/modal.js';
-//new Modal();
-
-// Preloader
-//import Preloader from './js/preloader.js';
-//new Preloader();
-
-// Responsive Color
-//import ResponsiveColor from './js/responsiveColor.js';
-//new ResponsiveColor();
-
-// Reveal On Scroll
-import RevealOnScroll from './js/revealOnScroll.js';
-new RevealOnScroll();
-
-// Slider
-//import Slider from './js/slider.js';
-//new Slider();

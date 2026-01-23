@@ -7,8 +7,13 @@
   top: 0;
   left: 0;
   z-index: 10;
+  height: 9rem;
   background-color: rgba(map-get($theme-colors, "lightest"), 0.7);
   transition: all 0.5s ease;
+
+  &:not(.is-active) {
+    height: 6rem;
+  }
 
   &:hover {
     background-color: rgba(map-get($theme-colors, "lightest"), 1.0);

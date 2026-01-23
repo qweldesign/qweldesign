@@ -32,24 +32,20 @@
 @import "footer";
 
 // Components
-@import "icon";
-@import "backToTop";
-//@import "breadcrumb";
 @import "button";
-//@import "cover";
-@import "drawerMenu";
-//@import "embed";
-//@import "modal";
+@import "icon";
+//@import "breadcrumb";
 //@import "pagination";
-//@import "preloader";
-//@import "responsiveColor";
-@import "revealOnScroll";
-//@import "slider";
+@import "backToTop";
+@import "drawerMenu";
 
 // Projects
 @import "section";
 
 // Utility
+@import "utilities/scroll-offset";
+@import "utilities/scroll-inview";
+//@import "utilities/safe-embed";
 //@import "utilities/flex";
 //@import "utilities/flexItem";
 @import "utilities/spacing";
