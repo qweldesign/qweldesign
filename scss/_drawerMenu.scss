@@ -135,13 +135,13 @@ $drawer-site-brand-width:    6rem !default;
       transition: all 0.25s ease;
     }
 
-    &:not(.siteBrand) a:hover {
+    &:not(.is-siteBrand) a:hover {
       background-color: $drawer-hover-bg;
       color: $drawer-hover-color;
       fill: $drawer-hover-color;
     }
 
-    &.siteBrand {
+    &.is-siteBrand {
       padding-block: 1rem;
       font-size: $h1-font-size;
 
@@ -154,7 +154,7 @@ $drawer-site-brand-width:    6rem !default;
       }
     }
 
-    &.social {
+    &.is-social {
       width: fit-content;
       padding-block: 1rem;
 

@@ -348,7 +348,7 @@ class BackToTop {
 
     // アイコン要素
     const icon = document.createElement('div');
-    icon.classList.add('icon', 'icon--chevron-up', 'icon--lg');
+    icon.classList.add('icon', 'is-chevron-up', 'is-lg');
 
     // span要素
     const span = document.createElement('span');
@@ -446,7 +446,7 @@ class DrawerMenu {
     this.navicon = document.createElement('div');
     this.navicon.classList.add('drawer__navicon');
     let icon = document.createElement('div');
-    icon.classList.add('icon', 'icon--menu', 'icon--lg');
+    icon.classList.add('icon', 'is-menu', 'is-lg');
     icon.innerHTML = '<span class="icon__span"></span>';
     this.navicon.appendChild(icon);
     this.drawer.appendChild(this.navicon);
@@ -455,7 +455,7 @@ class DrawerMenu {
     this.close = document.createElement('div');
     this.close.classList.add('drawer__close');
     icon = document.createElement('div');
-    icon.classList.add('icon', 'icon--close', 'icon--lg');
+    icon.classList.add('icon', 'is-close', 'is-lg');
     icon.innerHTML = '<span class="icon__span"></span>';
     this.close.appendChild(icon);
     this.drawer.appendChild(this.close);
@@ -502,7 +502,7 @@ class DrawerMenu {
   importSiteBrand() {
     // SiteBrand をインポート
     const siteBrand = document.createElement('div');
-    siteBrand.classList.add('drawerMenu__item', 'siteBrand');
+    siteBrand.classList.add('drawerMenu__item', 'is-siteBrand');
     siteBrand.innerHTML = this.siteBrand.innerHTML;
     this.inner.appendChild(siteBrand);
   }
@@ -532,7 +532,7 @@ class DrawerMenu {
     const menuItems = this.socialMenu.querySelectorAll('li');
     menuItems.forEach((menuItem) => {
       const socialMenuItem = document.createElement('li');
-      socialMenuItem.classList.add('drawerMenu__item', 'social');
+      socialMenuItem.classList.add('drawerMenu__item', 'is-social');
       socialMenuItem.innerHTML = menuItem.innerHTML;
       socialMenu.appendChild(socialMenuItem);
     });

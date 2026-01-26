@@ -6,20 +6,20 @@
   @include make-button();
 
   @each $key, $color in $theme-colors {
-    &--#{$key} {
+    &.is-#{$key} {
       @include make-button-color($key);
     }
   }
 
-  &--sm {
+  &.is-sm {
     @include make-block(10.5rem);
   }
   
-  &--md {
+  &.is-md {
     @include make-block(16.5rem, 4.5rem);
   }
   
-  &--lg {
+  &.is-lg {
     @include make-block(22.5rem, 4.5rem);
   }
 
