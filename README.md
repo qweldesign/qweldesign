@@ -6,6 +6,7 @@
 
 Web開発者としてフリーランスで活動し、広告代理店・制作会社などからの委託案件を数多く手掛けています。  
 2019年末に、海と山に囲まれた福井県へ移住しました。技術で地域社会とより深く関わり、貢献していきたいと考えています。  
+2025年末以降、TypeScript / React / Vueを用いたWebアプリケーション開発にも積極的に携わっています。  
 前職がピアノ修理工だったこともあり、楽器演奏やDIYが趣味で、アナログとデジタルを行き来するライフスタイルを楽しんでいます。  
 ※ このリポジトリは、ポートフォリオサイト "[QWEL in Action](https://qwel.design)" のためのソースコードになっています。  
 
@@ -16,12 +17,14 @@ Web開発者としてフリーランスで活動し、広告代理店・制作�
 | 実績年数と拠点 | 2017年開業・現在は福井県を拠点に活動 (実績約10年) |
 | 実績① WordPress | オリジナルテーマを一から設計・実装する案件を多数経験 |
 | 実績② UI/UX開発 | インタラクション設計が得意で、JSによるフルスクラッチ実装を多数経験 (SPAにも対応) |
+| 実績③ React/Vue | TypeScript / React / Vueを用いたWebアプリケーション開発 |
 | 得意な技術 | **JavaScriptフルスクラッチ** / 必要に応じてPHPやAPI連携 |
 
 ### EN
 
 I work as a freelance web developer, handling a wide range of projects commissioned by advertising agencies and production companies.  
 At the end of 2019, I relocated to Fukui Prefecture, a region surrounded by mountains and the sea. I hope to engage more deeply with the local community through technology and contribute in meaningful ways.  
+Since late 2025, I have been actively working on web application development with TypeScript, React, and Vue.  
 As I was a piano repairman in my previous job, I enjoy hobbies like playing instruments and DIY projects—living a lifestyle that blends the analog and digital.  
 Note: This repository contains the source code for the portfolio site "[QWEL in Action](https://qwel.design)".  
 
@@ -32,6 +35,7 @@ Note: This repository contains the source code for the portfolio site "[QWEL in 
 | Experience & Location | Established in 2017 / Currently based in Fukui, Japan (Approx. 10 years of experience) |
 | Experience ① WordPress | Extensive experience in designing and developing original WordPress themes from scratch |
 | Experience ② UI/UX Development | Skilled in interaction design and full scratch implementation with JavaScript (SPA-ready) |
+| Experience ③ React/Vue | Web Application Development Using TypeScript, React, and Vue |
 | Core Skills | **JavaScript from scratch** / PHP and API integration as needed |
 
 ---
@@ -47,6 +51,8 @@ Note: This repository contains the source code for the portfolio site "[QWEL in 
 ![SQLite](https://img.shields.io/badge/-SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
 ![WordPress](https://img.shields.io/badge/-WordPress-21759B?style=flat-square&logo=wordpress)  
 
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=fff)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=20232A)
 ![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?style=flat-square&logo=vue.js&logoColor=white)
 ![Node.js](https://img.shields.io/badge/-Node.js-339933?style=flat-square&logo=node.js&logoColor=white)  
 
@@ -71,7 +77,19 @@ Note: This repository contains the source code for the portfolio site "[QWEL in 
 | [越前海岸盛り上げ隊](https://discoverechizen.com/) | [qwel-wp-discoverechizen](https://github.com/qweldesign/qwel-wp-discoverechizen) | WordPress | 過疎問題に立ち向かう地域の町づくり団体。<br>自身がwebマスターを担って運用している。 |
 | [プログラミング教室](https://ac.qwel.design/) | [qwel-ac](https://github.com/qweldesign/qwel-ac) | SPA | 「つくる」喜びを、子どもたちへ。<br>自身が主催している子ども向けプログラミング教室。 |
 | [ツインズ (版画の灯)](https://hangakobo.com/feature/light/) | [hangakobo-light](https://github.com/qweldesign/hangakobo-light) | SPA | シンメトリーな演出と滑らかな動きを軸に構成。<br>視覚的インパクトを重視した実験的作品。 |
-| [RPG戦闘ロジック<br>(開発途上)](https://gurps.artofwar.site/) | [gurps](https://github.com/qweldesign/gurps) | RPG Logic | 自作アルゴリズムによる戦闘シミュレーション。<br>ゲーム設計とUI連携を模索した技術的挑戦。 |
+| [RPG戦闘ロジック](https://github.com/qweldesign/rpg-logic) | [rpg-logic](https://github.com/qweldesign/rpg-logic) | RPG Logic | 自作アルゴリズムによる戦闘シミュレーション。<br>ゲーム設計とUI連携を模索した技術的挑戦。 |
+
+---
+
+## Creative Tools
+
+| プロジェクト | 説明 |
+| ------------------------------------------------------------ | ------------------------------ |
+| **[qwel-tools-md-engine](https://github.com/qweldesign/qwel-tools-md-engine)** | Markdownをベースとしたコンテンツ管理・表示のためのエンジン |
+| **[qwel-tools-action-core](https://github.com/qweldesign/qwel-tools-action-core)** | Web開発のための最小 UI/UX コンポーネント集 |
+| **[qwel-tools-slider](https://github.com/qweldesign/qwel-tools-slider)** | スライドアニメーションで遷移するギャラリーコンポーネント |
+| **[qwel-tools-modal](https://github.com/qweldesign/qwel-tools-modal)** | モーダルウィンドウとして機能するギャラリーコンポーネント |
+| **[qwel-tools-fader](https://github.com/qweldesign/qwel-tools-fader)**             | フェードアニメーションで遷移するギャラリーコンポーネント |
 
 ---
 
