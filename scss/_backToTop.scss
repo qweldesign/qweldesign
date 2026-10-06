@@ -18,6 +18,8 @@ $back-to-top-height:       3rem !default;
   width: $back-to-top-height;
   height: $back-to-top-height;
   padding: 0; // Reset
+  border: 0; // Reset (button要素)
+  background-color: transparent; // Reset (button要素)
   opacity: 0;
   transform: translateY(1rem) rotateY(-180deg);
   transition: all 0.5s ease;

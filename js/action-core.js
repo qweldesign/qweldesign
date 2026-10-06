@@ -88,14 +88,14 @@ class ScrollToAnchor {
   }
   
   // CSS変数反映後にアンカー位置を再計算させるため,
-  // hash を一度リセットして再適用する
+  // hash の対象要素へスクロールし直す
+  // (replaceState はスクロールを発生させないため, 直接スクロールさせる)
   correctInitialAnchor() {
     const { hash } = window.location;
     if (!hash) return;
 
-    // history を汚さないため replaceState を使用
-    history.replaceState(null, '', window.location.pathname + window.location.search);
-    history.replaceState(null, '', window.location.pathname + window.location.search + hash);
+    const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    target?.scrollIntoView();
   }
 
   destroy() {
@@ -146,6 +146,7 @@ class ActiveHeader extends ScrollToAnchor {
   }
 
   destroy() {
+    super.destroy();
     this.observer?.disconnect();
   }
 }
@@ -340,10 +341,10 @@ class BackToTop {
 
   createButton() {
     // ボタン要素
-    this.btn = document.createElement('div');
+    // button要素にすることで, キーボード (Enter/Space) でも操作可能にする
+    this.btn = document.createElement('button');
+    this.btn.setAttribute('type', 'button');
     this.btn.classList.add('backToTop');
-    this.btn.setAttribute('role', 'button');
-    this.btn.setAttribute('tabindex', '0');
     this.btn.setAttribute('aria-label', 'トップへ戻る');
 
     // アイコン要素
@@ -386,6 +387,8 @@ class BackToTop {
     if (shouldShow !== this.isShown) {
       this.isShown = shouldShow;
       this.btn.classList.toggle('is-active', shouldShow);
+      // 非表示中はフォーカスできないようにする
+      this.btn.tabIndex = shouldShow ? 0 : -1;
     }
   }
 
@@ -422,6 +425,11 @@ class DrawerMenu {
     // 状態管理
     this.isShown = false;
 
+    // bind (destroy で removeEventListener できるよう参照を保持)
+    this.onDrawerClick = this.onDrawerClick.bind(this);
+    this.hide = this.hide.bind(this);
+    this.windowScrollHandler = this.windowScrollHandler.bind(this);
+
     // 各要素生成
     this.createElements();
 
@@ -440,6 +448,9 @@ class DrawerMenu {
   createElements() {
     // .drawer
     this.drawer = document.createElement('button');
+    this.drawer.setAttribute('type', 'button');
+    this.drawer.setAttribute('aria-label', 'メニュー');
+    this.drawer.setAttribute('aria-expanded', 'false');
     this.drawer.classList.add('drawer', 'is-ready');
 
     // .drawer__navicon
@@ -551,6 +562,7 @@ class DrawerMenu {
       transitionEnd(this.drawerMenu, () => {
         this.drawerMenu.classList.remove('is-hidden');
         this.drawer.classList.add('is-active');
+        this.drawer.setAttribute('aria-expanded', 'true');
         this.inner.classList.remove('is-collapsed');
         this.overlay.classList.remove('is-collapsed');
       }).then(() => {
@@ -566,6 +578,7 @@ class DrawerMenu {
       transitionEnd(this.drawerMenu, () => {
         this.drawerMenu.classList.add('is-hidden');
         this.drawer.classList.remove('is-active');
+        this.drawer.setAttribute('aria-expanded', 'false');
         this.inner.classList.add('is-hidden');
       }).then(() => {
         this.inner.classList.add('is-collapsed');
@@ -577,20 +590,18 @@ class DrawerMenu {
 
   handleEvents() {
     // ドロワーのイベント登録
-    this.drawer.addEventListener('click', (event) => {
-      event.preventDefault();
-      this.toggle();
-    });
+    this.drawer.addEventListener('click', this.onDrawerClick);
 
     // オーバーレイのイベント登録
-    this.overlay.addEventListener('click', () => {
-      this.hide();
-    });
+    this.overlay.addEventListener('click', this.hide);
 
     // スクロール時のイベント登録
-    window.addEventListener('scroll', () => {
-      this.windowScrollHandler();
-    });
+    window.addEventListener('scroll', this.windowScrollHandler, { passive: true });
+  }
+
+  onDrawerClick(event) {
+    event.preventDefault();
+    this.toggle();
   }
 
   windowScrollHandler() {
@@ -600,7 +611,7 @@ class DrawerMenu {
 
   destroy() {
     this.isShown = false;
-    this.drawer?.removeEventListener('click', this.toggle);
+    this.drawer?.removeEventListener('click', this.onDrawerClick);
     this.drawer?.remove();
     this.inner?.remove();
     this.drawerMenu?.remove();
@@ -633,7 +644,7 @@ class SafeEmbed {
 
   init() {
     // 既に初期化されている場合は破棄
-    if (this.observer) this.destroy();
+    if (this.covers?.length) this.destroy();
 
     const options = this.options;
     // オプション
@@ -657,25 +668,25 @@ class SafeEmbed {
       cover.appendChild(info);
 
       // イベント登録
-      const hundler = () => {
+      const handler = () => {
         transitionEnd(cover, () => {
           cover.classList.remove('is-active');
         }).then(() => {
-          cover.removeEventListener('click', hundler);
+          cover.removeEventListener('click', handler);
           cover.remove();
         });
       };
-      cover.addEventListener('click', hundler);
+      cover.addEventListener('click', handler);
 
       // 破棄用に保持
-      this.covers.push({ cover, hundler });
+      this.covers.push({ cover, handler });
     });
   }
 
   destroy() {
     this.targets = [];
-    this.covers.forEach(({ cover, hundler }) => {
-      cover.removeEventListener('click', hundler);
+    this.covers.forEach(({ cover, handler }) => {
+      cover.removeEventListener('click', handler);
       cover.remove();
     });
     this.covers = [];
@@ -683,15 +694,24 @@ class SafeEmbed {
 }
 
 // Utility functions
-function transitionEnd(elem, func) {
+function transitionEnd(elem, func, timeout = 1000) {
   // CSS遷移の完了を監視
+  // 遷移が発生しない場合 (値が変化しない, prefers-reduced-motion 等) でも
+  // timeout 後に必ず resolve する
   let callback;
+  let timer;
   const promise = new Promise((resolve) => {
-    callback = () => resolve(elem);
+    callback = (event) => {
+      // 子要素からバブリングしてきた transitionend は無視
+      if (event && event.target !== elem) return;
+      resolve(elem);
+    };
     elem.addEventListener('transitionend', callback);
+    timer = setTimeout(callback, timeout);
   });
   func();
-  promise.then((elem) => {
+  promise.then(() => {
+    clearTimeout(timer);
     elem.removeEventListener('transitionend', callback);
   });
   return promise;
