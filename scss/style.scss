@@ -31,10 +31,14 @@
 @import "gNav";
 @import "footer";
 
+// Page
+@import "pageHeader";
+@import "pageMain";
+
 // Components
 @import "button";
 @import "icon";
-//@import "breadcrumb";
+@import "breadcrumb";
 //@import "pagination";
 @import "backToTop";
 @import "drawerMenu";
