@@ -20,11 +20,11 @@ $container-widths:   (
   lg:                  1000px
 );
 
-$gutter:             $grid-base / 8;
+$gutter:             $grid-base / 5; // 1.2rem
 $container-pads:     (
   sm:                  $gutter,
-  md:                  clamp(#{$gutter}, 2%, #{$grid-base / 6}), // 16px
-  lg:                  clamp(#{$gutter}, 2%, #{$grid-base / 4.8}) // 20px
+  md:                  $gutter,
+  lg:                  $gutter
 );
 
 $font-family-sans:   "\"Noto Sans\"", sans-serif;
