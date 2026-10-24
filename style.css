@@ -864,9 +864,9 @@ button, input, select, textarea {
   background-color: var(--color--lightest);
 }
 .section__container {
-  width: min(100%, var(--container-width--lg));
+  width: min(100%, var(--container-width--md));
   margin-inline: auto;
-  padding-inline: var(--container-pad--lg);
+  padding-inline: var(--container-pad--md);
   padding-block: var(--spacing--small);
 }
 .section__row {
@@ -944,6 +944,96 @@ button, input, select, textarea {
 .section__figure {
   width: min(100%, 45rem);
   margin: 0 auto;
+}
+
+/**
+ * Project - Night Flight
+ * サン=テグジュペリ「夜間飛行」をモチーフにした夜のテーマ
+ * body に .is-nightFlight を付与したページにだけ適用する
+ */
+.is-nightFlight {
+  background: linear-gradient(in oklch to bottom, oklch(20% 0.035 265), oklch(15% 0.025 265)) fixed;
+  background-color: oklch(20% 0.035 265);
+  color: oklch(95% 0.01 265);
+}
+.is-nightFlight a:not(.button), .is-nightFlight a:not(.button):active {
+  color: oklch(95% 0.01 265);
+  text-decoration: none;
+}
+.is-nightFlight a:not(.button):hover, .is-nightFlight a:not(.button):focus {
+  color: oklch(80% 0.11 85);
+  text-decoration: underline;
+}
+.is-nightFlight main,
+.is-nightFlight .footer {
+  position: relative;
+  z-index: 1;
+}
+.is-nightFlight .header {
+  background-color: oklch(20% 0.035 265 / 0.7);
+}
+.is-nightFlight .header:hover {
+  background-color: oklch(20% 0.035 265 / 0.95);
+}
+.is-nightFlight .gNav__menuItem.is-current a {
+  color: oklch(80% 0.11 85);
+}
+.is-nightFlight .footer {
+  background-color: transparent;
+  border-top: 1px solid oklch(70% 0.03 265 / 0.25);
+  color: oklch(70% 0.03 265);
+}
+.is-nightFlight .section__inner {
+  background-color: transparent;
+}
+.is-nightFlight .section__subHeading {
+  color: oklch(70% 0.03 265);
+}
+.is-nightFlight .section__content strong, .is-nightFlight .section__content em {
+  color: oklch(95% 0.01 265);
+  background-color: oklch(80% 0.11 85 / 0.2);
+}
+.is-nightFlight .section__listItem h4 {
+  color: oklch(95% 0.01 265);
+  background-color: rgba(32, 159, 223, 0.2);
+}
+
+html:has(.is-nightFlight) {
+  background-color: oklch(15% 0.025 265);
+}
+
+.milkyWay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.nightHero {
+  width: min(100%, var(--container-width--md));
+  margin-inline: auto;
+  padding-inline: var(--container-pad--md);
+  padding-block: var(--spacing--x-large);
+}
+.nightHero__title {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-weight: var(--heading-font-weight);
+  font-size: clamp(3rem, 11vw, 6rem);
+  line-height: 1;
+  letter-spacing: var(--heading-letter-spacing);
+}
+.nightHero__title em {
+  font-style: italic;
+  color: oklch(80% 0.045 265);
+}
+.nightHero__lead {
+  margin-block: var(--spacing--medium) 0;
+  color: oklch(70% 0.03 265);
+  letter-spacing: 0.16em;
 }
 
 /**

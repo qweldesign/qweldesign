@@ -9,7 +9,7 @@
   }
 
   &__container {
-    @include container();
+    @include container("md");
     padding-block: space();
   }
 

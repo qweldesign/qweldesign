@@ -1,0 +1,134 @@
+/**
+ * Project - Night Flight
+ * サン=テグジュペリ「夜間飛行」をモチーフにした夜のテーマ
+ * body に .is-nightFlight を付与したページにだけ適用する
+ */
+
+// 配色は OKLCH (明度 L, 彩度 C, 色相 H) で定義する
+// 色相は「夜空」と「灯り」の2つだけに絞る
+//   夜空: 265 (青紫寄りの紺)
+//   灯り:  85 (夜空の補色. 265 - 180)
+// 明度で役割を分け, 彩度は暗い色・明るい色ほど控えめにする
+$night-hue:        265 !default;
+$light-hue:        $night-hue - 180 !default;
+
+$night-colors:     (
+  //                 L     C      H
+  horizon:           15%   0.025  $night-hue, // 地平線側の空
+  sky:               20%   0.035  $night-hue, // 夜間飛行の空
+  ink-dim:           70%   0.030  $night-hue, // 補助テキスト
+  star:              80%   0.045  $night-hue, // 天の川の水玉
+  ink:               95%   0.010  $night-hue, // 本文
+  lamp:              80%   0.110  $light-hue  // 操縦席の計器灯
+) !default;
+
+// 配色の配列から oklch() を出力する関数 ($alpha で不透明度を指定)
+@function night-color($key, $alpha: 1) {
+  $lch: map-get($night-colors, $key);
+  @if ($alpha == 1) {
+    @return unquote("oklch(#{nth($lch, 1)} #{nth($lch, 2)} #{nth($lch, 3)})");
+  }
+  @return unquote("oklch(#{nth($lch, 1)} #{nth($lch, 2)} #{nth($lch, 3)} / #{$alpha})");
+}
+
+.is-nightFlight {
+  background: linear-gradient(in oklch to bottom, night-color("sky"), night-color("horizon")) fixed;
+  background-color: night-color("sky");
+  color: night-color("ink");
+
+  // ボタンは元の配色のまま
+  a:not(.button) {
+    @include link-text(night-color("ink"), night-color("lamp"));
+  }
+
+  // 背景の天の川 (固定) の上に, 各レイヤーを重ねる
+  main,
+  .footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Layout - Header
+  .header {
+    background-color: night-color("sky", 0.7);
+
+    &:hover {
+      background-color: night-color("sky", 0.95);
+    }
+  }
+
+  .gNav__menuItem.is-current a {
+    color: night-color("lamp");
+  }
+
+  // Layout - Footer
+  .footer {
+    background-color: transparent;
+    border-top: 1px solid night-color("ink-dim", 0.25);
+    color: night-color("ink-dim");
+  }
+
+  // Project - Section
+  .section {
+    &__inner {
+      background-color: transparent;
+    }
+
+    &__subHeading {
+      color: night-color("ink-dim");
+    }
+
+    &__content {
+      strong, em {
+        color: night-color("ink");
+        background-color: night-color("lamp", 0.2);
+      }
+    }
+
+    &__listItem h4 {
+      color: night-color("ink");
+      background-color: rgba(map-get($theme-colors, $theme-accent), 0.2);
+    }
+  }
+}
+
+html:has(.is-nightFlight) {
+  background-color: night-color("horizon");
+}
+
+// 天の川を描く canvas (js/milky-way.js)
+.milkyWay {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+// ヒーロー: ロゴはヘッダーに任せ, 文字だけで構成する
+.nightHero {
+  @include container("md");
+  padding-block: space("x-large");
+
+  &__title {
+    margin: 0;
+    font-family: var(--heading-font-family);
+    font-weight: var(--heading-font-weight);
+    font-size: clamp(3rem, 11vw, 6rem);
+    line-height: 1;
+    letter-spacing: var(--heading-letter-spacing);
+
+    em {
+      font-style: italic;
+      color: night-color("star");
+    }
+  }
+
+  &__lead {
+    margin-block: space("medium") 0;
+    color: night-color("ink-dim");
+    letter-spacing: 0.16em;
+  }
+}
