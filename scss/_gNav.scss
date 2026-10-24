@@ -18,6 +18,11 @@
     margin: 0;
     transition: all 0.5s ease;
 
+    // 昼夜でロゴを出し分ける picture は, 箱を作らず img の高さ指定を通す
+    picture {
+      display: contents;
+    }
+
     img {
       width: auto;
       height: 100%;
