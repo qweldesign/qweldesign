@@ -229,6 +229,9 @@ button, input, select, textarea {
   margin: 0;
   transition: all 0.5s ease;
 }
+.gNav__siteBrand picture {
+  display: contents;
+}
 .gNav__siteBrand img {
   width: auto;
   height: 100%;
@@ -657,17 +660,17 @@ button, input, select, textarea {
 }
 .backToTop > .icon {
   border-radius: 50%;
-  background-color: oklch(30% 0.04 265);
+  background-color: var(--flight-icon-bg, var(--color--primary));
   transition: background-color 0.25s ease;
 }
 .backToTop > .icon > .icon__span, .backToTop > .icon > .icon__span::before, .backToTop > .icon > .icon__span::after {
-  border-color: oklch(80% 0.11 85);
+  border-color: var(--flight-icon-color, var(--color--lightest));
 }
 .backToTop:hover > .icon {
-  background-color: oklch(80% 0.11 85);
+  background-color: var(--flight-icon-hover-bg, var(--color--primary--active));
 }
 .backToTop:hover > .icon > .icon__span, .backToTop:hover > .icon > .icon__span::before, .backToTop:hover > .icon > .icon__span::after {
-  border-color: oklch(20% 0.035 265);
+  border-color: var(--flight-icon-hover-color, var(--color--darkest));
 }
 
 /**
@@ -701,17 +704,17 @@ button, input, select, textarea {
 }
 .drawer__navicon > .icon {
   border-radius: 0;
-  background-color: oklch(30% 0.04 265);
+  background-color: var(--flight-icon-bg, var(--color--primary));
   transition: background-color 0.25s ease;
 }
 .drawer__navicon > .icon > .icon__span, .drawer__navicon > .icon > .icon__span::before, .drawer__navicon > .icon > .icon__span::after {
-  border-color: oklch(80% 0.11 85);
+  border-color: var(--flight-icon-color, var(--color--lightest));
 }
 .drawer__navicon:hover > .icon {
-  background-color: oklch(80% 0.11 85);
+  background-color: var(--flight-icon-hover-bg, var(--color--primary--active));
 }
 .drawer__navicon:hover > .icon > .icon__span, .drawer__navicon:hover > .icon > .icon__span::before, .drawer__navicon:hover > .icon > .icon__span::after {
-  border-color: oklch(20% 0.035 265);
+  border-color: var(--flight-icon-hover-color, var(--color--darkest));
 }
 .drawer__navicon {
   opacity: 0;
@@ -730,17 +733,17 @@ button, input, select, textarea {
 }
 .drawer__close > .icon {
   border-radius: 0;
-  background-color: oklch(30% 0.04 265);
+  background-color: var(--flight-icon-bg, var(--color--primary));
   transition: background-color 0.25s ease;
 }
 .drawer__close > .icon > .icon__span, .drawer__close > .icon > .icon__span::before, .drawer__close > .icon > .icon__span::after {
-  border-color: oklch(80% 0.11 85);
+  border-color: var(--flight-icon-color, var(--color--lightest));
 }
 .drawer__close:hover > .icon {
-  background-color: oklch(80% 0.11 85);
+  background-color: var(--flight-icon-hover-bg, var(--color--primary--active));
 }
 .drawer__close:hover > .icon > .icon__span, .drawer__close:hover > .icon > .icon__span::before, .drawer__close:hover > .icon > .icon__span::after {
-  border-color: oklch(20% 0.035 265);
+  border-color: var(--flight-icon-hover-color, var(--color--darkest));
 }
 .drawer__close {
   opacity: 1;
@@ -761,7 +764,7 @@ button, input, select, textarea {
   width: clamp(18rem, 40%, 24rem);
   height: 100%;
   margin: auto;
-  background-color: oklch(30% 0.04 265);
+  background-color: var(--flight-icon-bg, var(--color--primary));
   text-align: center;
   transition: width 0.5s ease;
 }
@@ -804,15 +807,15 @@ button, input, select, textarea {
   display: block;
   padding-block: var(--spacing--x-small);
   padding-inline-start: 20%;
-  color: oklch(95% 0.01 265);
-  fill: oklch(95% 0.01 265);
+  color: var(--flight-drawer-color, var(--color--lightest));
+  fill: var(--flight-drawer-color, var(--color--lightest));
   text-decoration: none;
   transition: all 0.25s ease;
 }
 .drawerMenu__item:not(.is-siteBrand) a:hover {
-  background-color: oklch(80% 0.11 85);
-  color: oklch(20% 0.035 265);
-  fill: oklch(20% 0.035 265);
+  background-color: var(--flight-icon-hover-bg, var(--color--primary--active));
+  color: var(--flight-icon-hover-color, var(--color--darkest));
+  fill: var(--flight-icon-hover-color, var(--color--darkest));
 }
 .drawerMenu__item.is-siteBrand {
   padding-block: 1rem;
@@ -948,51 +951,152 @@ button, input, select, textarea {
 }
 
 /**
- * Project - Night Flight
- * サン=テグジュペリ「夜間飛行」をモチーフにした夜のテーマ
- * body に .is-nightFlight を付与したページにだけ適用する
- * 配色は settings/_nightColors.scss で定義する
+ * Project - Flight
+ * サン=テグジュペリ「夜間飛行」に始まる, 空を飛ぶ便をモチーフにしたテーマ
+ * body に .is-flight を付与したページにだけ適用する
+ *
+ * ライトモードは昼の便 (既存の配色 + 雲海), ダークモードは夜の便 (夜空の配色 + 天の川)
+ * 色はすべて --flight-* のカスタムプロパティを通して使い, 昼夜で値だけを切り替える
+ * 夜の配色とアイコンの配色は settings/_flightColors.scss で定義する
  */
-.is-nightFlight {
-  background: linear-gradient(in oklch to bottom, oklch(20% 0.035 265), oklch(15% 0.025 265)) fixed;
-  background-color: oklch(20% 0.035 265);
-  color: oklch(95% 0.01 265);
+@property --flight-sky {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
 }
-.is-nightFlight a:not(.button), .is-nightFlight a:not(.button):active {
-  color: oklch(95% 0.01 265);
+@property --flight-horizon {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-ink-dim {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-star {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-lamp {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-glow {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-mark {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-rule {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-header {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-header-hover {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+@property --flight-button {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+.is-flight {
+  --flight-sky: oklch(97.5% 0.018 238deg);
+  --flight-horizon: var(--color--lightest);
+  --flight-ink: var(--color--darkest);
+  --flight-ink-dim: var(--color--darker);
+  --flight-star: var(--color--primary);
+  --flight-lamp: oklch(55% 0.145 58deg);
+  --flight-glow: var(--color--secondary--active);
+  --flight-mark: rgba(255, 192, 128, 0.25);
+  --flight-rule: rgba(32, 159, 223, 0.25);
+  --flight-header: rgba(255, 255, 255, 0.7);
+  --flight-header-hover: rgba(255, 255, 255, 0.95);
+  --flight-button: rgba(255, 255, 255, 0.7);
+}
+@media (prefers-color-scheme: dark) {
+  .is-flight {
+    --flight-sky: oklch(20% 0.035 265);
+    --flight-horizon: oklch(15% 0.025 265);
+    --flight-ink: oklch(95% 0.01 265);
+    --flight-ink-dim: oklch(70% 0.03 265);
+    --flight-star: oklch(80% 0.045 265);
+    --flight-lamp: oklch(80% 0.11 85);
+    --flight-glow: oklch(80% 0.11 85);
+    --flight-mark: oklch(80% 0.11 85 / 0.25);
+    --flight-rule: oklch(80% 0.045 265 / 0.25);
+    --flight-header: oklch(20% 0.035 265 / 0.7);
+    --flight-header-hover: oklch(20% 0.035 265 / 0.95);
+    --flight-button: oklch(15% 0.025 265 / 0.7);
+    --flight-icon-bg: oklch(30% 0.04 265);
+    --flight-icon-color: oklch(80% 0.11 85);
+    --flight-icon-hover-bg: oklch(80% 0.11 85);
+    --flight-icon-hover-color: oklch(20% 0.035 265);
+    --flight-drawer-color: oklch(95% 0.01 265);
+  }
+}
+.is-flight {
+  transition-property: --flight-sky, --flight-horizon, --flight-ink, --flight-ink-dim, --flight-star, --flight-lamp, --flight-glow, --flight-mark, --flight-rule, --flight-header, --flight-header-hover, --flight-button;
+  transition-duration: 1.6s;
+  transition-timing-function: ease;
+  background: linear-gradient(in oklch to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
+  background-color: var(--flight-sky);
+  color: var(--flight-ink);
+}
+.is-flight a:not(.button), .is-flight a:not(.button):active {
+  color: var(--flight-ink);
   text-decoration: none;
 }
-.is-nightFlight a:not(.button):hover, .is-nightFlight a:not(.button):focus {
-  color: oklch(80% 0.11 85);
+.is-flight a:not(.button):hover, .is-flight a:not(.button):focus {
+  color: var(--flight-lamp);
   text-decoration: underline;
 }
-.is-nightFlight main,
-.is-nightFlight .footer {
+.is-flight main,
+.is-flight .footer {
   position: relative;
   z-index: 1;
 }
-.is-nightFlight .header {
-  background-color: oklch(20% 0.035 265 / 0.7);
+.is-flight .header {
+  background-color: var(--flight-header);
 }
-.is-nightFlight .header:hover {
-  background-color: oklch(20% 0.035 265 / 0.95);
+.is-flight .header:hover {
+  background-color: var(--flight-header-hover);
 }
-.is-nightFlight .gNav__menuItem.is-current a {
-  color: oklch(80% 0.11 85);
+.is-flight .gNav__menuItem.is-current a {
+  color: var(--flight-lamp);
 }
-.is-nightFlight .drawerMenu__item a, .is-nightFlight .drawerMenu__item a:active {
-  color: oklch(95% 0.01 265);
+.is-flight .drawerMenu__item a, .is-flight .drawerMenu__item a:active {
+  color: var(--flight-drawer-color, var(--color--lightest));
 }
-.is-nightFlight .drawerMenu__item:not(.is-siteBrand) a:hover {
-  color: oklch(20% 0.035 265);
+.is-flight .drawerMenu__item:not(.is-siteBrand) a:hover {
+  color: var(--flight-icon-hover-color, var(--color--darkest));
   text-decoration: none;
 }
-.is-nightFlight .footer {
+.is-flight .footer {
   background-color: transparent;
-  border-top: 1px solid oklch(70% 0.03 265);
-  color: oklch(70% 0.03 265);
+  border-top: 1px solid var(--flight-rule);
+  color: var(--flight-ink-dim);
 }
-.is-nightFlight .button {
+.is-flight .button {
   display: inline-flex;
   justify-content: center;
   align-items: center;
@@ -1000,10 +1104,10 @@ button, input, select, textarea {
   width: auto;
   height: auto;
   padding: var(--spacing--medium) var(--spacing--large);
-  border: 1px solid oklch(80% 0.045 265 / 0.25);
-  border-radius: 999px;
-  background: oklch(15% 0.025 265 / 0.5);
-  color: oklch(95% 0.01 265);
+  border: 1px solid var(--flight-rule);
+  border-radius: var(--spacing--medium);
+  background: var(--flight-button);
+  color: var(--flight-ink);
   font-family: '"IBM Plex Mono"', ui-monospace, monospace;
   font-size: var(--font-size--small);
   line-height: 1;
@@ -1011,108 +1115,118 @@ button, input, select, textarea {
   text-transform: uppercase;
   transition: border-color 0.35s ease, color 0.35s ease;
 }
-.is-nightFlight .button:hover, .is-nightFlight .button:focus-visible {
-  border-color: oklch(80% 0.11 85);
-  background: oklch(15% 0.025 265 / 0.5);
-  color: oklch(80% 0.11 85);
+.is-flight .button:active, .is-flight .button:focus {
+  border-color: var(--flight-rule);
+  background: var(--flight-button);
+  color: var(--flight-ink);
 }
-.is-nightFlight .button:focus-visible {
-  outline: 1px solid oklch(80% 0.11 85);
+.is-flight .button:hover, .is-flight .button:focus-visible {
+  border-color: var(--flight-lamp);
+  background: var(--flight-button);
+  color: var(--flight-lamp);
+}
+.is-flight .button:focus-visible {
+  outline: 1px solid var(--flight-lamp);
   outline-offset: 4px;
 }
-.is-nightFlight .button:not(:has(.button__icon))::after {
+.is-flight .button:not(:has(.button__icon))::after {
   content: "→";
-  color: oklch(80% 0.11 85);
+  color: var(--flight-glow);
 }
-.is-nightFlight .button__icon {
+.is-flight .button__icon {
   flex: 0 0 auto;
   width: 1.25rem;
   height: 1.25rem;
 }
-.is-nightFlight .button__text {
+.is-flight .button__text {
   flex: 0 0 auto;
   padding: 0;
 }
-.is-nightFlight .section__inner {
+.is-flight .section__inner {
   background-color: transparent;
 }
-.is-nightFlight .section__heading {
+.is-flight .section__heading {
   margin-block: var(--spacing--x-large) 0;
   font-style: italic;
   font-size: clamp(2rem, 8vw, 3rem);
   line-height: 1.2;
   text-wrap: balance;
 }
-.is-nightFlight .section__heading::after {
-  color: oklch(80% 0.11 85);
+.is-flight .section__heading::after {
+  color: var(--flight-glow);
   font-style: normal;
   font-size: 0.5em;
   vertical-align: super;
 }
-.is-nightFlight .section__subHeading {
+.is-flight .section__subHeading {
   margin-block: var(--spacing--x-small) var(--spacing--medium);
-  color: oklch(80% 0.11 85);
+  color: var(--flight-lamp);
   font-family: '"Shippori Mincho"', '"游明朝"', '"Yu Mincho"', serif;
   font-size: 1rem;
   letter-spacing: 0.16em;
 }
-.is-nightFlight .section__subHeading::before {
+.is-flight .section__subHeading::before {
   content: none;
 }
-.is-nightFlight .section__content strong, .is-nightFlight .section__content em {
-  color: oklch(95% 0.01 265);
-  background-color: oklch(80% 0.11 85 / 0.25);
+.is-flight .section__content strong, .is-flight .section__content em {
+  color: var(--flight-ink);
+  background-color: var(--flight-mark);
 }
-.is-nightFlight .section__list {
+.is-flight .section__list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
   -moz-column-gap: var(--spacing--large);
        column-gap: var(--spacing--large);
   padding: 0;
 }
-.is-nightFlight .section__listItem {
+.is-flight .section__listItem {
   min-width: 0;
   margin: 0;
   padding-block: var(--spacing--small) var(--spacing--medium);
-  border-top: 1px solid oklch(80% 0.045 265 / 0.25);
+  border-top: 1px solid var(--flight-rule);
 }
-.is-nightFlight .section__listItem::before {
+.is-flight .section__listItem::before {
   content: none;
 }
-.is-nightFlight .section__listItem h3 {
+.is-flight .section__listItem h3 {
   margin-block: 0 var(--spacing--small);
-  color: oklch(80% 0.11 85);
+  color: var(--flight-lamp);
   font-family: '"IBM Plex Mono"', ui-monospace, monospace;
   font-size: 1rem;
   letter-spacing: 0.04em;
 }
-.is-nightFlight .section__listItem h4 {
+.is-flight .section__listItem h4 {
   margin-block: var(--spacing--small) 0;
   padding: 0;
   background-color: transparent;
-  color: oklch(70% 0.03 265);
+  color: var(--flight-ink-dim);
   font-size: 0.75rem;
   font-weight: 500;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
 }
-.is-nightFlight .section__listItem h4 + p {
+.is-flight .section__listItem h4 + p {
   margin-block-start: var(--spacing--x-small);
 }
-.is-nightFlight .section__motto {
+.is-flight .section__motto {
   margin-block: var(--spacing--medium);
   padding-inline-start: var(--spacing--small);
-  border-inline-start: 1px solid oklch(80% 0.11 85);
+  border-inline-start: 1px solid var(--flight-glow);
   font-family: '"Shippori Mincho"', '"游明朝"', '"Yu Mincho"', serif;
   font-size: var(--font-size--medium);
   line-height: 2;
   text-align: left;
 }
 
-html:has(.is-nightFlight) {
-  background-color: oklch(15% 0.025 265);
+html:has(.is-flight) {
+  background-color: var(--color--lightest);
+}
+@media (prefers-color-scheme: dark) {
+  html:has(.is-flight) {
+    background-color: oklch(15% 0.025 265);
+  }
 }
 
-.milkyWay {
+.dotBand {
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -1122,13 +1236,13 @@ html:has(.is-nightFlight) {
   pointer-events: none;
 }
 
-.nightHero {
+.flightHero {
   width: min(100%, var(--container-width--md));
   margin-inline: auto;
   padding-inline: var(--container-pad--md);
   padding-block: var(--spacing--x-large);
 }
-.nightHero__title {
+.flightHero__title {
   margin: 0;
   font-family: var(--heading-font-family);
   font-weight: var(--heading-font-weight);
@@ -1136,13 +1250,13 @@ html:has(.is-nightFlight) {
   line-height: 1;
   letter-spacing: var(--heading-letter-spacing);
 }
-.nightHero__title em {
+.flightHero__title em {
   font-style: italic;
-  color: oklch(80% 0.045 265);
+  color: var(--flight-star);
 }
-.nightHero__lead {
+.flightHero__lead {
   margin-block: var(--spacing--medium) 0;
-  color: oklch(70% 0.03 265);
+  color: var(--flight-ink-dim);
   font-size: clamp(1rem, 4vw, 1.5rem);
   letter-spacing: 0.16em;
 }

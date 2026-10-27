@@ -21,14 +21,17 @@
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./favicon.ico">
   </head>
-  <body class="is-nightFlight">
+  <body class="is-flight">
     <div data-scroll-sentinel></div>
-    <canvas class="milkyWay" data-milky-way aria-hidden="true"></canvas>
+    <canvas class="dotBand" data-dot-band aria-hidden="true"></canvas>
     <header id="header" class="header" data-active-header>
       <nav id="gNav" class="gNav">
         <h1 id="siteBrand" class="gNav__siteBrand" data-site-brand>
           <a href="/">
-            <img src="./assets/logo_night.svg" alt="QWEL in Action">
+            <picture>
+              <source srcset="./assets/logo_night.svg" media="(prefers-color-scheme: dark)">
+              <img src="./assets/logo.svg" alt="QWEL in Action">
+            </picture>
           </a>
         </h1>
         <ul class="gNav__primaryMenu visible-lg" data-primary-menu>
@@ -40,9 +43,9 @@
       </nav>
     </header>
     <main>
-      <div class="nightHero">
-        <p class="nightHero__title">QWEL<br><em>in Action</em></p>
-        <p class="nightHero__lead">フルスクラッチのUI/UXクラフト集</p>
+      <div class="flightHero">
+        <p class="flightHero__title">QWEL<br><em>in Action</em></p>
+        <p class="flightHero__lead">フルスクラッチのUI/UXクラフト集</p>
       </div>
       <section class="section">
         <div class="section__inner">

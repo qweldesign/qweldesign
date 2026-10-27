@@ -1,0 +1,339 @@
+/**
+ * Project - Flight
+ * サン=テグジュペリ「夜間飛行」に始まる, 空を飛ぶ便をモチーフにしたテーマ
+ * body に .is-flight を付与したページにだけ適用する
+ *
+ * ライトモードは昼の便 (既存の配色 + 雲海), ダークモードは夜の便 (夜空の配色 + 天の川)
+ * 色はすべて --flight-* のカスタムプロパティを通して使い, 昼夜で値だけを切り替える
+ * 夜の配色とアイコンの配色は settings/_flightColors.scss で定義する
+ */
+
+// 書体
+// 見出しの和文と, ボタンやラベルに使う計器のような等幅
+$flight-font-mincho: "\"Shippori Mincho\"", "\"游明朝\"", "\"Yu Mincho\"", serif !default;
+$flight-font-mono:   "\"IBM Plex Mono\"", ui-monospace, monospace !default;
+
+// 昼夜の配色 (役割: [昼, 夜])
+// 昼は既存の配色. 空 (primary の青) と陽の光 (secondary の橙) は色相 238 と 62 で, ほぼ補色の関係
+// 夜は夜空 (265) と計器灯 (85) の補色. 昼夜で「空と, その補色の光」という同じ構図になる
+$flight-colors: (
+  // 空 (グラデーションの上端): 白地に primary の青をごく薄く / 夜間飛行の空
+  sky:          (oklch(97.5% 0.018 238), night-color("sky")),
+  // 空 (下端): 白 / 地平線側の空
+  horizon:      (theme-color("lightest"), night-color("horizon")),
+  // 本文
+  ink:          (theme-color("darkest"), night-color("ink")),
+  // 補助テキスト
+  ink-dim:      (theme-color("darker"), night-color("ink-dim")),
+  // 流れる粒 (雲・星) と同じ色. ヒーローの "in Action" に使う
+  star:         (theme-color("primary"), night-color("star")),
+  // 文字に使う光 / 計器灯
+  lamp:         (oklch(55% 0.145 58), night-color("lamp")),
+  // 装飾に使う光 (見出しの星・矢印・縦罫)
+  glow:         (theme-color("secondary--active"), night-color("lamp")),
+  // 強調の下地
+  mark:         (rgba(map-get($theme-colors, "secondary"), 0.25), night-color("lamp", 0.25)),
+  // 罫線・ボタンの縁
+  rule:         (rgba(map-get($theme-colors, "primary"), 0.25), night-color("star", 0.25)),
+  // ヘッダー
+  header:       (rgba(map-get($theme-colors, "lightest"), 0.7), night-color("sky", 0.7)),
+  header-hover: (rgba(map-get($theme-colors, "lightest"), 0.95), night-color("sky", 0.95)),
+  // ボタンの面
+  button:       (rgba(map-get($theme-colors, "lightest"), 0.7), night-color("horizon", 0.7))
+);
+
+// transition-property に並べる, 登録したカスタムプロパティの一覧
+@function flight-transition-properties($map) {
+  $list: ();
+  @each $key, $values in $map {
+    $list: append($list, unquote("--flight-#{$key}"), comma);
+  }
+  @return $list;
+}
+
+// 昼夜で補間できるよう, 色として登録する (OS の設定を切り替えると, 空がゆっくり移り変わる)
+@each $key, $values in $flight-colors {
+  @property --flight-#{$key} {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+  }
+}
+
+.is-flight {
+  // 昼 (ライトモード)
+  @each $key, $values in $flight-colors {
+    --flight-#{$key}: #{nth($values, 1)};
+  }
+
+  // 夜 (ダークモード)
+  @media (prefers-color-scheme: dark) {
+    @each $key, $values in $flight-colors {
+      --flight-#{$key}: #{nth($values, 2)};
+    }
+
+    // アイコン・ドロワー (settings/_flightColors.scss の $icon-* が参照する)
+    --flight-icon-bg: #{night-color("panel")};
+    --flight-icon-color: #{night-color("lamp")};
+    --flight-icon-hover-bg: #{night-color("lamp")};
+    --flight-icon-hover-color: #{night-color("sky")};
+    --flight-drawer-color: #{night-color("ink")};
+  }
+
+  transition-property: flight-transition-properties($flight-colors);
+  transition-duration: 1.6s;
+  transition-timing-function: ease;
+
+  background: linear-gradient(in oklch to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
+  background-color: var(--flight-sky);
+  color: var(--flight-ink);
+
+  // ボタンは .button 側で配色する
+  a:not(.button) {
+    @include link-text(var(--flight-ink), var(--flight-lamp));
+  }
+
+  // 背景の天の川・雲海 (固定) の上に, 各レイヤーを重ねる
+  main,
+  .footer {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Layout - Header
+  .header {
+    background-color: var(--flight-header);
+
+    &:hover {
+      background-color: var(--flight-header-hover);
+    }
+  }
+
+  .gNav__menuItem.is-current a {
+    color: var(--flight-lamp);
+  }
+
+  // Component - Drawer Menu
+  // 上の a:not(.button) より詳細度を上げ, _drawerMenu.scss の配色を保つ
+  .drawerMenu__item {
+    a {
+      &, &:active {
+        color: $drawer-color;
+      }
+    }
+
+    &:not(.is-siteBrand) a:hover {
+      color: $drawer-hover-color;
+      text-decoration: none;
+    }
+  }
+
+  // Layout - Footer
+  .footer {
+    background-color: transparent;
+    border-top: 1px solid var(--flight-rule);
+    color: var(--flight-ink-dim);
+  }
+
+  // Component - Button
+  // 空に溶け込む細い縁取りのピル型. 色の違い (is-primary 等) は付けず, 一律の扱いにする
+  .button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: space("x-small");
+    width: auto;
+    height: auto;
+    padding: space("medium") space("large");
+    border: 1px solid var(--flight-rule);
+    border-radius: space("medium");
+    background: var(--flight-button);
+    color: var(--flight-ink);
+    font-family: $flight-font-mono;
+    font-size: font-size("small");
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: border-color 0.35s ease, color 0.35s ease;
+
+    // 既存のボタン (.button.is-primary:focus 等) は, フォーカス中に文字色を白や黒へ切り替える
+    // リンクを開いて戻ってきたとき, 押したボタンにはフォーカスが残るため,
+    // その配色が空の上に出て文字が沈まないよう, :active と :focus でも通常の配色に揃える
+    &:active,
+    &:focus {
+      border-color: var(--flight-rule);
+      background: var(--flight-button);
+      color: var(--flight-ink);
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--flight-lamp);
+      background: var(--flight-button);
+      color: var(--flight-lamp);
+    }
+
+    &:focus-visible {
+      outline: 1px solid var(--flight-lamp);
+      outline-offset: 4px;
+    }
+
+    // アイコンの無いボタンには, 進む方向を示す矢印を添える
+    &:not(:has(.button__icon))::after {
+      content: "→";
+      color: var(--flight-glow);
+    }
+
+    &__icon {
+      flex: 0 0 auto;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &__text {
+      flex: 0 0 auto;
+      padding: 0;
+    }
+  }
+
+  // Project - Section
+  .section {
+    &__inner {
+      background-color: transparent;
+    }
+
+    &__heading {
+      margin-block: space("x-large") 0;
+      font-style: italic;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.2;
+      text-wrap: balance;
+
+      // 見出しの星は, 光の色で小さく灯す
+      &::after {
+        color: var(--flight-glow);
+        font-style: normal;
+        font-size: 0.5em;
+        vertical-align: super;
+      }
+    }
+
+    &__subHeading {
+      margin-block: space("x-small") space("medium");
+      color: var(--flight-lamp);
+      font-family: $flight-font-mincho;
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    &__content {
+      strong, em {
+        color: var(--flight-ink);
+        background-color: var(--flight-mark);
+      }
+    }
+
+    // 10のコンポーネントは, 細い罫線で区切った2列の一覧にする
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+      column-gap: space("large");
+      padding: 0;
+    }
+
+    &__listItem {
+      min-width: 0;
+      margin: 0;
+      padding-block: space("small") space("medium");
+      border-top: 1px solid var(--flight-rule);
+
+      &::before {
+        content: none;
+      }
+
+      h3 {
+        margin-block: 0 space("small");
+        color: var(--flight-lamp);
+        font-family: $flight-font-mono;
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+      }
+
+      h4 {
+        margin-block: space("small") 0;
+        padding: 0;
+        background-color: transparent;
+        color: var(--flight-ink-dim);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+      }
+
+      h4 + p {
+        margin-block-start: space("x-small");
+      }
+    }
+
+    // 「届けたい」の一節は, 光の罫線を添えた明朝で
+    &__motto {
+      margin-block: space("medium");
+      padding-inline-start: space("small");
+      border-inline-start: 1px solid var(--flight-glow);
+      font-family: $flight-font-mincho;
+      font-size: font-size("medium");
+      line-height: 2;
+      text-align: left;
+    }
+  }
+}
+
+// body の外 (スクロールの行き過ぎ等) も空の色に
+html:has(.is-flight) {
+  background-color: theme-color("lightest");
+
+  @media (prefers-color-scheme: dark) {
+    background-color: night-color("horizon");
+  }
+}
+
+// 天の川・雲海を描く canvas (js/dot-band.js)
+.dotBand {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+// ヒーロー: ロゴはヘッダーに任せ, 文字だけで構成する
+.flightHero {
+  @include container("md");
+  padding-block: space("x-large");
+
+  &__title {
+    margin: 0;
+    font-family: var(--heading-font-family);
+    font-weight: var(--heading-font-weight);
+    font-size: clamp(4rem, 16vw, 6rem);
+    line-height: 1;
+    letter-spacing: var(--heading-letter-spacing);
+
+    em {
+      font-style: italic;
+      color: var(--flight-star);
+    }
+  }
+
+  &__lead {
+    margin-block: space("medium") 0;
+    color: var(--flight-ink-dim);
+    font-size: clamp(1rem, 4vw, 1.5rem);
+    letter-spacing: 0.16em;
+  }
+}

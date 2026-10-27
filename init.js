@@ -2,9 +2,9 @@
 import ActionCore from './js/action-core.js';
 new ActionCore.Preset();
 
-// Milky Way (背景の天の川)
-import MilkyWay from './js/milky-way.js';
-new MilkyWay();
+// Dot Band (背景の天の川・雲海)
+import DotBand from './js/dot-band.js';
+new DotBand();
 
 /**
  * Auto Copyright

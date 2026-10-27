@@ -14,7 +14,7 @@
 @import "settings/colorSystem";
 @import "settings/gridSystem";
 @import "settings/typography";
-@import "settings/nightColors";
+@import "settings/flightColors";
 
 // Mixins
 @import "mixins/background";
@@ -46,7 +46,7 @@
 
 // Projects
 @import "section";
-@import "nightFlight";
+@import "flight";
 
 // Utility
 @import "utilities/scroll-offset";
