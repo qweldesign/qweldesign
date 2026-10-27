@@ -85,6 +85,34 @@ $icon-size-lg:     3rem !default;
       }
     }
 
+    // 月 (片側だけに縁を付けた円は, 先細りの三日月になる)
+    .icon.is-moon & {
+      width: 44%;
+      height: 44%;
+      margin: 28%;
+      border-radius: 50%;
+      border-inline-end-width: 3px;
+      transform: rotate(30deg);
+    }
+
+    // 太陽 (円と, 点線の輪で光を表す)
+    .icon.is-sun & {
+      width: 30%;
+      height: 30%;
+      margin: 35%;
+      border-radius: 50%;
+      border-width: 2px;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: -70%;
+        border-width: 2px;
+        border-style: dotted;
+        border-radius: 50%;
+      }
+    }
+
     .icon.is-chevron-up & {
       width: 30%;
       height: 30%;

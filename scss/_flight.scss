@@ -60,14 +60,28 @@ $flight-colors: (
   }
 }
 
+// 夜の便を適用する条件
+// html[data-scene] があれば切り替えボタンで選んだ便, 無ければ OS の設定 (ダークモード) に従う
+@mixin flight-night() {
+  html[data-scene="night"] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-scene="day"]) & {
+      @content;
+    }
+  }
+}
+
 .is-flight {
   // 昼 (ライトモード)
   @each $key, $values in $flight-colors {
     --flight-#{$key}: #{nth($values, 1)};
   }
 
-  // 夜 (ダークモード)
-  @media (prefers-color-scheme: dark) {
+  // 夜 (ダークモード, または夜の便を選んだとき)
+  @include flight-night() {
     @each $key, $values in $flight-colors {
       --flight-#{$key}: #{nth($values, 2)};
     }
@@ -294,9 +308,80 @@ $flight-colors: (
 // body の外 (スクロールの行き過ぎ等) も空の色に
 html:has(.is-flight) {
   background-color: theme-color("lightest");
+}
 
-  @media (prefers-color-scheme: dark) {
+html[data-scene="night"]:has(.is-flight) {
+  background-color: night-color("horizon");
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-scene="day"]):has(.is-flight) {
     background-color: night-color("horizon");
+  }
+}
+
+// 昼夜の切り替えボタン (js/scene-switch.js)
+// 右下の BackToTop と対になるよう, 左下に同じ大きさで置く
+.sceneSwitch {
+  position: fixed;
+  left: $back-to-top-pad;
+  bottom: $back-to-top-pad;
+  z-index: 1000;
+  display: block;
+  width: $back-to-top-height;
+  height: $back-to-top-height;
+  padding: 0; // Reset
+  border: 0; // Reset (button要素)
+  background-color: transparent; // Reset (button要素)
+  outline: 0;
+  cursor: pointer;
+
+  @include use-icon();
+
+  &:focus-visible > .icon {
+    outline: 1px solid var(--flight-lamp);
+    outline-offset: 3px;
+  }
+
+  // 切り替え先を示すラベル. ボタンの右へ, 空に浮かぶ小さな札として出す
+  &__label {
+    position: absolute;
+    top: 50%;
+    left: calc(100% + #{space("x-small")});
+    padding: space("x-small") space("small");
+    border: 1px solid var(--flight-rule);
+    border-radius: space("small");
+    background: var(--flight-header-hover);
+    color: var(--flight-ink);
+    font-family: $flight-font-mono;
+    font-size: font-size("x-small");
+    line-height: 1;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-0.5rem, -50%);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+    pointer-events: none;
+  }
+
+  // ホバー (マウス操作時のみ)・キーボードのフォーカス・読み込み直後のヒントで表示
+  @media (hover: hover) {
+    &:hover &__label {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+
+  &:focus-visible &__label,
+  &.is-hinted &__label {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__label {
+      transition: none;
+    }
   }
 }
 

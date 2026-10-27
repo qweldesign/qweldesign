@@ -2,6 +2,10 @@
 import ActionCore from './js/action-core.js';
 new ActionCore.Preset();
 
+// Scene Switch (昼の便・夜の便の切り替えボタン)
+import SceneSwitch from './js/scene-switch.js';
+new SceneSwitch();
+
 // Dot Band (背景の天の川・雲海)
 import DotBand from './js/dot-band.js';
 new DotBand();

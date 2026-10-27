@@ -566,6 +566,29 @@ button, input, select, textarea {
 .icon.is-close .icon__span::after {
   transform: rotate(45deg);
 }
+.icon.is-moon .icon__span {
+  width: 44%;
+  height: 44%;
+  margin: 28%;
+  border-radius: 50%;
+  border-inline-end-width: 3px;
+  transform: rotate(30deg);
+}
+.icon.is-sun .icon__span {
+  width: 30%;
+  height: 30%;
+  margin: 35%;
+  border-radius: 50%;
+  border-width: 2px;
+}
+.icon.is-sun .icon__span::before {
+  content: "";
+  position: absolute;
+  inset: -70%;
+  border-width: 2px;
+  border-style: dotted;
+  border-radius: 50%;
+}
 .icon.is-chevron-up .icon__span {
   width: 30%;
   height: 30%;
@@ -1033,8 +1056,27 @@ button, input, select, textarea {
   --flight-header-hover: rgba(255, 255, 255, 0.95);
   --flight-button: rgba(255, 255, 255, 0.7);
 }
+html[data-scene=night] .is-flight {
+  --flight-sky: oklch(20% 0.035 265);
+  --flight-horizon: oklch(15% 0.025 265);
+  --flight-ink: oklch(95% 0.01 265);
+  --flight-ink-dim: oklch(70% 0.03 265);
+  --flight-star: oklch(80% 0.045 265);
+  --flight-lamp: oklch(80% 0.11 85);
+  --flight-glow: oklch(80% 0.11 85);
+  --flight-mark: oklch(80% 0.11 85 / 0.25);
+  --flight-rule: oklch(80% 0.045 265 / 0.25);
+  --flight-header: oklch(20% 0.035 265 / 0.7);
+  --flight-header-hover: oklch(20% 0.035 265 / 0.95);
+  --flight-button: oklch(15% 0.025 265 / 0.7);
+  --flight-icon-bg: oklch(30% 0.04 265);
+  --flight-icon-color: oklch(80% 0.11 85);
+  --flight-icon-hover-bg: oklch(80% 0.11 85);
+  --flight-icon-hover-color: oklch(20% 0.035 265);
+  --flight-drawer-color: oklch(95% 0.01 265);
+}
 @media (prefers-color-scheme: dark) {
-  .is-flight {
+  html:not([data-scene=day]) .is-flight {
     --flight-sky: oklch(20% 0.035 265);
     --flight-horizon: oklch(15% 0.025 265);
     --flight-ink: oklch(95% 0.01 265);
@@ -1220,9 +1262,80 @@ button, input, select, textarea {
 html:has(.is-flight) {
   background-color: var(--color--lightest);
 }
+
+html[data-scene=night]:has(.is-flight) {
+  background-color: oklch(15% 0.025 265);
+}
+
 @media (prefers-color-scheme: dark) {
-  html:has(.is-flight) {
+  html:not([data-scene=day]):has(.is-flight) {
     background-color: oklch(15% 0.025 265);
+  }
+}
+.sceneSwitch {
+  position: fixed;
+  left: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  outline: 0;
+  cursor: pointer;
+}
+.sceneSwitch > .icon {
+  border-radius: 50%;
+  background-color: var(--flight-icon-bg, var(--color--primary));
+  transition: background-color 0.25s ease;
+}
+.sceneSwitch > .icon > .icon__span, .sceneSwitch > .icon > .icon__span::before, .sceneSwitch > .icon > .icon__span::after {
+  border-color: var(--flight-icon-color, var(--color--lightest));
+}
+.sceneSwitch:hover > .icon {
+  background-color: var(--flight-icon-hover-bg, var(--color--primary--active));
+}
+.sceneSwitch:hover > .icon > .icon__span, .sceneSwitch:hover > .icon > .icon__span::before, .sceneSwitch:hover > .icon > .icon__span::after {
+  border-color: var(--flight-icon-hover-color, var(--color--darkest));
+}
+.sceneSwitch:focus-visible > .icon {
+  outline: 1px solid var(--flight-lamp);
+  outline-offset: 3px;
+}
+.sceneSwitch__label {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + var(--spacing--x-small));
+  padding: var(--spacing--x-small) var(--spacing--small);
+  border: 1px solid var(--flight-rule);
+  border-radius: var(--spacing--small);
+  background: var(--flight-header-hover);
+  color: var(--flight-ink);
+  font-family: '"IBM Plex Mono"', ui-monospace, monospace;
+  font-size: var(--font-size--x-small);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translate(-0.5rem, -50%);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  pointer-events: none;
+}
+@media (hover: hover) {
+  .sceneSwitch:hover .sceneSwitch__label {
+    opacity: 1;
+    transform: translate(0, -50%);
+  }
+}
+.sceneSwitch:focus-visible .sceneSwitch__label, .sceneSwitch.is-hinted .sceneSwitch__label {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .sceneSwitch__label {
+    transition: none;
   }
 }
 

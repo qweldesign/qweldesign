@@ -13,6 +13,7 @@
  * 夜 (ダークモード) は対角線を流れる天の川, 昼 (ライトモード) は画面の下を流れる雲海になる
  * 点の並びは昼夜で共有し, プリセットを補間して形を変える
  * (OS の設定を切り替えると, 天の川が倒れて沈み, 星がふくらんで雲になる)
+ * html の [data-scene] 属性 ("day" | "night") があれば, OS の設定よりそちらを優先する (js/scene-switch.js)
  *
  * 使い方:
  * _flight.scss をバンドルした css を読み込み,
@@ -93,7 +94,7 @@ export default class DotBand {
     this.elapsed = 0;
 
     // 0: 夜, 1: 昼
-    this.mix = this.darkQuery.matches ? 0 : 1;
+    this.mix = this.getScene() === 'night' ? 0 : 1;
     this.target = this.mix;
 
     this.createDots();
@@ -107,6 +108,9 @@ export default class DotBand {
     this.resize();
     window.addEventListener('resize', this.resize);
     this.darkQuery.addEventListener('change', this.onSchemeChange);
+    // 切り替えボタンで選んだ便 (html の [data-scene] 属性) の変化も監視する
+    this.observer = new MutationObserver(this.onSchemeChange);
+    this.observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-scene'] });
 
     // 動きを減らす設定の場合は, 静止画として描画する (昼夜の切り替え時にだけ描き直す)
     if (!this.reduceMotion) {
@@ -146,8 +150,15 @@ export default class DotBand {
     });
   }
 
+  // 現在の便: 選んだ便があればそれを, 無ければ OS の設定に従う
+  getScene() {
+    const scene = document.documentElement.dataset.scene;
+    if (scene === 'day' || scene === 'night') return scene;
+    return this.darkQuery.matches ? 'night' : 'day';
+  }
+
   onSchemeChange() {
-    this.target = this.darkQuery.matches ? 0 : 1;
+    this.target = this.getScene() === 'night' ? 0 : 1;
     if (this.reduceMotion) {
       this.mix = this.target;
       this.draw();
