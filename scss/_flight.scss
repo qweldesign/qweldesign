@@ -192,6 +192,11 @@ $flight-colors: (
       outline-offset: 4px;
     }
 
+    // サービス名の表記 (note など) は大文字にしない
+    &.is-brandName {
+      text-transform: none;
+    }
+
     // アイコンの無いボタンには, 進む方向を示す矢印を添える
     &:not(:has(.button__icon))::after {
       content: "→";
@@ -289,6 +294,21 @@ $flight-colors: (
 
       h4 + p {
         margin-block-start: space("x-small");
+      }
+    }
+
+    // 制作実績・地域活動
+    &__tag {
+      border-color: var(--flight-rule);
+      color: var(--flight-ink-dim);
+      font-family: $flight-font-mono;
+    }
+
+    &__link {
+      font-family: $flight-font-mono;
+
+      &::after {
+        color: var(--flight-glow);
       }
     }
 
@@ -445,7 +465,7 @@ html[data-scene="night"]:has(.is-flight) {
   &__lead {
     margin-block: space("medium") 0;
     color: var(--flight-ink-dim);
-    font-size: clamp(1rem, 4vw, 1.5rem);
+    font-size: clamp(0.8rem, 3.2vw, 1.2rem);
     letter-spacing: 0.16em;
   }
 }

@@ -972,6 +972,32 @@ button, input, select, textarea {
   width: min(100%, 45rem);
   margin: 0 auto;
 }
+.section__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing--x-small);
+  margin-block: 0 var(--spacing--x-small);
+  padding: 0;
+  list-style: none;
+}
+.section__tag {
+  margin: 0;
+  padding: 0.25em 1em;
+  border: 1px solid rgba(32, 159, 223, 0.4);
+  border-radius: var(--spacing--small);
+  color: var(--color--darker);
+  font-size: var(--font-size--x-small);
+  letter-spacing: 0.16em;
+}
+.section__link {
+  display: inline-block;
+  margin-block-start: var(--spacing--x-small);
+  font-size: var(--font-size--small);
+  letter-spacing: 0.08em;
+}
+.section__link::after {
+  content: " ↗";
+}
 .section__caption {
   margin-block: var(--spacing--large) var(--spacing--small);
   color: var(--color--dark);
@@ -1243,6 +1269,9 @@ html[data-scene=night] .is-flight {
   outline: 1px solid var(--flight-lamp);
   outline-offset: 4px;
 }
+.is-flight .button.is-brandName {
+  text-transform: none;
+}
 .is-flight .button:not(:has(.button__icon))::after {
   content: "→";
   color: var(--flight-glow);
@@ -1320,6 +1349,17 @@ html[data-scene=night] .is-flight {
 }
 .is-flight .section__listItem h4 + p {
   margin-block-start: var(--spacing--x-small);
+}
+.is-flight .section__tag {
+  border-color: var(--flight-rule);
+  color: var(--flight-ink-dim);
+  font-family: '"IBM Plex Mono"', ui-monospace, monospace;
+}
+.is-flight .section__link {
+  font-family: '"IBM Plex Mono"', ui-monospace, monospace;
+}
+.is-flight .section__link::after {
+  color: var(--flight-glow);
 }
 .is-flight .section__caption {
   color: var(--flight-ink-dim);
@@ -1462,7 +1502,7 @@ html[data-scene=night]:has(.is-flight) {
 .flightHero__lead {
   margin-block: var(--spacing--medium) 0;
   color: var(--flight-ink-dim);
-  font-size: clamp(1rem, 4vw, 1.5rem);
+  font-size: clamp(0.8rem, 3.2vw, 1.2rem);
   letter-spacing: 0.16em;
 }
 

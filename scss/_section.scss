@@ -101,6 +101,38 @@
     margin: 0 auto;
   }
 
+  // 関わり方の札 (制作・運営・運用 など)
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space("x-small");
+    margin-block: 0 space("x-small");
+    padding: 0;
+    list-style: none;
+  }
+
+  &__tag {
+    margin: 0;
+    padding: 0.25em 1em;
+    border: 1px solid rgba(map-get($theme-colors, $theme-accent), 0.4);
+    border-radius: space("small");
+    color: theme-color("darker");
+    font-size: font-size("x-small");
+    letter-spacing: 0.16em;
+  }
+
+  // サイトへのリンク (URL をそのまま見せる)
+  &__link {
+    display: inline-block;
+    margin-block-start: space("x-small");
+    font-size: font-size("small");
+    letter-spacing: 0.08em;
+
+    &::after {
+      content: " ↗";
+    }
+  }
+
   // 小見出し (ブロックの区切り. 英語の見出し ― 日本語の補足)
   &__caption {
     margin-block: space("large") space("small");
