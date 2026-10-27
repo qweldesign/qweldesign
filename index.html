@@ -37,7 +37,7 @@
         <ul class="gNav__primaryMenu visible-lg" data-primary-menu>
           <li class="gNav__menuItem" data-spy-nav><a href="#about">About QWEL</a></li>
           <li class="gNav__menuItem" data-spy-nav><a href="#creative">Creative Crafts</a></li>
-          <li class="gNav__menuItem" data-spy-nav><a href="#components">UI/UX Components</a></li>
+          <li class="gNav__menuItem" data-spy-nav><a href="#profile">Profile</a></li>
           <li class="gNav__menuItem" data-spy-nav><a href="#story">A Little Story</a></li>
         </ul>
       </nav>
@@ -78,6 +78,7 @@
                 <p>QWEL.DESIGN の仕事としては、WordPressのオリジナルテーマ開発や、UI/UXの設計・実装が主な業務です。
                   <br>一方で、<em>純粋な好奇心と創作の楽しさ</em>から、インタラクティブなアニメーションやビジュアル表現にも取り組んできました。
                   <br>それらは、<em>機能と表現の間</em>にあるものとして、手を動かしながら少しずつ形にしてきた "クラフト" の記録です。</p>
+                <p>実務用のUI/UXコンポーネントは、Creative Tools にまとめています。</p>
               </div>
               <div class="section__row py-medium">
                 <div class="section__col" data-readable>
@@ -94,122 +95,103 @@
       <section class="section">
         <div class="section__inner">
           <div class="section__container">
-            <div id="components" class="section__content" data-spy-section>
+            <div id="profile" class="section__content" data-spy-section>
               <div data-readable>
-                <h2 class="section__heading">UI/UX Components</h2>
-                <p class="section__subHeading">実務用UI/UXコンポーネント</p>
+                <h2 class="section__heading">Profile</h2>
+                <p class="section__subHeading">プロフィール</p>
               </div>
               <div data-readable>
-                <p>下記10のコンポーネントは、どのようなwebサイトにも役に立つであろう、実務用UI/UXコンポーネントとしての定番作品です。</p>
-                <p>基本的な設計志向として、既存の情報構造 (HTML) にdata属性を記述する以外には、<em>構造に介入せず、構造を再利用し、振る舞いだけを提供します</em>。</p>
-                <p>各コンポーネントは<em>SCSSとJSの2対1組のファイルのみ</em>で動きます。
-                  <br>最軽量の形態として、各々バンドルし、1つのCSSファイルと、1つのJSファイルで済むことを目指しています。</p>
-                <p>JSファイルはモジュールとしてインポートして使用する前提で、<em>クラスのインスタンスを生成するだけで初期化</em>されます。
-                  <br>WordPressに用いる場合などは、webpackでBabelを使用してバンドルを行う必要があります。</p>
-                <p>サンプル・デモは、下記ボタンからご覧いただけます。実際のインタラクティブな動きをぜひご体験ください。</p>
+                <p>はじめまして。QWEL.DESIGN 代表の<strong>伊藤大悟</strong>です。
+                  <br>福井市の越前海岸に暮らしながら、Webサイトの制作と、UI/UXの設計・実装を手掛けています。</p>
+                <p>広告代理店や制作会社からの委託を中心に、<em>WordPressのオリジナルテーマ開発</em>から、<em>インタラクションにこだわったフロントエンドの実装</em>まで、既製品に頼らず一から形にしています。</p>
               </div>
-              <div class="section__row py-medium">
-                <div class="section__col" data-readable>
-                  <a class="button is-primary is-md" href="./demo/">SAMPLE DEMO</a>
+              <dl class="section__specs" data-readable>
+                <div class="section__spec">
+                  <dt>屋号</dt>
+                  <dd>QWEL.DESIGN (クヴェルデザイン)</dd>
                 </div>
-              </div>
+                <div class="section__spec">
+                  <dt>代表</dt>
+                  <dd>伊藤 大悟</dd>
+                </div>
+                <div class="section__spec">
+                  <dt>拠点</dt>
+                  <dd>福井県福井市 越前海岸</dd>
+                </div>
+                <div class="section__spec">
+                  <dt>開業</dt>
+                  <dd>2017年</dd>
+                </div>
+                <div class="section__spec">
+                  <dt>専門</dt>
+                  <dd>Web開発 / UI/UX設計</dd>
+                </div>
+                <div class="section__spec">
+                  <dt>得意</dt>
+                  <dd>JavaScript によるフルスクラッチ実装</dd>
+                </div>
+              </dl>
+
+              <h3 class="section__caption" data-readable>Services ― ご依頼いただけること</h3>
               <ul class="section__list">
                 <li class="section__listItem" data-readable>
-                  <h3>ScrollToAnchor</h3>
-                  <h4>設計目的</h4>
-                  <p>Headerの高さをCSS変数にセットし、アンカーリンクのスクロール位置を補正します。</p>
-                  <p>当ページのような可変Headerを使用したい場合に有効です。</p>
-                  <h4>仕様概要</h4> 
-                  <p>Header要素に1つのdata属性を付与するだけで動作します。</p>
+                  <h3>WordPress / Simple CMS</h3>
+                  <p>オリジナルテーマを、設計から実装まで一から制作します。</p>
+                  <p>サイトの目的と更新のしやすさに合わせて、必要な機能だけを組み込みます。</p>
+                  <p>データベースを使わない markdown によるオリジナルの最小CMSを組むことも可能です。</p>
                 </li>
                 <li class="section__listItem" data-readable>
-                  <h3>ActiveHeader</h3>
-                  <h4>設計目的</h4>
-                  <p>Header要素のクラス切り替えをスクロールで制御します。</p>
-                  <p>当ページのような高さ可変Headerを使用したり、メインビジュアルに合わせて背景色を変化させたい場合に有効です。</p>
-                  <h4>仕様概要</h4> 
-                  <p>body直下に要素を設置し、1つのdata属性を付与するだけで動作します。</p>
+                  <h3>UI/UX &amp; Interaction</h3>
+                  <p>「見える」「触れる」「反応する」体験を、JavaScript (Vanilla JS) のフルスクラッチで実装します。</p>
+                  <p>SPA にも対応しています。</p>
                 </li>
                 <li class="section__listItem" data-readable>
-                  <h3>ScrollSpy</h3>
-                  <h4>設計目的</h4>
-                  <p>スクロール位置 (セクション) に応じてナビゲーションの状態を更新します。</p>
-                  <p>ランディングページなどで、ユーザーがどこを読んでいるかの理解を促します。</p>
-                  <h4>仕様概要</h4> 
-                  <p>監視対象セクションとナビゲーション項目に、1つのdata属性を付与するだけで動作します。</p>
-                  <p></p>
+                  <h3>Web Application</h3>
+                  <p>TypeScript / React / Vue を用いたWebアプリケーションの開発に携わっています。</p>
                 </li>
                 <li class="section__listItem" data-readable>
-                  <h3>ReadableOnScroll</h3>
-                  <h4>設計目的</h4>
-                  <p>画面を下へと読み進めていくと、要素がフワッと出現するUXです。</p>
-                  <p>セクションの区切りを明確にするのに役立ちます。</p>
-                  <h4>仕様概要</h4> 
-                  <p>フワッと出現させたい要素に1つのdata属性を付与するだけで動作します。</p>
-                  <p>パラメーターで様々な設定を制御できます。</p>
-                </li>
-                <li class="section__listItem" data-readable>
-                  <h3>BackToTop</h3>
-                  <h4>設計目的</h4>
-                  <p>よく見かける「トップへ戻る」ボタンを自動生成し、制御します。</p>
-                  <p>モバイル閲覧時のストレス（スクロール疲れ、迷子など）を軽減する補助的なUXを目的として設置します。</p>
-                  <p>フワッと出現し、ユーザーの邪魔にならない位置で自然に活用される設計を目指しています。</p>
-                  <h4>仕様概要</h4> 
-                  <p>インスタンス化するだけで自動的にボタンが生成・制御されます。</p>
-                  <p>パラメーターで出現のタイミングを制御できます。</p>
-                </li>
-                <li class="section__listItem" data-readable>
-                  <h3>DrawerMenu</h3>
-                  <h4>設計目的</h4>
-                  <p>よく見かける「ハンバーガーメニュー」のメニューとメニュー呼び出しボタンを自動生成し、制御します。</p>
-                  <p>モバイル閲覧時、横一杯に収まり切らないメニューを収める目的として設置します。</p>
-                  <p>メニュー開閉時の各所スムースな動きは、綿密なインタラクション設計が成されています。</p>
-                  <h4>仕様概要</h4> 
-                  <p>インスタンス化するだけで自動的にボタンが生成・制御されます。</p>
-                  <p>パラメーターでクローンするロゴ、メインメニュー、ソーシャルメニューを指定したり、独自テンプレートを指定することができます。</p>
-                </li>
-                <li class="section__listItem" data-readable>
-                  <h3>SafeEmbed</h3>
-                  <h4>設計目的</h4>
-                  <p>主にGoogleMapなど、埋め込みコンテンツに対して用いる補助的なUXです。</p>
-                  <p>コンテンツにカバーを掛けて、一度タップ(クリック)操作してカバーを解除するまで、操作を受け付けません。</p>
-                  <p>ユーザーに対してコンテンツが操作不能であることを、視覚的に伝えるため、演出を工夫しました。</p>
-                  <h4>仕様概要</h4> 
-                  <p>GoogleMapなどのiframe要素をラップした要素に、データ属性を1つ付与するだけで動作します。</p>
-                </li>
-                <li class="section__listItem" data-readable>
-                  <h3>Fader</h3>
-                  <h4>設計目的</h4>
-                  <p>フェードアニメーションで画像が切り替わっていくカルーセルです。</p>
-                  <p>フルサイズでメインビジュアルなどに使用するのに最適です。</p>
-                  <p>このコンポーネントは美しく流れ変わる写真などに使用することを想定し、操作性を重要視していません。</p>
-                  <h4>仕様概要</h4> 
-                  <p>仕様に沿ってdata属性を記述したHTMLの構成を組むことで動作します。</p>
-                  <p>data属性のパラメーターでアニメーションの時間間隔を制御できます。</p>
-                </li>
-                <li class="section__listItem" data-readable>
-                  <h3>Modal</h3>
-                  <h4>設計目的</h4>
-                  <p>ギャラリーなどで写真を拡大表示するUXです。</p>
-                  <p>全体としては小さく写真を並べたいけれど、写真自体はきちんと見せたい場合に有効です。</p>
-                  <h4>仕様概要</h4> 
-                  <p>仕様に沿ってdata属性を記述したHTMLの構成を組むことで動作します。</p>
-                </li>
-                <li class="section__listItem" data-readable>
-                  <h3>Slider</h3>
-                  <h4>設計目的</h4>
-                  <p>スライドアニメーションで画像が切り替わっていくカルーセルです。</p>
-                  <p>数多くのバナーやロゴなどを並べる際に使用するのに最適です。</p>
-                  <p>先のFaderに比べ、操作性を重要視して設計しました。フリック・ドラグ操作などへの対応もスクラッチで作りました。</p>
-                  <h4>仕様概要</h4> 
-                  <p>仕様に沿ってdata属性を記述したHTMLの構成を組むことで動作します。</p>
-                  <p>data属性のパラメーターで様々な設定を制御できます。</p>
+                  <h3>PHP &amp; API</h3>
+                  <p>お問い合わせフォームや営業日カレンダーなど、必要に応じて PHP や API 連携にも対応します。</p>
                 </li>
               </ul>
-              <div class="section__row py-medium">
-                <div class="section__col" data-readable>
-                  <a class="button is-primary is-md" href="./demo/">SAMPLE DEMO</a>
-                </div>
+
+              <h3 class="section__caption" data-readable>Flight Log ― 経歴</h3>
+              <ol class="section__timeline" data-readable>
+                <li class="section__timelineItem">
+                  <span class="section__timelineYear">～2015</span>
+                  <p>ピアノ修理の職人として、木工と研磨の仕事に携わる。</p>
+                </li>
+                <li class="section__timelineItem">
+                  <span class="section__timelineYear">2015</span>
+                  <p>プログラミングに興味を抱き、2年間で独習する。</p>
+                </li>
+                <li class="section__timelineItem">
+                  <span class="section__timelineYear">2017</span>
+                  <p>Web制作会社 TG WEBCODING を設立。</p>
+                </li>
+                <li class="section__timelineItem">
+                  <span class="section__timelineYear">2018</span>
+                  <p>子ども向けプログラミング教室を開講。</p>
+                </li>
+                <li class="section__timelineItem">
+                  <span class="section__timelineYear">2019</span>
+                  <p>東京都町田市から福井市の越前海岸へ移住し、屋号を QWEL.DESIGN に改める。</p>
+                </li>
+                <li class="section__timelineItem">
+                  <span class="section__timelineYear">2025〜</span>
+                  <p>TypeScript / React / Vue を用いたWebアプリケーション開発にも取り組む。</p>
+                </li>
+              </ol>
+
+              <h3 class="section__caption" data-readable>Off Duty ― コードの外で</h3>
+              <div data-readable>
+                <p>サン=テグジュペリの愛読家です。郵便飛行の操縦士だった彼は、飛行機を「農夫の鋤、大工の鉋」にたとえ、大地から学ぶための道具だと語りました。</p>
+              </div>
+              <div class="section__motto" data-readable>
+                <p>鋤と鉋に続くもの、それはプログラミングだと考えています。</p>
+              </div>
+              <div data-readable>
+                <p>ピアノ修理で身についた、手で確かめながら仕上げていく感覚は、いまのコードの書き方にも通じています。越前海岸に移住してからは、楽器演奏や天体観測、焚き火と薪ストーブのある暮らしを楽しみながら、技術で地域社会とより深く関わっていきたいと考えています。</p>
               </div>
             </div>
           </div>

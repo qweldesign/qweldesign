@@ -972,7 +972,79 @@ button, input, select, textarea {
   width: min(100%, 45rem);
   margin: 0 auto;
 }
+.section__caption {
+  margin-block: var(--spacing--large) var(--spacing--small);
+  color: var(--color--dark);
+  font-family: var(--font-family-base);
+  font-size: var(--font-size--small);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+}
+.section__specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+  -moz-column-gap: var(--spacing--large);
+       column-gap: var(--spacing--large);
+  margin-block: var(--spacing--medium);
+}
+.section__spec {
+  display: grid;
+  grid-template-columns: 3rem 1fr;
+  gap: var(--spacing--small);
+  align-items: baseline;
+  min-width: 0;
+  padding-block: var(--spacing--x-small);
+  border-top: 1px solid rgba(32, 159, 223, 0.25);
+}
+.section__spec dt {
+  color: var(--color--dark);
+  font-size: var(--font-size--x-small);
+  letter-spacing: 0.16em;
+}
+.section__spec dd {
+  margin: 0;
+}
+.section__timeline {
+  list-style: none;
+  margin-block: var(--spacing--medium);
+  padding: 0;
+}
+.section__timelineItem {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4.5rem 1fr;
+  gap: var(--spacing--small);
+  margin: 0;
+  padding-block: var(--spacing--x-small);
+  padding-inline-start: var(--spacing--small);
+  border-inline-start: 1px dashed rgba(32, 159, 223, 0.5);
+}
+.section__timelineItem::before {
+  content: "";
+  position: absolute;
+  top: 1.05em;
+  left: -0.25rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--color--secondary);
+}
+.section__timelineItem p {
+  margin: 0;
+  text-align: left;
+}
+.section__timelineYear {
+  color: var(--color--primary--active);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
 
+@media (max-width: 599.9px) {
+  .section__timelineItem {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
 /**
  * Project - Flight
  * サン=テグジュペリ「夜間飛行」に始まる, 空を飛ぶ便をモチーフにしたテーマ
@@ -1248,6 +1320,26 @@ html[data-scene=night] .is-flight {
 }
 .is-flight .section__listItem h4 + p {
   margin-block-start: var(--spacing--x-small);
+}
+.is-flight .section__caption {
+  color: var(--flight-ink-dim);
+  font-family: '"IBM Plex Mono"', ui-monospace, monospace;
+}
+.is-flight .section__spec {
+  border-top-color: var(--flight-rule);
+}
+.is-flight .section__spec dt {
+  color: var(--flight-ink-dim);
+}
+.is-flight .section__timelineItem {
+  border-inline-start-color: var(--flight-rule);
+}
+.is-flight .section__timelineItem::before {
+  background-color: var(--flight-glow);
+}
+.is-flight .section__timelineYear {
+  color: var(--flight-lamp);
+  font-family: '"IBM Plex Mono"', ui-monospace, monospace;
 }
 .is-flight .section__motto {
   margin-block: var(--spacing--medium);

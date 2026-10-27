@@ -100,4 +100,92 @@
     width: min(100%, 45rem);
     margin: 0 auto;
   }
+
+  // 小見出し (ブロックの区切り. 英語の見出し ― 日本語の補足)
+  &__caption {
+    margin-block: space("large") space("small");
+    color: theme-color("dark");
+    font-family: var(--font-family-base);
+    font-size: font-size("small");
+    font-weight: 400;
+    letter-spacing: 0.16em;
+  }
+
+  // 基本情報 (ラベルと値の組)
+  &__specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    column-gap: space("large");
+    margin-block: space("medium");
+  }
+
+  &__spec {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: space("small");
+    align-items: baseline;
+    min-width: 0;
+    padding-block: space("x-small");
+    border-top: 1px solid rgba(map-get($theme-colors, $theme-accent), 0.25);
+
+    dt {
+      color: theme-color("dark");
+      font-size: font-size("x-small");
+      letter-spacing: 0.16em;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  // 経歴 (年と出来事の組. 左の縦線を航路に, 各年を経由地に見立てる)
+  &__timeline {
+    list-style: none;
+    margin-block: space("medium");
+    padding: 0;
+  }
+
+  &__timelineItem {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: space("small");
+    margin: 0;
+    padding-block: space("x-small");
+    padding-inline-start: space("small");
+    border-inline-start: 1px dashed rgba(map-get($theme-colors, $theme-accent), 0.5);
+
+    // 経由地
+    &::before {
+      content: "";
+      position: absolute;
+      top: 1.05em;
+      left: -0.25rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background-color: theme-color("secondary");
+    }
+
+    p {
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  &__timelineYear {
+    color: color-active($theme-accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
 }
+
+// 狭い画面では, 経歴の年を出来事の上に置く
+@media (max-width: breakpoint("sm") - 0.1) {
+  .section__timelineItem {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+

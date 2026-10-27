@@ -292,6 +292,33 @@ $flight-colors: (
       }
     }
 
+    // プロフィール
+    &__caption {
+      color: var(--flight-ink-dim);
+      font-family: $flight-font-mono;
+    }
+
+    &__spec {
+      border-top-color: var(--flight-rule);
+
+      dt {
+        color: var(--flight-ink-dim);
+      }
+    }
+
+    &__timelineItem {
+      border-inline-start-color: var(--flight-rule);
+
+      &::before {
+        background-color: var(--flight-glow);
+      }
+    }
+
+    &__timelineYear {
+      color: var(--flight-lamp);
+      font-family: $flight-font-mono;
+    }
+
     // 「届けたい」の一節は, 光の罫線を添えた明朝で
     &__motto {
       margin-block: space("medium");
