@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Business Card | QWEL.DESIGN</title>
+    <!--
+      名刺の原稿 (日本の標準サイズ 91 × 55 mm, 塗り足し 3 mm 込みで 97 × 61 mm)
+      OGP と同じ昼の便の構図: 雲海の上を飛ぶ機体と, 見出しの組み方
+      画面では仕上がり線 (点線) と安全域を表示し, 印刷 / PDF 書き出しでは 1 面 1 ページで出力する
+      雲の配置は乱数の種を固定しているので, 何度書き出しても同じ絵になる
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono&family=Noto+Sans+JP:wght@400&family=Shippori+Mincho:wght@500&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* 昼の便の配色 (_flight.scss・ogp.html と同値) */
+        --sky: oklch(97.5% 0.018 238);   /* 空の上端: 白地に primary の青をごく薄く */
+        --horizon: #ffffff;              /* 空の下端 */
+        --ink: #262626;                  /* darkest */
+        --ink-dim: #4d4d4d;              /* darker */
+        --star: #209fdf;                 /* primary */
+        --lamp: oklch(60% 0.175 58);     /* 文字に使う光 */
+        --glow: #ff8d1a;                 /* secondary--active */
+
+        --bleed: 3mm;                    /* 塗り足し */
+        --safe: 4mm;                     /* 仕上がり線から文字までの余白 */
+      }
+
+      html, body {
+        margin: 0;
+        background: #ccc;
+      }
+
+      body {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12mm;
+        padding: 12mm;
+        font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+      }
+
+      /* 1 面 (塗り足し込み) */
+      .card {
+        position: relative;
+        width: calc(91mm + var(--bleed) * 2);
+        height: calc(55mm + var(--bleed) * 2);
+        overflow: hidden;
+        background: linear-gradient(in oklch to bottom, var(--sky), var(--horizon));
+        color: var(--ink);
+        box-shadow: 0 2mm 6mm rgba(20, 40, 70, 0.15);
+      }
+
+      /* 仕上がりの範囲. 中身はこの中に, 安全域を空けて置く */
+      .card__trim {
+        position: absolute;
+        inset: var(--bleed);
+      }
+
+      /* 仕上がり線 (画面表示のみ) */
+      .card::after {
+        content: "";
+        position: absolute;
+        inset: var(--bleed);
+        border: 0.2mm dashed rgba(255, 0, 80, 0.45);
+        pointer-events: none;
+      }
+
+      .card__clouds {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ---- 表面 ---- */
+      .card__logo {
+        position: absolute;
+        top: 3mm;
+        right: 3mm;
+        width: 30mm;
+        height: auto;
+      }
+
+      .card__eyebrow {
+        position: absolute;
+        top: var(--safe);
+        left: var(--safe);
+        margin: 0;
+        color: var(--ink-dim);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 7pt;
+        letter-spacing: 0.16em;
+      }
+
+      .card__person {
+        position: absolute;
+        top: 12mm;
+        left: var(--safe);
+      }
+
+      .card__role {
+        margin: 0 0 1.5mm;
+        color: var(--lamp);
+        font-size: 7pt;
+        letter-spacing: 0.16em;
+      }
+
+      .card__name {
+        margin: 0;
+        font-family: "Shippori Mincho", "Hiragino Mincho ProN", "Yu Mincho", serif;
+        font-weight: 500;
+        font-size: 17.5pt;
+        line-height: 1.2;
+        letter-spacing: 0.2em;
+      }
+
+      .card__nameEn {
+        margin: 1.5mm 0 0;
+        color: var(--star);
+        font-family: "Cormorant Garamond", "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 12.25pt;
+        letter-spacing: 0.08em;
+      }
+
+      .card__nameEn::after {
+        content: "✶";
+        margin-inline-start: 0.2em;
+        color: var(--glow);
+        font-style: normal;
+        font-size: 0.6em;
+        vertical-align: super;
+      }
+
+      /* 連絡先 (ラベルと値の組) */
+      .card__contact {
+        position: absolute;
+        top: 34.5mm;
+        left: var(--safe);
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 2mm;
+        margin: 0;
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 7pt;
+        letter-spacing: 0.06em;
+      }
+
+      .card__contact dt {
+        color: var(--lamp);
+        letter-spacing: 0.14em;
+      }
+
+      .card__contact dd {
+        margin: 0;
+        color: var(--ink);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .card__footer {
+        position: absolute;
+        right: var(--safe);
+        bottom: var(--safe);
+        left: var(--safe);
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-top: 2mm;
+        border-top: 0.2mm solid var(--ink-dim);
+        color: var(--ink-dim);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 7pt;
+        letter-spacing: 0.08em;
+      }
+
+      /* ---- 裏面 ---- */
+      .card__title {
+        position: absolute;
+        top: 6mm;
+        left: var(--safe);
+        margin: 0;
+        font-family: "Cormorant Garamond", "Times New Roman", serif;
+        font-weight: 500;
+        font-size: 24pt;
+        line-height: 1;
+        letter-spacing: 0.016em;
+      }
+
+      .card__title em {
+        color: var(--star);
+        font-style: italic;
+      }
+
+      .card__lead {
+        position: absolute;
+        top: 27mm;
+        left: var(--safe);
+        width: 48mm;
+        margin: 0;
+        color: var(--lamp);
+        font-size: 7pt;
+        line-height: 1.8;
+        letter-spacing: 0.08em;
+      }
+
+      .card__qr {
+        position: absolute;
+        top: var(--safe);
+        right: var(--safe);
+        width: 25mm;
+        padding: 2mm 2mm 1.4mm;
+        border-radius: 1.5mm;
+        background: #ffffff;
+        text-align: center;
+      }
+
+      .card__qr svg {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+
+      .card__qr figcaption {
+        margin-top: 1.5mm;
+        color: var(--ink-dim);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 5pt;
+        letter-spacing: 0.08em;
+      }
+
+      /* 印刷 / PDF 書き出し: 塗り足し込みの 1 面を 1 ページに */
+      @page {
+        size: 97mm 61mm;
+        margin: 0;
+      }
+
+      @media print {
+        html, body {
+          background: none;
+        }
+
+        body {
+          display: block;
+          padding: 0;
+        }
+
+        .card {
+          box-shadow: none;
+          break-after: page;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .card::after {
+          content: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 表面 -->
+    <section class="card" aria-label="名刺 表面">
+      <svg class="card__clouds" data-clouds="11" aria-hidden="true"></svg>
+      <div class="card__trim">
+        <p class="card__eyebrow">QWEL.DESIGN — WEB DEVELOPER</p>
+
+        <!-- logo.svg (昼の便のロゴ) を静止画として埋め込む -->
+        <svg class="card__logo" viewBox="0 0 576 480" role="img" aria-label="QWEL Logo">
+          <defs>
+            <path id="bladeA" fill="#ffc080" d="M98.55,220.5c2.06-15.75-2.52-51.01-23.59-84.75-18.21-29.13-46.76-56.73-60.69-48.9-14.21,7.98,2.56,40.48,23.59,71.72,22.05,32.73,46.47,57.84,60.69,61.93Z"/>
+            <path id="bladeB" fill="#ffc080" d="M99.33,220.5c-1.54,11.81,1.89,38.26,17.7,63.57,13.65,21.86,35.07,42.54,45.51,36.67,10.65-5.99-1.92-30.36-17.7-53.79-16.53-24.54-34.84-43.38-45.51-46.46Z"/>
+          </defs>
+          <circle cx="288" cy="240" r="240" fill="#ffffff"/>
+          <g fill="none" stroke="#209fdf" stroke-width="6" stroke-linecap="round" opacity="0.3" stroke-dasharray="18 18">
+            <path d="M140,220 C180,260 240,270 300,260"/>
+            <path d="M140,240 C190,280 250,290 310,275"/>
+            <path d="M140,260 C200,300 260,310 320,290"/>
+          </g>
+          <g fill="none" stroke="#209fdf" stroke-width="7" stroke-miterlimit="10">
+            <path d="M144.48,199.11c-26.58-44.58-73.65-56.37-97.31-41.11-20.98,13.53-26.58,50.37-12.17,70.49,23.19,32.36,98.33,21.67,121.62-11.75,18.33-26.29,5.22-67.65,0-67.54-12.51.27-22.42,239.13-9.12,240.81,1.53.2-17.98-119.8,42.57-167.4,53.17-41.79,165.39,48.85,243.24,11.75,9.21-4.4,28.86-13.75,27.36-20.55-1.86-8.42-36.18-13.23-42.57-2.94-5.96,9.6,10.05,36.09,30.4,41.12,33.53,8.26,76.56-25.37,82.1-76.35,3.24-29.77.07-64.02-12.16-64.6-13.1-.63-22.72,31.19-18.24,64.6,6.88,51.33,51.2,79.55,57.77,82.23"/>
+            <path d="M204.75,151.9c27.27,66.04,44.47,60.04,52.29,58.22,11.4-2.67,10.16-46.26,17.43-46.58,7.75-.33,9.18,49.29,23.24,52.4,9.9,2.17,100.7-58.97,136.54-148.44"/>
+          </g>
+          <g transform="rotate(0,98,220)" opacity="0.3"><use href="#bladeA"/><use href="#bladeB"/></g>
+          <g transform="rotate(10,98,220)"><use href="#bladeA"/><use href="#bladeB"/></g>
+        </svg>
+
+        <div class="card__person">
+          <p class="card__role">代表 / Web・システム制作</p>
+          <p class="card__name">伊藤 大悟</p>
+          <p class="card__nameEn">Taigo Ito</p>
+        </div>
+
+        <!-- 電話番号は仮の値. 差し替えて使う -->
+        <dl class="card__contact">
+          <dt>TEL</dt>
+          <dd>000-0000-0000</dd>
+          <dt>MAIL</dt>
+          <dd>webmaster@qwel.design</dd>
+        </dl>
+
+        <div class="card__footer">
+          <span>福井市 越前海岸</span>
+          <span>qwel.design</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 裏面 -->
+    <section class="card" aria-label="名刺 裏面">
+      <svg class="card__clouds" data-clouds="21" aria-hidden="true"></svg>
+      <div class="card__trim">
+        <p class="card__title">QWEL<br><em>in Action</em></p>
+        <p class="card__lead">福井・越前海岸から ―<br>フルスクラッチのWeb制作と<br>UI/UXクラフト</p>
+
+        <!-- https://qwel.design/ の QR コード (誤り訂正レベル M). 周囲の白地が静穏域を兼ねる -->
+        <figure class="card__qr">
+          <svg viewBox="0 0 25 25" shape-rendering="crispEdges" role="img" aria-label="qwel.design の QR コード">
+            <path fill="#262626" d="M0,0h1v1h-1zM1,0h1v1h-1zM2,0h1v1h-1zM3,0h1v1h-1zM4,0h1v1h-1zM5,0h1v1h-1zM6,0h1v1h-1zM11,0h1v1h-1zM13,0h1v1h-1zM14,0h1v1h-1zM18,0h1v1h-1zM19,0h1v1h-1zM20,0h1v1h-1zM21,0h1v1h-1zM22,0h1v1h-1zM23,0h1v1h-1zM24,0h1v1h-1zM0,1h1v1h-1zM6,1h1v1h-1zM8,1h1v1h-1zM12,1h1v1h-1zM13,1h1v1h-1zM14,1h1v1h-1zM16,1h1v1h-1zM18,1h1v1h-1zM24,1h1v1h-1zM0,2h1v1h-1zM2,2h1v1h-1zM3,2h1v1h-1zM4,2h1v1h-1zM6,2h1v1h-1zM8,2h1v1h-1zM9,2h1v1h-1zM11,2h1v1h-1zM12,2h1v1h-1zM14,2h1v1h-1zM15,2h1v1h-1zM18,2h1v1h-1zM20,2h1v1h-1zM21,2h1v1h-1zM22,2h1v1h-1zM24,2h1v1h-1zM0,3h1v1h-1zM2,3h1v1h-1zM3,3h1v1h-1zM4,3h1v1h-1zM6,3h1v1h-1zM8,3h1v1h-1zM9,3h1v1h-1zM11,3h1v1h-1zM12,3h1v1h-1zM13,3h1v1h-1zM15,3h1v1h-1zM16,3h1v1h-1zM18,3h1v1h-1zM20,3h1v1h-1zM21,3h1v1h-1zM22,3h1v1h-1zM24,3h1v1h-1zM0,4h1v1h-1zM2,4h1v1h-1zM3,4h1v1h-1zM4,4h1v1h-1zM6,4h1v1h-1zM9,4h1v1h-1zM10,4h1v1h-1zM13,4h1v1h-1zM16,4h1v1h-1zM18,4h1v1h-1zM20,4h1v1h-1zM21,4h1v1h-1zM22,4h1v1h-1zM24,4h1v1h-1zM0,5h1v1h-1zM6,5h1v1h-1zM10,5h1v1h-1zM11,5h1v1h-1zM13,5h1v1h-1zM14,5h1v1h-1zM16,5h1v1h-1zM18,5h1v1h-1zM24,5h1v1h-1zM0,6h1v1h-1zM1,6h1v1h-1zM2,6h1v1h-1zM3,6h1v1h-1zM4,6h1v1h-1zM5,6h1v1h-1zM6,6h1v1h-1zM8,6h1v1h-1zM10,6h1v1h-1zM12,6h1v1h-1zM14,6h1v1h-1zM16,6h1v1h-1zM18,6h1v1h-1zM19,6h1v1h-1zM20,6h1v1h-1zM21,6h1v1h-1zM22,6h1v1h-1zM23,6h1v1h-1zM24,6h1v1h-1zM8,7h1v1h-1zM9,7h1v1h-1zM10,7h1v1h-1zM15,7h1v1h-1zM0,8h1v1h-1zM6,8h1v1h-1zM8,8h1v1h-1zM9,8h1v1h-1zM11,8h1v1h-1zM12,8h1v1h-1zM13,8h1v1h-1zM15,8h1v1h-1zM16,8h1v1h-1zM17,8h1v1h-1zM18,8h1v1h-1zM21,8h1v1h-1zM22,8h1v1h-1zM23,8h1v1h-1zM2,9h1v1h-1zM3,9h1v1h-1zM7,9h1v1h-1zM8,9h1v1h-1zM9,9h1v1h-1zM13,9h1v1h-1zM14,9h1v1h-1zM15,9h1v1h-1zM17,9h1v1h-1zM19,9h1v1h-1zM20,9h1v1h-1zM21,9h1v1h-1zM22,9h1v1h-1zM23,9h1v1h-1zM0,10h1v1h-1zM5,10h1v1h-1zM6,10h1v1h-1zM7,10h1v1h-1zM9,10h1v1h-1zM12,10h1v1h-1zM13,10h1v1h-1zM14,10h1v1h-1zM15,10h1v1h-1zM16,10h1v1h-1zM17,10h1v1h-1zM18,10h1v1h-1zM19,10h1v1h-1zM21,10h1v1h-1zM23,10h1v1h-1zM24,10h1v1h-1zM0,11h1v1h-1zM5,11h1v1h-1zM8,11h1v1h-1zM11,11h1v1h-1zM12,11h1v1h-1zM14,11h1v1h-1zM16,11h1v1h-1zM17,11h1v1h-1zM21,11h1v1h-1zM24,11h1v1h-1zM0,12h1v1h-1zM5,12h1v1h-1zM6,12h1v1h-1zM9,12h1v1h-1zM10,12h1v1h-1zM11,12h1v1h-1zM13,12h1v1h-1zM14,12h1v1h-1zM15,12h1v1h-1zM16,12h1v1h-1zM18,12h1v1h-1zM24,12h1v1h-1zM0,13h1v1h-1zM1,13h1v1h-1zM2,13h1v1h-1zM4,13h1v1h-1zM5,13h1v1h-1zM9,13h1v1h-1zM12,13h1v1h-1zM13,13h1v1h-1zM15,13h1v1h-1zM16,13h1v1h-1zM19,13h1v1h-1zM23,13h1v1h-1zM0,14h1v1h-1zM2,14h1v1h-1zM5,14h1v1h-1zM6,14h1v1h-1zM8,14h1v1h-1zM13,14h1v1h-1zM14,14h1v1h-1zM15,14h1v1h-1zM17,14h1v1h-1zM18,14h1v1h-1zM19,14h1v1h-1zM20,14h1v1h-1zM21,14h1v1h-1zM23,14h1v1h-1zM24,14h1v1h-1zM0,15h1v1h-1zM3,15h1v1h-1zM4,15h1v1h-1zM5,15h1v1h-1zM7,15h1v1h-1zM8,15h1v1h-1zM9,15h1v1h-1zM12,15h1v1h-1zM13,15h1v1h-1zM14,15h1v1h-1zM17,15h1v1h-1zM18,15h1v1h-1zM19,15h1v1h-1zM21,15h1v1h-1zM22,15h1v1h-1zM24,15h1v1h-1zM0,16h1v1h-1zM3,16h1v1h-1zM4,16h1v1h-1zM5,16h1v1h-1zM6,16h1v1h-1zM7,16h1v1h-1zM10,16h1v1h-1zM12,16h1v1h-1zM14,16h1v1h-1zM15,16h1v1h-1zM16,16h1v1h-1zM17,16h1v1h-1zM18,16h1v1h-1zM19,16h1v1h-1zM20,16h1v1h-1zM22,16h1v1h-1zM8,17h1v1h-1zM16,17h1v1h-1zM20,17h1v1h-1zM0,18h1v1h-1zM1,18h1v1h-1zM2,18h1v1h-1zM3,18h1v1h-1zM4,18h1v1h-1zM5,18h1v1h-1zM6,18h1v1h-1zM9,18h1v1h-1zM12,18h1v1h-1zM13,18h1v1h-1zM14,18h1v1h-1zM16,18h1v1h-1zM18,18h1v1h-1zM20,18h1v1h-1zM24,18h1v1h-1zM0,19h1v1h-1zM6,19h1v1h-1zM9,19h1v1h-1zM10,19h1v1h-1zM11,19h1v1h-1zM14,19h1v1h-1zM15,19h1v1h-1zM16,19h1v1h-1zM20,19h1v1h-1zM24,19h1v1h-1zM0,20h1v1h-1zM2,20h1v1h-1zM3,20h1v1h-1zM4,20h1v1h-1zM6,20h1v1h-1zM10,20h1v1h-1zM11,20h1v1h-1zM15,20h1v1h-1zM16,20h1v1h-1zM17,20h1v1h-1zM18,20h1v1h-1zM19,20h1v1h-1zM20,20h1v1h-1zM22,20h1v1h-1zM23,20h1v1h-1zM24,20h1v1h-1zM0,21h1v1h-1zM2,21h1v1h-1zM3,21h1v1h-1zM4,21h1v1h-1zM6,21h1v1h-1zM9,21h1v1h-1zM12,21h1v1h-1zM13,21h1v1h-1zM17,21h1v1h-1zM18,21h1v1h-1zM23,21h1v1h-1zM24,21h1v1h-1zM0,22h1v1h-1zM2,22h1v1h-1zM3,22h1v1h-1zM4,22h1v1h-1zM6,22h1v1h-1zM9,22h1v1h-1zM10,22h1v1h-1zM13,22h1v1h-1zM14,22h1v1h-1zM16,22h1v1h-1zM21,22h1v1h-1zM22,22h1v1h-1zM24,22h1v1h-1zM0,23h1v1h-1zM6,23h1v1h-1zM9,23h1v1h-1zM10,23h1v1h-1zM12,23h1v1h-1zM13,23h1v1h-1zM16,23h1v1h-1zM17,23h1v1h-1zM19,23h1v1h-1zM20,23h1v1h-1zM24,23h1v1h-1zM0,24h1v1h-1zM1,24h1v1h-1zM2,24h1v1h-1zM3,24h1v1h-1zM4,24h1v1h-1zM5,24h1v1h-1zM6,24h1v1h-1zM8,24h1v1h-1zM11,24h1v1h-1zM12,24h1v1h-1zM13,24h1v1h-1zM15,24h1v1h-1zM16,24h1v1h-1zM17,24h1v1h-1zM18,24h1v1h-1zM21,24h1v1h-1zM24,24h1v1h-1z"/>
+          </svg>
+          <figcaption>qwel.design</figcaption>
+        </figure>
+
+        <div class="card__footer">
+          <span>note / qweldesign</span>
+          <span>github / qweldesign</span>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      /**
+       * 雲海 (js/dot-band.js の昼のプリセットを, 印刷に耐えるベクターの円で描く)
+       * 書き出すたびに雲の形が変わらないよう, 面ごとに乱数の種を固定する
+       */
+      function seededRandom(seed) {
+        return () => {
+          seed |= 0;
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      document.querySelectorAll('[data-clouds]').forEach((svg) => {
+        const random = seededRandom(Number(svg.dataset.clouds));
+        const gaussian = () => Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(Math.PI * 2 * random());
+
+        // 座標は mm (塗り足し込み 97 × 61 mm). 帯は水平で, 下寄り
+        const width = 97;
+        const height = 61;
+        const centerY = height * 0.95;
+        const sigma = height * 0.09;
+        const count = 60;
+        const edgeFade = 0.5;
+        const opacity = 0.16;
+
+        svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        const ns = 'http://www.w3.org/2000/svg';
+        for (let i = 0; i < count; i++) {
+          const seed = random();
+          const v = gaussian() * 0.5;
+          const circle = document.createElementNS(ns, 'circle');
+          circle.setAttribute('cx', (random() * (width + 6) - 3).toFixed(2));
+          circle.setAttribute('cy', (centerY + v * sigma * 2).toFixed(2));
+          circle.setAttribute('r', (1 + seed * 3.6).toFixed(2));
+          circle.setAttribute('fill', '#209fdf');
+          circle.setAttribute('fill-opacity', ((0.5 + seed * 0.5) * Math.exp(-(v ** 2) * edgeFade) * opacity).toFixed(3));
+          svg.appendChild(circle);
+        }
+      });
+
+      // 書き出しスクリプト (export.js) に, 雲の配置が終わったことを知らせる
+      document.documentElement.dataset.cloudsReady = 'true';
+    </script>
+  </body>
+</html>
