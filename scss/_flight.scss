@@ -14,11 +14,11 @@ $flight-font-mincho: "\"Shippori Mincho\"", "\"游明朝\"", "\"Yu Mincho\"", se
 $flight-font-mono:   "\"IBM Plex Mono\"", ui-monospace, monospace !default;
 
 // 昼夜の配色 (役割: [昼, 夜])
-// 昼は既存の配色. 空 (primary の青) と陽の光 (secondary の橙) は色相 238 と 62 で, ほぼ補色の関係
-// 夜は夜空 (265) と計器灯 (85) の補色. 昼夜で「空と, その補色の光」という同じ構図になる
+// 昼は既存の配色. 空 (primary の青, 色相 200) と陽の光 (橙, 色相 30) で, 補色に近い関係
+// 夜は夜空 (色相 220) と計器灯 (色相 30) の補色. 昼夜で「空と, その補色の光」という同じ構図になる
 $flight-colors: (
   // 空 (グラデーションの上端): 白地に primary の青をごく薄く / 夜間飛行の空
-  sky:          (oklch(97.5% 0.018 238), night-color("sky")),
+  sky:          (hsl(200, 100%, 95%), night-color("sky")),
   // 空 (下端): 白 / 地平線側の空
   horizon:      (theme-color("lightest"), night-color("horizon")),
   // 本文
@@ -27,10 +27,8 @@ $flight-colors: (
   ink-dim:      (theme-color("darker"), night-color("ink-dim")),
   // 流れる粒 (雲・星) と同じ色. ヒーローの "in Action" に使う
   star:         (theme-color("primary"), night-color("star")),
-  // 文字に使う光 / 計器灯
-  lamp:         (oklch(60% 0.175 58), night-color("lamp")),
-  // 装飾に使う光 (見出しの星・矢印・縦罫)
-  glow:         (theme-color("secondary--active"), night-color("lamp")),
+  // 文字・装飾に使う光 (見出しの星・矢印・縦罫)
+  lamp:         (theme-color("secondary--active"), night-color("lamp")),
   // 強調の下地
   mark:         (rgba(map-get($theme-colors, "secondary"), 0.25), night-color("lamp", 0.25)),
   // 罫線・ボタンの縁
@@ -98,7 +96,7 @@ $flight-colors: (
   transition-duration: 1.6s;
   transition-timing-function: ease;
 
-  background: linear-gradient(in oklch to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
+  background: linear-gradient(to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
   background-color: var(--flight-sky);
   color: var(--flight-ink);
 
@@ -200,7 +198,7 @@ $flight-colors: (
     // アイコンの無いボタンには, 進む方向を示す矢印を添える
     &:not(:has(.button__icon))::after {
       content: "→";
-      color: var(--flight-glow);
+      color: var(--flight-lamp);
     }
 
     &__icon {
@@ -230,7 +228,7 @@ $flight-colors: (
 
       // 見出しの星は, 光の色で小さく灯す
       &::after {
-        color: var(--flight-glow);
+        color: var(--flight-lamp);
         font-style: normal;
         font-size: 0.5em;
         vertical-align: super;
@@ -308,7 +306,7 @@ $flight-colors: (
       font-family: $flight-font-mono;
 
       &::after {
-        color: var(--flight-glow);
+        color: var(--flight-lamp);
       }
     }
 
@@ -330,7 +328,7 @@ $flight-colors: (
       border-inline-start-color: var(--flight-rule);
 
       &::before {
-        background-color: var(--flight-glow);
+        background-color: var(--flight-lamp);
       }
     }
 
@@ -343,7 +341,7 @@ $flight-colors: (
     &__motto {
       margin-block: space("medium");
       padding-inline-start: space("small");
-      border-inline-start: 1px solid var(--flight-glow);
+      border-inline-start: 1px solid var(--flight-lamp);
       font-family: $flight-font-mincho;
       font-size: font-size("medium");
       line-height: 2;

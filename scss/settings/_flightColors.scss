@@ -3,32 +3,31 @@
 // 昼の便は既存の配色 (settings/_colorSystem.scss) を使うため, ここでは夜の便の配色を定義する
 // Components より先に読み込み, アイコン等の既定値もここで決める
 
-// 配色は OKLCH (明度 L, 彩度 C, 色相 H) で定義する
+// 配色は HSL (色相 H, 彩度 S, 明度 L) で定義する
 // 色相は「夜空」と「灯り」の2つだけに絞る
-//   夜空: 265 (青紫寄りの紺)
-//   灯り:  85 (夜空の補色. 265 - 180)
-// 明度で役割を分け, 彩度は暗い色・明るい色ほど控えめにする
-$night-hue:        265 !default;
-$light-hue:        $night-hue - 180 !default;
+//   夜空: 220 (青紫寄りの紺)
+//   灯り:  30
+$night-hue:        220;
+$light-hue:        30;
 
 $night-colors:     (
-  //                 L     C      H
-  horizon:           15%   0.025  $night-hue, // 地平線側の空
-  sky:               20%   0.035  $night-hue, // 夜間飛行の空
-  ink-dim:           70%   0.030  $night-hue, // 補助テキスト
-  star:              80%   0.045  $night-hue, // 天の川の水玉
-  panel:             30%   0.040  $night-hue, // 計器盤 (アイコン・ドロワーの面)
-  ink:               95%   0.010  $night-hue, // 本文
-  lamp:              80%   0.110  $light-hue  // 操縦席の計器灯
-) !default;
+  //                 H           S      L
+  horizon:           $night-hue  57.5%   5.0%, // 地平線側の空
+  sky:               $night-hue  47.5%  10.0%, // 夜間飛行の空
+  ink-dim:           $night-hue  15.0%  65.0%, // 補助テキスト
+  star:              $night-hue  37.5%  77.5%, // 天の川の水玉
+  panel:             $night-hue  30.0%  20.0%, // 計器盤 (アイコン・ドロワーの面)
+  ink:               $night-hue  32.5%  95.0%, // 本文
+  lamp:              $light-hue  100%   75.0%  // 操縦席の計器灯
+);
 
-// 配色の配列から oklch() を出力する関数 ($alpha で不透明度を指定)
+// 配色の配列から hsl() を出力する関数 ($alpha で不透明度を指定)
 @function night-color($key, $alpha: 1) {
-  $lch: map-get($night-colors, $key);
+  $hsl: map-get($night-colors, $key);
   @if ($alpha == 1) {
-    @return unquote("oklch(#{nth($lch, 1)} #{nth($lch, 2)} #{nth($lch, 3)})");
+    @return unquote("hsl(#{nth($hsl, 1)}, #{nth($hsl, 2)}, #{nth($hsl, 3)})");
   }
-  @return unquote("oklch(#{nth($lch, 1)} #{nth($lch, 2)} #{nth($lch, 3)} / #{$alpha})");
+  @return unquote("hsla(#{nth($hsl, 1)}, #{nth($hsl, 2)}, #{nth($hsl, 3)}, #{$alpha})");
 }
 
 // Component - Icon の再配色

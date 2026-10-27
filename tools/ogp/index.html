@@ -14,13 +14,12 @@
     <style>
       :root {
         /* 昼の便の配色 (_flight.scss と同値) */
-        --sky: oklch(97.5% 0.018 238);   /* 空の上端: 白地に primary の青をごく薄く */
-        --horizon: #ffffff;              /* 空の下端 */
-        --ink: #262626;                  /* darkest */
-        --ink-dim: #4d4d4d;              /* darker */
-        --star: #209fdf;                 /* primary */
-        --lamp: oklch(60% 0.175 58);     /* 文字に使う光 */
-        --glow: #ff8d1a;                 /* secondary--active */
+        --sky: hsl(200, 100%, 95%); /* 空の上端: 白地に primary の青をごく薄く */
+        --horizon: #ffffff;         /* 空の下端 */
+        --ink: #262626;             /* darkest */
+        --ink-dim: #4d4d4d;         /* darker */
+        --star: #209fdf;            /* primary */
+        --lamp: #ff8000;            /* secondary--active */
       }
 
       body {
@@ -34,7 +33,7 @@
         height: 630px;
         margin: auto;
         overflow: hidden;
-        background: linear-gradient(in oklch to bottom, var(--sky), var(--horizon));
+        background: linear-gradient(to bottom, var(--sky), var(--horizon));
         color: var(--ink);
         font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
       }
@@ -87,7 +86,7 @@
       .ogp__title em::after {
         content: "✶";
         margin-inline-start: 0.16em;
-        color: var(--glow);
+        color: var(--lamp);
         font-style: normal;
         font-size: 0.32em;
         vertical-align: super;

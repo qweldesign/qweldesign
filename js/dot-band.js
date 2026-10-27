@@ -35,7 +35,7 @@
  * edgeFade: 帯の外側ほど淡くする強さ (0 で一様)
  * speed: 流れる速さ (px / 秒)
  * floatRange: 流れと直交する方向の揺れ幅 (px)
- * color: 水玉の色 [L (0〜1), C, H] (OKLCH)
+ * color: 水玉の色 [H, S (%), L (%)] (HSL)
  * opacity: 全体の不透明度
  */
 
@@ -49,7 +49,7 @@ const PRESETS = {
     edgeFade: 1.0,
     speed: 10,
     floatRange: 4,
-    color: [0.8, 0.045, 265],
+    color: [220.0, 37.5, 77.5],
     opacity: 0.3
   },
   // 昼: 雲海 (primary #209fdf). 水平に, 右から左へ (ロゴの機体が右へ進む)
@@ -61,7 +61,7 @@ const PRESETS = {
     edgeFade: 0.5,
     speed: 15,
     floatRange: 2,
-    color: [0.667, 0.139, 238],
+    color: [200.0, 75.0, 50.0],
     opacity: 0.15
   }
 };
@@ -240,10 +240,10 @@ export default class DotBand {
     const t = easeInOut(this.mix);
     const band = this.getBand(t);
     const unit = this.rem / 16;
-    const [l, c, h] = band.color;
+    const [h, s, l] = band.color;
 
     ctx.clearRect(0, 0, this.width, this.height);
-    ctx.fillStyle = `oklch(${l} ${c} ${h})`;
+    ctx.fillStyle = `hsl(${h}, ${s}%, ${l}%)`;
 
     const total = Math.max(band.nightCount, band.dayCount);
     for (let i = 0; i < total; i++) {

@@ -10,23 +10,23 @@
  */
 :root {
   --color--darkest: #262626;
-  --color--darkest--active: #595959;
+  --color--darkest--active: rgb(101.75, 101.75, 101.75);
   --color--darker: #4d4d4d;
-  --color--darker--active: gray;
+  --color--darker--active: rgb(140.75, 140.75, 140.75);
   --color--dark: #808080;
-  --color--dark--active: #b3b3b3;
+  --color--dark--active: rgb(191.75, 191.75, 191.75);
   --color--light: #b3b3b3;
-  --color--light--active: gray;
+  --color--light--active: rgb(115.25, 115.25, 115.25);
   --color--lighter: #d9d9d9;
-  --color--lighter--active: #a6a6a6;
+  --color--lighter--active: rgb(153.25, 153.25, 153.25);
   --color--lightest: #ffffff;
-  --color--lightest--active: #cccccc;
+  --color--lightest--active: rgb(191.25, 191.25, 191.25);
   --color--primary: #209fdf;
-  --color--primary--active: rgb(121.2, 197.4, 235.8);
+  --color--primary--active: rgb(143.5, 207, 239);
   --color--secondary: #ffc080;
-  --color--secondary--active: rgb(255, 141.4015748031, 26);
+  --color--secondary--active: rgb(255, 128.7519685039, 0.5);
   --color--tertiary: #99cc33;
-  --color--tertiary--active: rgb(91.8, 122.4, 30.6);
+  --color--tertiary--active: rgb(76.5, 102, 25.5);
   --container-width--sm: 600px;
   --container-width--md: 800px;
   --container-width--lg: 1000px;
@@ -258,9 +258,6 @@ button, input, select, textarea {
 
 .gNav__menuItem {
   margin: 0;
-}
-.gNav__menuItem.is-current {
-  font-weight: 700;
 }
 .gNav__menuItem a {
   display: block;
@@ -1110,11 +1107,6 @@ button, input, select, textarea {
   inherits: true;
   initial-value: transparent;
 }
-@property --flight-glow {
-  syntax: "<color>";
-  inherits: true;
-  initial-value: transparent;
-}
 @property --flight-mark {
   syntax: "<color>";
   inherits: true;
@@ -1141,13 +1133,12 @@ button, input, select, textarea {
   initial-value: transparent;
 }
 .is-flight {
-  --flight-sky: oklch(97.5% 0.018 238deg);
+  --flight-sky: hsl(200, 100%, 95%);
   --flight-horizon: var(--color--lightest);
   --flight-ink: var(--color--darkest);
   --flight-ink-dim: var(--color--darker);
   --flight-star: var(--color--primary);
-  --flight-lamp: oklch(60% 0.175 58deg);
-  --flight-glow: var(--color--secondary--active);
+  --flight-lamp: var(--color--secondary--active);
   --flight-mark: rgba(255, 192, 128, 0.25);
   --flight-rule: rgba(32, 159, 223, 0.25);
   --flight-header: rgba(255, 255, 255, 0.7);
@@ -1155,50 +1146,48 @@ button, input, select, textarea {
   --flight-button: rgba(255, 255, 255, 0.7);
 }
 html[data-scene=night] .is-flight {
-  --flight-sky: oklch(20% 0.035 265);
-  --flight-horizon: oklch(15% 0.025 265);
-  --flight-ink: oklch(95% 0.01 265);
-  --flight-ink-dim: oklch(70% 0.03 265);
-  --flight-star: oklch(80% 0.045 265);
-  --flight-lamp: oklch(80% 0.11 85);
-  --flight-glow: oklch(80% 0.11 85);
-  --flight-mark: oklch(80% 0.11 85 / 0.25);
-  --flight-rule: oklch(80% 0.045 265 / 0.25);
-  --flight-header: oklch(20% 0.035 265 / 0.7);
-  --flight-header-hover: oklch(20% 0.035 265 / 0.95);
-  --flight-button: oklch(15% 0.025 265 / 0.7);
-  --flight-icon-bg: oklch(30% 0.04 265);
-  --flight-icon-color: oklch(80% 0.11 85);
-  --flight-icon-hover-bg: oklch(80% 0.11 85);
-  --flight-icon-hover-color: oklch(20% 0.035 265);
-  --flight-drawer-color: oklch(95% 0.01 265);
+  --flight-sky: hsl(220, 47.5%, 10%);
+  --flight-horizon: hsl(220, 57.5%, 5%);
+  --flight-ink: hsl(220, 32.5%, 95%);
+  --flight-ink-dim: hsl(220, 15%, 65%);
+  --flight-star: hsl(220, 37.5%, 77.5%);
+  --flight-lamp: hsl(30, 100%, 75%);
+  --flight-mark: hsla(30, 100%, 75%, 0.25);
+  --flight-rule: hsla(220, 37.5%, 77.5%, 0.25);
+  --flight-header: hsla(220, 47.5%, 10%, 0.7);
+  --flight-header-hover: hsla(220, 47.5%, 10%, 0.95);
+  --flight-button: hsla(220, 57.5%, 5%, 0.7);
+  --flight-icon-bg: hsl(220, 30%, 20%);
+  --flight-icon-color: hsl(30, 100%, 75%);
+  --flight-icon-hover-bg: hsl(30, 100%, 75%);
+  --flight-icon-hover-color: hsl(220, 47.5%, 10%);
+  --flight-drawer-color: hsl(220, 32.5%, 95%);
 }
 @media (prefers-color-scheme: dark) {
   html:not([data-scene=day]) .is-flight {
-    --flight-sky: oklch(20% 0.035 265);
-    --flight-horizon: oklch(15% 0.025 265);
-    --flight-ink: oklch(95% 0.01 265);
-    --flight-ink-dim: oklch(70% 0.03 265);
-    --flight-star: oklch(80% 0.045 265);
-    --flight-lamp: oklch(80% 0.11 85);
-    --flight-glow: oklch(80% 0.11 85);
-    --flight-mark: oklch(80% 0.11 85 / 0.25);
-    --flight-rule: oklch(80% 0.045 265 / 0.25);
-    --flight-header: oklch(20% 0.035 265 / 0.7);
-    --flight-header-hover: oklch(20% 0.035 265 / 0.95);
-    --flight-button: oklch(15% 0.025 265 / 0.7);
-    --flight-icon-bg: oklch(30% 0.04 265);
-    --flight-icon-color: oklch(80% 0.11 85);
-    --flight-icon-hover-bg: oklch(80% 0.11 85);
-    --flight-icon-hover-color: oklch(20% 0.035 265);
-    --flight-drawer-color: oklch(95% 0.01 265);
+    --flight-sky: hsl(220, 47.5%, 10%);
+    --flight-horizon: hsl(220, 57.5%, 5%);
+    --flight-ink: hsl(220, 32.5%, 95%);
+    --flight-ink-dim: hsl(220, 15%, 65%);
+    --flight-star: hsl(220, 37.5%, 77.5%);
+    --flight-lamp: hsl(30, 100%, 75%);
+    --flight-mark: hsla(30, 100%, 75%, 0.25);
+    --flight-rule: hsla(220, 37.5%, 77.5%, 0.25);
+    --flight-header: hsla(220, 47.5%, 10%, 0.7);
+    --flight-header-hover: hsla(220, 47.5%, 10%, 0.95);
+    --flight-button: hsla(220, 57.5%, 5%, 0.7);
+    --flight-icon-bg: hsl(220, 30%, 20%);
+    --flight-icon-color: hsl(30, 100%, 75%);
+    --flight-icon-hover-bg: hsl(30, 100%, 75%);
+    --flight-icon-hover-color: hsl(220, 47.5%, 10%);
+    --flight-drawer-color: hsl(220, 32.5%, 95%);
   }
 }
 .is-flight {
-  transition-property: --flight-sky, --flight-horizon, --flight-ink, --flight-ink-dim, --flight-star, --flight-lamp, --flight-glow, --flight-mark, --flight-rule, --flight-header, --flight-header-hover, --flight-button;
+  transition-property: --flight-sky, --flight-horizon, --flight-ink, --flight-ink-dim, --flight-star, --flight-lamp, --flight-mark, --flight-rule, --flight-header, --flight-header-hover, --flight-button;
   transition-duration: 1.6s;
   transition-timing-function: ease;
-  background: linear-gradient(in oklch to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
+  background: linear-gradient(to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
   background-color: var(--flight-sky);
   color: var(--flight-ink);
 }
@@ -1274,7 +1263,7 @@ html[data-scene=night] .is-flight {
 }
 .is-flight .button:not(:has(.button__icon))::after {
   content: "→";
-  color: var(--flight-glow);
+  color: var(--flight-lamp);
 }
 .is-flight .button__icon {
   flex: 0 0 auto;
@@ -1296,7 +1285,7 @@ html[data-scene=night] .is-flight {
   text-wrap: balance;
 }
 .is-flight .section__heading::after {
-  color: var(--flight-glow);
+  color: var(--flight-lamp);
   font-style: normal;
   font-size: 0.5em;
   vertical-align: super;
@@ -1359,7 +1348,7 @@ html[data-scene=night] .is-flight {
   font-family: '"IBM Plex Mono"', ui-monospace, monospace;
 }
 .is-flight .section__link::after {
-  color: var(--flight-glow);
+  color: var(--flight-lamp);
 }
 .is-flight .section__caption {
   color: var(--flight-ink-dim);
@@ -1375,7 +1364,7 @@ html[data-scene=night] .is-flight {
   border-inline-start-color: var(--flight-rule);
 }
 .is-flight .section__timelineItem::before {
-  background-color: var(--flight-glow);
+  background-color: var(--flight-lamp);
 }
 .is-flight .section__timelineYear {
   color: var(--flight-lamp);
@@ -1384,7 +1373,7 @@ html[data-scene=night] .is-flight {
 .is-flight .section__motto {
   margin-block: var(--spacing--medium);
   padding-inline-start: var(--spacing--small);
-  border-inline-start: 1px solid var(--flight-glow);
+  border-inline-start: 1px solid var(--flight-lamp);
   font-family: '"Shippori Mincho"', '"游明朝"', '"Yu Mincho"', serif;
   font-size: var(--font-size--medium);
   line-height: 2;
@@ -1396,12 +1385,12 @@ html:has(.is-flight) {
 }
 
 html[data-scene=night]:has(.is-flight) {
-  background-color: oklch(15% 0.025 265);
+  background-color: hsl(220, 57.5%, 5%);
 }
 
 @media (prefers-color-scheme: dark) {
   html:not([data-scene=day]):has(.is-flight) {
-    background-color: oklch(15% 0.025 265);
+    background-color: hsl(220, 57.5%, 5%);
   }
 }
 .sceneSwitch {
