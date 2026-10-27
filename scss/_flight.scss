@@ -28,7 +28,7 @@ $flight-colors: (
   // 流れる粒 (雲・星) と同じ色. ヒーローの "in Action" に使う
   star:         (theme-color("primary"), night-color("star")),
   // 文字に使う光 / 計器灯
-  lamp:         (oklch(55% 0.145 58), night-color("lamp")),
+  lamp:         (oklch(60% 0.175 58), night-color("lamp")),
   // 装飾に使う光 (見出しの星・矢印・縦罫)
   glow:         (theme-color("secondary--active"), night-color("lamp")),
   // 強調の下地

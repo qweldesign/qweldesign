@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>OGP | QWEL in Action</title>
+    <!--
+      OGP 画像 (1200 × 630) の原稿
+      昼の便 (ライトモード) をベースに, 雲海の上をロゴの機体が飛ぶ構図
+      ブラウザで開き, 1200 × 630 の範囲をスクリーンショットして ogp.jpg として書き出す
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono&family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* 昼の便の配色 (_flight.scss と同値) */
+        --sky: oklch(97.5% 0.018 238);   /* 空の上端: 白地に primary の青をごく薄く */
+        --horizon: #ffffff;              /* 空の下端 */
+        --ink: #262626;                  /* darkest */
+        --ink-dim: #4d4d4d;              /* darker */
+        --star: #209fdf;                 /* primary */
+        --lamp: oklch(60% 0.175 58);     /* 文字に使う光 */
+        --glow: #ff8d1a;                 /* secondary--active */
+      }
+
+      body {
+        margin: 15px;
+        background: var(--horizon);
+      }
+
+      .ogp {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        margin: auto;
+        overflow: hidden;
+        background: linear-gradient(in oklch to bottom, var(--sky), var(--horizon));
+        color: var(--ink);
+        font-family: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", sans-serif;
+      }
+
+      /* 雲海 */
+      .ogp__clouds {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ロゴ: 雲海の上を飛ぶ機体 */
+      .ogp__logo {
+        position: absolute;
+        top: 90px;
+        right: 120px;
+        width: 420px;
+        height: auto;
+      }
+
+      .ogp__text {
+        position: absolute;
+        top: 90px;
+        left: 120px;
+      }
+
+      .ogp__eyebrow {
+        margin: 0 0 30px;
+        color: var(--ink-dim);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 30px;
+        letter-spacing: 0.08em;
+      }
+
+      .ogp__title {
+        margin: 0;
+        font-family: "Cormorant Garamond", "Times New Roman", serif;
+        font-weight: 500;
+        font-size: 120px;
+        line-height: 1;
+        letter-spacing: 0.02em;
+      }
+
+      .ogp__title em {
+        color: var(--star);
+        font-style: italic;
+      }
+
+      .ogp__title em::after {
+        content: "✶";
+        margin-inline-start: 0.16em;
+        color: var(--glow);
+        font-style: normal;
+        font-size: 0.32em;
+        vertical-align: super;
+      }
+
+      .ogp__lead {
+        margin: 30px 0 0;
+        color: var(--lamp);
+        font-size: 30px;
+        letter-spacing: 0.16em;
+      }
+
+      .ogp__footer {
+        position: absolute;
+        right: 120px;
+        bottom: 30px;
+        left: 120px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 30px;
+        border-top: 1px solid var(--ink-dim);
+        color: var(--ink-dim);
+        font-family: "IBM Plex Mono", ui-monospace, monospace;
+        font-size: 24px;
+        letter-spacing: 0.16em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ogp">
+      <canvas class="ogp__clouds" width="1200" height="630" aria-hidden="true"></canvas>
+
+      <!-- logo.svg (昼の便のロゴ) を静止画として埋め込む -->
+      <svg class="ogp__logo" viewBox="0 0 576 480" role="img" aria-label="QWEL Logo">
+        <defs>
+          <path id="bladeA" fill="#ffc080" d="M98.55,220.5c2.06-15.75-2.52-51.01-23.59-84.75-18.21-29.13-46.76-56.73-60.69-48.9-14.21,7.98,2.56,40.48,23.59,71.72,22.05,32.73,46.47,57.84,60.69,61.93Z"/>
+          <path id="bladeB" fill="#ffc080" d="M99.33,220.5c-1.54,11.81,1.89,38.26,17.7,63.57,13.65,21.86,35.07,42.54,45.51,36.67,10.65-5.99-1.92-30.36-17.7-53.79-16.53-24.54-34.84-43.38-45.51-46.46Z"/>
+        </defs>
+        <circle cx="288" cy="240" r="240" fill="#ffffff"/>
+        <g fill="none" stroke="#209fdf" stroke-width="6" stroke-linecap="round" opacity="0.3" stroke-dasharray="18 18">
+          <path d="M140,220 C180,260 240,270 300,260"/>
+          <path d="M140,240 C190,280 250,290 310,275"/>
+          <path d="M140,260 C200,300 260,310 320,290"/>
+        </g>
+        <g fill="none" stroke="#209fdf" stroke-width="7" stroke-miterlimit="10">
+          <path d="M144.48,199.11c-26.58-44.58-73.65-56.37-97.31-41.11-20.98,13.53-26.58,50.37-12.17,70.49,23.19,32.36,98.33,21.67,121.62-11.75,18.33-26.29,5.22-67.65,0-67.54-12.51.27-22.42,239.13-9.12,240.81,1.53.2-17.98-119.8,42.57-167.4,53.17-41.79,165.39,48.85,243.24,11.75,9.21-4.4,28.86-13.75,27.36-20.55-1.86-8.42-36.18-13.23-42.57-2.94-5.96,9.6,10.05,36.09,30.4,41.12,33.53,8.26,76.56-25.37,82.1-76.35,3.24-29.77.07-64.02-12.16-64.6-13.1-.63-22.72,31.19-18.24,64.6,6.88,51.33,51.2,79.55,57.77,82.23"/>
+          <path d="M204.75,151.9c27.27,66.04,44.47,60.04,52.29,58.22,11.4-2.67,10.16-46.26,17.43-46.58,7.75-.33,9.18,49.29,23.24,52.4,9.9,2.17,100.7-58.97,136.54-148.44"/>
+        </g>
+        <g transform="rotate(0,98,220)" opacity="0.3"><use href="#bladeA"/><use href="#bladeB"/></g>
+        <g transform="rotate(10,98,220)"><use href="#bladeA"/><use href="#bladeB"/></g>
+      </svg>
+
+      <div class="ogp__text">
+        <p class="ogp__eyebrow">QWEL.DESIGN — CRAFTS IN VANILLA JS</p>
+        <p class="ogp__title">QWEL<br><em>in Action</em></p>
+        <p class="ogp__lead">フルスクラッチのUI/UXクラフト集</p>
+      </div>
+
+      <div class="ogp__footer">
+        <span>DAY FLIGHT</span>
+        <span>qwel.design</span>
+      </div>
+    </div>
+
+    <script>
+      /**
+       * 雲海 (js/dot-band.js の昼のプリセットを静止画として描く)
+       * 書き出すたびに雲の形が変わらないよう, 乱数の種を固定する
+       */
+      function seededRandom(seed) {
+        return () => {
+          seed |= 0;
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      const random = seededRandom(19840209);
+      const gaussian = () => Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(Math.PI * 2 * random());
+
+      const canvas = document.querySelector('.ogp__clouds');
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+
+      // 昼のプリセット (帯は水平で, 画面の下寄り)
+      const centerY = height * 0.95;
+      const sigma = height * 0.08;
+      const count = 150;
+      const edgeFade = 0.5;
+      const opacity = 0.15;
+
+      ctx.fillStyle = '#209fdf'; // primary
+      for (let i = 0; i < count; i++) {
+        const seed = random();
+        const v = gaussian() * 0.5;
+        const x = random() * (width + 80) - 40;
+        const y = centerY + v * sigma * 2;
+        const r = 8 + seed * 30;
+        ctx.globalAlpha = (0.5 + seed * 0.5) * Math.exp(-(v ** 2) * edgeFade) * opacity;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    </script>
+  </body>
+</html>

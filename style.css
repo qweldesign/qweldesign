@@ -1146,7 +1146,7 @@ button, input, select, textarea {
   --flight-ink: var(--color--darkest);
   --flight-ink-dim: var(--color--darker);
   --flight-star: var(--color--primary);
-  --flight-lamp: oklch(55% 0.145 58deg);
+  --flight-lamp: oklch(60% 0.175 58deg);
   --flight-glow: var(--color--secondary--active);
   --flight-mark: rgba(255, 192, 128, 0.25);
   --flight-rule: rgba(32, 159, 223, 0.25);
