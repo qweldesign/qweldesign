@@ -2,6 +2,10 @@
 import ActionCore from './js/action-core.js';
 new ActionCore.Preset();
 
+// Milky Way (背景の天の川)
+import MilkyWay from './js/milky-way.js';
+new MilkyWay();
+
 /**
  * Auto Copyright
  * © 2026 QWEL.DESIGN (https://qwel.design)

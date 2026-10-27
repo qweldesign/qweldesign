@@ -17,17 +17,18 @@
     <meta name="twitter:image" content="https://qwel.design/ogp.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Noto+Sans:wght@100..900&family=Noto+Serif:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Noto+Sans:wght@100..900&family=Noto+Serif:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
     <link rel="icon" href="./favicon.ico">
   </head>
-  <body>
+  <body class="is-nightFlight">
     <div data-scroll-sentinel></div>
+    <canvas class="milkyWay" data-milky-way aria-hidden="true"></canvas>
     <header id="header" class="header" data-active-header>
       <nav id="gNav" class="gNav">
         <h1 id="siteBrand" class="gNav__siteBrand" data-site-brand>
           <a href="/">
-            <img src="./assets/logo_animation.svg" alt="QWEL in Action">
+            <img src="./assets/logo_night.svg" alt="QWEL in Action">
           </a>
         </h1>
         <ul class="gNav__primaryMenu visible-lg" data-primary-menu>
@@ -39,12 +40,13 @@
       </nav>
     </header>
     <main>
+      <div class="nightHero">
+        <p class="nightHero__title">QWEL<br><em>in Action</em></p>
+        <p class="nightHero__lead">フルスクラッチのUI/UXクラフト集</p>
+      </div>
       <section class="section">
-        <div class="section__inner section__inner">
+        <div class="section__inner">
           <div class="section__container">
-            <figure class="section__figure">
-              <img src="./assets/fig_about.jpg" loading="lazy">
-            </figure>
             <div id="about" class="section__content" data-spy-section>
               <div data-readable>
                 <h2 class="section__heading">About QWEL</h2>
@@ -213,9 +215,6 @@
       <section class="section">
         <div class="section__inner">
           <div class="section__container">
-            <figure class="section__figure" data-readable>
-              <img src="./assets/fig_story.jpg" loading="lazy">
-            </figure>
             <div id="story" class="section__content" data-spy-section>
               <div data-readable>
                 <h2 class="section__heading">A Little Story</h2>
