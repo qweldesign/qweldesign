@@ -7,6 +7,7 @@
   gap: space("large");
   @include container();
   height: 100%;
+  padding-block: space();
   transition: all 0.5s ease;
 
   &__siteBrand {
