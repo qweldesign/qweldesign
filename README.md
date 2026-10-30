@@ -68,54 +68,29 @@ Note: This repository contains the source code for the portfolio site "[QWEL in 
 
 ---
 
-## Creative Projects
+## ライセンス | License
 
-| プロジェクト | リポジトリ | カテゴリー | 特長 |
-|------------------------------------|------------|------------|------------------------------------|
-| [QWEL in Action](https://qwel.design/) | [qweldesign](https://github.com/qweldesign/qweldesign) | Portfolio | 愛読書「星の王子さま」をオマージュした作品集。<br>仕事に関する哲学についても語っている。 |
-| [版画ゆうびん舎](https://hangakobo.com/) | [hangakobo](https://github.com/qweldesign/hangakobo) | Self-made CMS | 版画家おさのなおこのアートギャラリー。<br>phpによるフルスクラッチCMSを運用中。 |
-| [越前海岸盛り上げ隊](https://discoverechizen.com/) | [qwel-wp-discoverechizen](https://github.com/qweldesign/qwel-wp-discoverechizen) | WordPress | 過疎問題に立ち向かう地域の町づくり団体。<br>自身がwebマスターを担って運用している。 |
-| [プログラミング教室](https://ac.qwel.design/) | [qwel-ac](https://github.com/qweldesign/qwel-ac) | SPA | 「つくる」喜びを、子どもたちへ。<br>自身が主催している子ども向けプログラミング教室。 |
-| [ツインズ (版画の灯)](https://hangakobo.com/feature/light/) | [hangakobo-light](https://github.com/qweldesign/hangakobo-light) | SPA | シンメトリーな演出と滑らかな動きを軸に構成。<br>視覚的インパクトを重視した実験的作品。 |
-| [RPG戦闘ロジック](https://github.com/qweldesign/rpg-logic) | [rpg-logic](https://github.com/qweldesign/rpg-logic) | RPG Logic | 自作アルゴリズムによる戦闘シミュレーション。<br>ゲーム設計とUI連携を模索した技術的挑戦。 |
-
----
-
-## Creative Tools
-
-| プロジェクト | 説明 |
-| ------------------------------------------------------------ | ------------------------------ |
-| **[qwel-tools-md-engine](https://github.com/qweldesign/qwel-tools-md-engine)** | Markdownをベースとしたコンテンツ管理・表示のためのエンジン |
-| **[qwel-tools-action-core](https://github.com/qweldesign/qwel-tools-action-core)** | Web開発のための最小 UI/UX コンポーネント集 |
-| **[qwel-tools-slider](https://github.com/qweldesign/qwel-tools-slider)** | スライドアニメーションで遷移するギャラリーコンポーネント |
-| **[qwel-tools-modal](https://github.com/qweldesign/qwel-tools-modal)** | モーダルウィンドウとして機能するギャラリーコンポーネント |
-| **[qwel-tools-fader](https://github.com/qweldesign/qwel-tools-fader)**             | フェードアニメーションで遷移するギャラリーコンポーネント |
-
----
-
-## Repository Categories
-
-| 接頭語 | カテゴリー内容 |
-|------------------|------------------------------------|
-| `qwel-content-*` | 運用系リポジトリ |
-| `qwel-craft-*` | UI/UXなど、機能を持つJSコンポーネント |
-| `qwel-creative-*` | アニメーションやビジュアル表現 (機能性なし) |
-| `qwel-lesson-*` | プログラミング教室教材・実習課題 |
-| `qwel-proto-*` | プロトタイプ・実験プロジェクト |
-| `qwel-tools-*` | 実用的な機能モジュール (PHP/JS) |
-| `qwel-wp-*` | WordPressテーマ・プラグイン |
-
----
-
-## License
+### コード部分 | Code
 
 MIT License
 
-このプロジェクトは, webサイトやランディングページの基本となるUIユーティリティとして自由に使用できることを目的としています。  
-This project is intended to be freely used as a core UI utility for websites and landing pages.  
+このリポジトリのソースコード（HTML、CSS / SCSS、JavaScript 等）は、MITライセンスの下で公開しています。
+詳しくは LICENSE ファイルをご覧ください。
 
-詳しくは LICENSE ファイルをご覧ください。  
-See the LICENSE file for details.  
+The source code in this repository (HTML, CSS / SCSS, JavaScript, etc.) is released under the MIT License.  
+See the LICENSE file for details.
+
+### 文章・画像・その他コンテンツ | Contents
+
+文章、イラスト、画像、ロゴ、その他コンテンツの著作権は、全て QWEL.DESIGN に帰属します。  
+明示的な許可なしに、複製、転載、再利用、再配布することはできません。
+
+All copyrights in the texts, illustrations, images, logos, and other content in this repository belong to QWEL.DESIGN.  
+Reproduction, republication, reuse, or redistribution without explicit permission is not permitted.
+
+なお、第三者のライブラリ、フォント、アイコン等については、それぞれのライセンスに従います。
+
+Third-party libraries, fonts, icons, and other assets are subject to their respective licenses.
 
 ---
 
