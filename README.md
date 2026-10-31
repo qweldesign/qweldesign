@@ -20,6 +20,8 @@ Web開発者としてフリーランスで活動し、広告代理店・制作�
 | 実績③ React/Vue | TypeScript / React / Vueを用いたWebアプリケーション開発 |
 | 得意な技術 | **JavaScriptフルスクラッチ** / 必要に応じてPHPやAPI連携 |
 
+個人実験: **RPG.LOGIC** — TRPG「GURPS」の戦闘ルールをドメインモデルとして実装した、TypeScript / React 製のRPG戦闘ロジック。[デモ](https://rpg-logic.dev) / [リポジトリ](https://github.com/qweldesign/rpg-logic) / [解説書](https://zenn.dev/qweldesign/books/rpg-logic-book)
+
 ### EN
 
 I work as a freelance web developer, handling a wide range of projects commissioned by advertising agencies and production companies.  
@@ -37,6 +39,8 @@ Note: This repository contains the source code for the portfolio site "[QWEL in 
 | Experience ② UI/UX Development | Skilled in interaction design and full scratch implementation with JavaScript (SPA-ready) |
 | Experience ③ React/Vue | Web Application Development Using TypeScript, React, and Vue |
 | Core Skills | **JavaScript from scratch** / PHP and API integration as needed |
+
+Personal lab: **RPG.LOGIC** — an experimental RPG combat-logic system in TypeScript & React, modeling the combat rules of GURPS as a domain. [Live demo](https://rpg-logic.dev) / [Repository](https://github.com/qweldesign/rpg-logic) / [Book](https://zenn.dev/qweldesign/books/rpg-logic-book)
 
 ---
 
