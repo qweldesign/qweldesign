@@ -310,6 +310,30 @@ $flight-colors: (
       }
     }
 
+    &__bannerArea {
+      padding-block: space("medium");
+    }
+
+    &__banner {
+      display: block;
+      transition: opacity 0.35s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      & > img {
+        display: block;
+        aspect-ratio: 2;
+        object-fit: cover;
+        width: min(100%, 42rem);
+        height: auto;
+        margin: auto;
+        border: 2px solid theme-color("secondary");
+        border-radius: space("large");
+      }
+    }
+
     // プロフィール
     &__caption {
       color: var(--flight-ink-dim);
