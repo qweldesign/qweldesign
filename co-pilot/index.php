@@ -17,19 +17,25 @@ require_once dirname(__DIR__) . '/inc/templates/copilot.php';
 // content/options.json の値 (整数は 3 桁区切り)
 $value = fn(string $key): string => e(fill_options('{' . $key . '}'));
 
+// 実績 (content がない環境では空. どちらも空なら, 実績のセクションとメニューごと出さない)
+$records = copilot_records();
+$works = copilot_works();
+$nav = [
+  '#route'   => 'Route',
+  '#records' => 'Flight Records',
+  '#fare'    => 'Fare',
+  '#terms'   => 'Terms',
+  '#contact' => 'Contact',
+];
+if (!$records && !$works) unset($nav['#records']);
+
 render_header([
   'full_title'  => 'Co-Pilot ― 制作会社・広告代理店の方へ | WordPress・UI/UX制作の委託 | QWEL in Action',
   'description' => '福井・越前海岸の QWEL.DESIGN が、制作会社・広告代理店からの委託で、デザインカンプからのコーディング、WordPressのオリジナルテーマ開発、JavaScriptによるフルスクラッチのUI/UX実装をお受けします。対応範囲、料金の目安、取引条件のご案内です。',
   'path'        => 'co-pilot/',
   'image'       => 'content/images/banners/co-pilot.jpg',
   'image_alt'   => 'Co-Pilot ― 制作会社・広告代理店の方へ',
-  'nav'         => [
-    '#route'   => 'Route',
-    '#records' => 'Flight Records',
-    '#fare'    => 'Fare',
-    '#terms'   => 'Terms',
-    '#contact' => 'Contact',
-  ],
+  'nav'         => $nav,
 ]);
 ?>
     <main>
@@ -93,6 +99,7 @@ render_header([
       </section>
 
       <!-- 実績 -->
+<?php if ($records || $works) { ?>
       <section class="section">
         <div class="section__inner">
           <div class="section__container">
@@ -104,9 +111,13 @@ render_header([
               <div data-readable>
                 <p>多くのご依頼は秘密保持のため、匿名で掲載しています。ご紹介しているのは一部です。</p>
               </div>
-<?php render_copilot_records(); ?>
+<?php if ($records) { ?>
+<?php render_copilot_records($records); ?>
+<?php } ?>
+<?php if ($works) { ?>
               <h3 class="section__caption" data-readable>公開している制作と運営 ― 越前海岸の地域サイト</h3>
-<?php render_copilot_shots(); ?>
+<?php render_copilot_shots($works); ?>
+<?php } ?>
               <div data-readable>
                 <p class="copilotNote">コードの見本は <a href="https://github.com/qweldesign" target="_blank" rel="noopener">GitHub</a> でご覧いただけます。</p>
               </div>
@@ -114,6 +125,7 @@ render_header([
           </div>
         </div>
       </section>
+<?php } ?>
 
       <!-- 品質の基準 -->
       <section class="section">

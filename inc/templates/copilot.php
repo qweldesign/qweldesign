@@ -17,9 +17,20 @@
 require_once dirname(__DIR__) . '/bootstrap.php';
 require_once dirname(__DIR__) . '/ContentLoader.php';
 
+// 匿名の実績 (content/co-pilot/records.json. content がない環境では空)
+function copilot_records(): array {
+  return content_json('co-pilot/records')['records'] ?? [];
+}
+
+// 公開している実績 (content/works/*.md を order の小さい順に. content がない環境では空)
+function copilot_works(): array {
+  $works = (new ContentLoader(site_file('content/works')))->load();
+  usort($works, fn($a, $b) => (int)($a['order'] ?? PHP_INT_MAX) <=> (int)($b['order'] ?? PHP_INT_MAX));
+  return $works;
+}
+
 // 匿名の実績 (業種・案件の種類 / 担当した範囲・使った技術 の2列)
-function render_copilot_records(): void {
-  $records = content_json('co-pilot/records')['records'] ?? [];
+function render_copilot_records(array $records): void {
 ?>
               <ul class="copilotRecords" data-readable>
 <?php foreach ($records as $record) { ?>
@@ -32,10 +43,8 @@ function render_copilot_records(): void {
 <?php
 }
 
-// 公開している実績の画面 (content/works/*.md を order の小さい順に)
-function render_copilot_shots(): void {
-  $works = (new ContentLoader(site_file('content/works')))->load();
-  usort($works, fn($a, $b) => (int)($a['order'] ?? PHP_INT_MAX) <=> (int)($b['order'] ?? PHP_INT_MAX));
+// 公開している実績の画面
+function render_copilot_shots(array $works): void {
 ?>
               <ul class="copilotShots" data-readable>
 <?php foreach ($works as $work) { ?>

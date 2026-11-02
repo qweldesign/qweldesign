@@ -104,7 +104,8 @@ $works = content_engine('works', ['slug' => null, 'page' => 1])->get_posts(1, PH
         </div>
       </section>
 
-      <!-- 実績 -->
+      <!-- 実績 (content がない環境では空なので, セクションごと出さない) -->
+<?php if ($works) { ?>
       <section id="works" class="studio__section is-blue">
         <div class="studio__inner">
           <p class="studio__label">Works</p>
@@ -127,6 +128,7 @@ $works = content_engine('works', ['slug' => null, 'page' => 1])->get_posts(1, PH
           </ul>
         </div>
       </section>
+<?php } ?>
 
       <!-- 壊れにくい理由 -->
       <section class="studio__section">
