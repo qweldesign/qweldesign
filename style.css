@@ -23,10 +23,16 @@
   --color--lightest--active: rgb(191.25, 191.25, 191.25);
   --color--primary: #209fdf;
   --color--primary--active: rgb(143.5, 207, 239);
+  --color--primary--dark: hsl(200.1, 74.9%, 35%);
+  --color--primary--light: hsl(200.1, 74.9%, 95%);
   --color--secondary: #ffc080;
   --color--secondary--active: rgb(255, 128.7519685039, 0.5);
+  --color--secondary--dark: hsl(30.2, 100%, 35%);
+  --color--secondary--light: hsl(30.2, 100%, 95%);
   --color--tertiary: #99cc33;
   --color--tertiary--active: rgb(76.5, 102, 25.5);
+  --color--tertiary--dark: hsl(80, 60%, 35%);
+  --color--tertiary--light: hsl(80, 60%, 95%);
   --container-width--sm: 600px;
   --container-width--md: 800px;
   --container-width--lg: 1000px;

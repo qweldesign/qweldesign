@@ -1,5 +1,8 @@
 // Color System
 
+@use "sass:color";
+@use "sass:math";
+
 // 配色を決定する
 
 $grays:            (
@@ -20,9 +23,78 @@ $colors:           (
 $theme-colors:     map-merge($grays, $colors) !default;
 $theme-accent:     "primary" !default;
 
-// 配色の配列から色指定を抽出する関数
-@function theme-color($key: $theme-accent) {
-  @return var(--color--#{$key});
+// 配色の段階 (メインカラー $colors の色相と彩度はそのままに, 明度だけを決める)
+// base:  メインカラーそのもの (線・面)
+// dark:  白地に置く文字 (4.5:1 以上のコントラストが必要)
+// light: 帯やカードの面
+$color-tones:      (
+  dark:              35%,
+  light:             95%
+) !default;
+
+// 色ごとに明度を変えたい場合 (例: (primary: (dark: 30%)))
+// 黄色・黄緑など明るく見える色は, dark が 35% では白地で 4.5:1 に届かないことがある
+$color-tone-overrides: () !default;
+
+// メインカラーから段階の色を導く関数 (Sass の色を返す. :root の出力に使う)
+@function color-tone($key, $tone: "base") {
+  $color: map-get($colors, $key);
+  @if ($color == null) {
+    @error "color-tone: #{$key} は $colors にありません";
+  }
+  @if ($tone == "base") {
+    @return $color;
+  }
+  $lightness: map-get($color-tones, $tone);
+  $override: map-get($color-tone-overrides, $key);
+  @if ($override and map-has-key($override, $tone)) {
+    $lightness: map-get($override, $tone);
+  }
+  @if ($lightness == null) {
+    @error "color-tone: 段階 #{$tone} は $color-tones にありません";
+  }
+  // hsl() のまま返す (CSS でも hsl(色相, 彩度, 明度) と読めるように)
+  @return color.change(color.to-space($color, hsl), $lightness: $lightness);
+}
+
+// 色を hsl() の文字列にする (:root の出力用. 色相・彩度は小数第1位までに丸める)
+@function hsl-string($color) {
+  $hsl: color.to-space($color, hsl);
+  $h: math.div(math.round(color.channel($hsl, "hue", $space: hsl) * 10), 10);
+  $s: math.div(math.round(color.channel($hsl, "saturation", $space: hsl) * 10), 10);
+  $l: math.div(math.round(color.channel($hsl, "lightness", $space: hsl) * 10), 10);
+  @return unquote("hsl(#{math.div($h, 1deg)}, #{$s}, #{$l})");
+}
+
+// 相対輝度とコントラスト比 (WCAG 2.x)
+@function relative-luminance($color) {
+  $sum: 0;
+  $weights: ("red": 0.2126, "green": 0.7152, "blue": 0.0722);
+  @each $channel, $weight in $weights {
+    $value: math.div(color.channel($color, $channel, $space: rgb), 255);
+    @if ($value <= 0.04045) {
+      $value: math.div($value, 12.92);
+    } @else {
+      $value: math.pow(math.div($value + 0.055, 1.055), 2.4);
+    }
+    $sum: $sum + $value * $weight;
+  }
+  @return $sum;
+}
+
+@function contrast-ratio($a, $b) {
+  $la: relative-luminance($a) + 0.05;
+  $lb: relative-luminance($b) + 0.05;
+  // 表示しやすいよう, 小数第2位までに丸める
+  @return math.div(math.round(math.div(math.max($la, $lb), math.min($la, $lb)) * 100), 100);
+}
+
+// 配色の配列から色指定を抽出する関数 ($tone を付けると段階の色: dark, light)
+@function theme-color($key: $theme-accent, $tone: null) {
+  @if ($tone == null or $tone == "base") {
+    @return var(--color--#{$key});
+  }
+  @return var(--color--#{$key}--#{$tone});
 }
 
 // bodyの設定
@@ -62,13 +134,16 @@ $body-color:       theme-color("darkest") !default;
   }
 }
 
+// アクセント (ホバーなど) の明度の変化量 (区画ごとに _variables.scss で変えられる)
+$color-active-amount: 25% !default;
+
 // テーマカラーにアクセントを付ける
 @function color-activate($key) {
   $color: map-get($theme-colors, $key);
   @if (get-color-yiq($key)) {
-    @return lighten($color, 25%);
+    @return lighten($color, $color-active-amount);
   } @else {
-    @return darken($color, 25%);
+    @return darken($color, $color-active-amount);
   }
 }
 

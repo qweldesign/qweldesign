@@ -71,9 +71,14 @@ function og_image(string $img): array {
 // 投稿タイプの設定 (未指定の項目は既定値で補う)
 function post_type(string $type): array {
   if (!isset(SITE_POST_TYPES[$type])) {
-    throw new InvalidArgumentException("投稿タイプ {$type} は config.php にありません");
+    throw new InvalidArgumentException("投稿タイプ {$type} はこの区画 (config-common.php の SITE_SECTIONS) にありません");
   }
-  return SITE_POST_TYPES[$type] + [
+  return post_type_defaults($type, SITE_POST_TYPES[$type]);
+}
+
+// 投稿タイプの設定の未指定の項目を, 既定値で補う (区画をまたいで使う. サイトマップなど)
+function post_type_defaults(string $type, array $config): array {
+  return $config + [
     'label'     => $type,
     'path'      => $type . '/',
     'dir'       => 'content/' . $type,
@@ -168,12 +173,12 @@ function content_json(string $name): array {
   return $cache[$name] = $data;
 }
 
-// 数値の設定 (content/options.json. 返信の日数, 最低受注額など)
+// 数値などの設定 (区画の設定の SITE_OPTIONS の JSON. 本家は content/options.json, 工房は content/small-site-studio/options.json)
 function site_option(string $key): mixed {
-  return content_json('options')[$key] ?? null;
+  return content_json(defined('SITE_OPTIONS') ? SITE_OPTIONS : 'options')[$key] ?? null;
 }
 
-// 文中の {名前} を content/options.json の値に置き換える (整数は 3 桁区切り. 例: '{reply_days}営業日以内')
+// 文中の {名前} を site_option() の値に置き換える (整数は 3 桁区切り. 例: '{reply_days}営業日以内')
 function fill_options(string $text): string {
   return preg_replace_callback('/\{(\w+)\}/', function ($m) {
     $value = site_option($m[1]);

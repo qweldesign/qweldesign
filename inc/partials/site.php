@@ -75,7 +75,7 @@ function render_header(array $page = []): void {
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="<?= e(SITE_FONTS_URL) ?>">
 <?php } ?>
-    <link rel="stylesheet" href="<?= path('style.css') ?>">
+    <link rel="stylesheet" href="<?= e(SITE_BASE . SITE_STYLESHEET) ?>">
     <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
     <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
@@ -157,7 +157,7 @@ function render_footer(): void {
 <?php } ?>
       <small class="footer__copyright">&copy; <?= e(copyright_years()) ?> <?= e(SITE_OWNER) ?></small>
     </footer>
-    <script src="<?= path('init.js') ?>" type="module"></script>
+    <script src="<?= e(SITE_BASE) ?>init.js" type="module"></script>
   </body>
 </html>
 <?php

@@ -1,0 +1,14 @@
+{
+  "_note": "ちいさなサイト工房 (/small-site-studio/) とチラシ (tools/flyer/) に出す値. 金額は税別の整数で書く (税込はテンプレートで計算する). 文中では {reply_days} のように名前で差し込む",
+  "tagline": "軽いサイトを、丁寧に作る。",
+  "price_build": 210000,
+  "price_care": 3500,
+  "tax_rate": 0.1,
+  "care_updates": 1,
+  "reply_days": 3,
+  "build_weeks": 3,
+  "price_as_of": "2026年",
+  "invoice": true,
+  "line_url": "",
+  "profile_image": "content/images/profile.jpg"
+}

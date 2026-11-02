@@ -1,7 +1,7 @@
 <?php
 /**
  * 本家 (QWEL in Action) の設定
- * サイト名や URL, メニュー, 投稿タイプ, お問い合わせの項目など, 本家の区画だけの値をここにまとめる
+ * サイト名, メニュー, お問い合わせの項目など, 本家の区画だけの値をここにまとめる (ルート・投稿タイプは config-common.php)
  * 本家とちいさなサイト工房で共通の値は config-common.php に書く
  * (inc/ 以下のエンジン・テンプレートには, サイト固有の値を書かない)
  *
@@ -12,17 +12,14 @@
 
 require_once __DIR__ . '/config-common.php';
 
-// この区画のヘッダー・フッターの部品 (inc/partials/{SITE_LAYOUT}.php)
+// この区画のヘッダー・フッターの部品 (inc/partials/{SITE_LAYOUT}.php) と, スタイルシート (リポジトリのルートからのパス)
 const SITE_LAYOUT = 'site';
-
-
+const SITE_STYLESHEET = 'style.css';
 
 // サイト名 (<title> の「ページ名 | サイト名」と og:site_name に使う)
 const SITE_NAME = 'QWEL in Action';
 // トップページの <title> (サイト名だけでなく, 何のサイトかまで伝える)
 const SITE_TOP_TITLE = 'QWEL in Action | 福井・越前海岸から、フルスクラッチのWeb開発';
-// この区画のルートのパス (ドメイン直下なので '/'. ページの URL は path() でここから作る)
-const SITE_ROOT = '/';
 // サイトの説明 (description の既定値)
 const SITE_DESCRIPTION = '福井市の越前海岸を拠点にする QWEL.DESIGN (伊藤大悟) のポートフォリオです。地域の活動に加わりながら、WordPress のオリジナルテーマ開発や、JavaScript によるフルスクラッチの UI/UX 実装を手掛けています。';
 // OGP 画像の既定値 (サイトのルートからのパス. 原稿は tools/ogp/)
@@ -70,48 +67,15 @@ const SITE_SNS = [
 // 著作権表示 (開始年 - 今年 運営者)
 const SITE_START_YEAR = 2019;
 
-/**
- * 投稿タイプ
- * キー: 投稿タイプの名前
- * label: 表示名 (一覧の見出し, パンくず)
- * path: 一覧の URL (サイトのルートからのパス)
- * dir: Markdown を置くディレクトリ (サイトのルートからのパス)
- * list: 一覧ページをサイトマップに載せるか (規定で true)
- * items: 個別のページを作るか (規定で true. false なら一覧から各作品の url へ直接リンクし, サイトマップにも載せない)
- * count: 一覧の1ページあたりの件数 (null で全件)
- * show_date: 日付を表示するか
- * lead: 一覧の見出しの下の文
- *
- * creative, tools は一覧だけ (items: false). 各作品の中身は, それぞれのリポジトリから /creative/xxx/, /tools/xxx/ に置く
- * そのため creative/, tools/ には投稿タイプ用の .htaccess (リライト) を置かない (作品のディレクトリを横取りしないように)
- */
-const SITE_POST_TYPES = [
-  'creative' => [
-    'label'     => 'Creative Crafts',
-    'path'      => 'creative/',
-    'dir'       => 'content/creative',
-    'items'     => false,
-    'count'     => null,
-    'show_date' => false,
-    'lead'      => 'Vanilla JS でスクラッチした、アニメーションやインタラクティブな表現作品の一覧です。',
-  ],
-  'tools' => [
-    'label'     => 'Creative Tools',
-    'path'      => 'tools/',
-    'dir'       => 'content/tools',
-    'items'     => false,
-    'count'     => null,
-    'show_date' => false,
-    'lead'      => 'PHP / JS でスクラッチした、実用的な機能モジュールの一覧です。',
-  ],
-];
+// 数値などの設定 (content/options.json. 返信の日数, 最低受注額など. site_option(), fill_options() で読む)
+const SITE_OPTIONS = 'options';
 
-
-// 投稿タイプ以外のページ (サイトのルートからのパス. サイトマップに載せる)
-const SITE_PAGES = [
-  'co-pilot/',
-  'contact/',
-];
+// 区画のルート・投稿タイプ・ページは, config-common.php の SITE_SECTIONS['main'] に書く
+// (サイトマップが全区画の URL を1つにまとめるため)
+const SITE_SECTION = 'main';
+const SITE_ROOT = SITE_SECTIONS[SITE_SECTION]['root'];
+const SITE_POST_TYPES = SITE_SECTIONS[SITE_SECTION]['post_types'];
+const SITE_PAGES = SITE_SECTIONS[SITE_SECTION]['pages'];
 
 /**
  * お問い合わせフォーム (/contact/. Co-Pilot の #contact にも同じフォームを置く)

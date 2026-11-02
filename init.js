@@ -1,6 +1,12 @@
-// Action Core (ヘッダー・ドロワーメニュー・スクロール位置に合わせたメニューの点灯・BackToTop など)
+// Action Core
 import ActionCore from './js/action-core.js';
-new ActionCore.Preset();
+if (document.querySelector('[data-primary-menu]')) {
+  // 本家: ヘッダー・ドロワーメニュー・スクロール位置に合わせたメニューの点灯・BackToTop など一式
+  new ActionCore.Preset();
+} else {
+  // 工房: BackToTop だけ (ヘッダーにメニューがないので, ドロワーメニューは作らない)
+  new ActionCore.BackToTop();
+}
 
 // Scene Switch (昼の便・夜の便の切り替えボタン)
 import SceneSwitch from './js/scene-switch.js';
@@ -15,7 +21,7 @@ new DotBand();
 import FlightStatus from './js/flight-status.js';
 new FlightStatus('open');
 
-// Contact Form (お問い合わせ: /contact/ と Co-Pilot の #contact → /contact/confirm/ → api/send.php → /contact/thanks/)
-// 各画面の URL は, フォームと確認画面の data 属性 (inc/templates/contact.php が出力する) から読む
+// Contact Form (お問い合わせ. 本家: /contact/ と Co-Pilot の #contact, 工房: #contact と /small-site-studio/contact/)
+// 各画面の URL (確認・完了・送信先) は, フォームと確認画面の data 属性 (各区画の contact テンプレートが出力する) から読む
 import ContactForm from './js/contact-form.js';
 new ContactForm();

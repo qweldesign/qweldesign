@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $env_path      = SITE_CONTACT['env'];
 $site_title    = SITE_NAME;
 $site_url      = SITE_URL;
-$mailFooter    = SITE_CONTACT['reply_footer'] ?? '';
+$mailFooter    = fill_options(SITE_CONTACT['reply_footer'] ?? '');
 $send_interval = (int) (SITE_CONTACT['interval'] ?? 0);
 $form          = new ContactForm(SITE_CONTACT_FIELDS);
 

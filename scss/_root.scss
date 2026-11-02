@@ -6,6 +6,19 @@
   @each $key, $color in $theme-colors {
     --color--#{$key}: #{$color};
     --color--#{$key}--active: #{color-activate($key)};
+
+    // メインカラー ($colors) は, 段階の色 (dark, light) も出力する
+    @if (map-has-key($colors, $key)) {
+      @each $tone, $lightness in $color-tones {
+        --color--#{$key}--#{$tone}: #{hsl-string(color-tone($key, $tone))};
+      }
+
+      // dark は白地の文字に使うので, 読める濃さか確かめる
+      $ratio: contrast-ratio(color-tone($key, "dark"), map-get($grays, "lightest"));
+      @if ($ratio < 4.5) {
+        @warn "--color--#{$key}--dark の白地とのコントラストが #{$ratio}:1 です (4.5:1 以上が必要). $color-tone-overrides で dark を下げてください";
+      }
+    }
   }
 
   @each $key, $width in $container-widths {
