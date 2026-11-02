@@ -1,5 +1,8 @@
 # ちいさなサイト工房の区画 (/small-site-studio/) の設定 (Apache)
 
+# 存在しない URL は, 工房のレイアウトの 404 で表示する (本家の ErrorDocument を上書きする)
+ErrorDocument 404 /small-site-studio/404.php
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 

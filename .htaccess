@@ -5,6 +5,9 @@
   Require all denied
 </FilesMatch>
 
+# 存在しない URL は 404.php で表示する (ドメインからの絶対パス. リポジトリをサブディレクトリに置くときは書き換える)
+ErrorDocument 404 /404.php
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
