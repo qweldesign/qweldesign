@@ -1,0 +1,12 @@
+{
+  "name": "small-site-studio-flyer",
+  "private": true,
+  "description": "ちいさなサイト工房のチラシの書き出し (node export.js [dpi])",
+  "scripts": {
+    "export": "node export.js"
+  },
+  "devDependencies": {
+    "pdf-lib": "1.17.1",
+    "playwright": "1.63.0"
+  }
+}
