@@ -1,24 +1,21 @@
 /**
- * Header
+ * Layout - Header
  */
 
 .header {
-  width: min(100%, 768px);
-  margin: 0 auto;
-  padding: 0 clamp(0.75rem, 2%, 1.5rem);
-}
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  height: 9rem;
+  background-color: rgba(map-get($theme-colors, "lightest"), 0.7);
+  transition: all 0.5s ease;
 
-#logo {
-  width: 7.2rem;
-  margin: 0;
-}
+  &:not(.is-active) {
+    height: 6rem;
+  }
 
-// ナビ (config.php の SITE_NAV)
-.header__nav ul {
-  @include list-unstyled();
-  display: flex;
-  flex-wrap: wrap;
-  gap: space("x-small") space("medium");
-  margin: 0;
-  font-size: font-size("small");
+  &:hover {
+    background-color: rgba(map-get($theme-colors, "lightest"), 1.0);
+  }
 }

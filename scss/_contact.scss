@@ -1,0 +1,168 @@
+/**
+ * Project - Contact
+ * お問い合わせフォームの共通部品 (Co-Pilot /co-pilot/ と, お問い合わせ /tools/contact-form/ で使う)
+ * 入力 (各ページの #contact) → 確認 (各ページの confirm.html) → 送信 (/api/send.php) → 完了 (各ページの thanks.html)
+ * 画面の受け渡しは js/contact-form.js, 送信は api/send.php と inc/ (qwel-tools-contact-form を移植. 設定は inc/.env)
+ * 配色はすべて --flight-* (scss/_flight.scss) を使い, 昼の便・夜の便のどちらでも成り立たせる
+ */
+
+// 入力画面 (フォームのあるページの #contact)
+.contactForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: space("medium") space("large");
+  margin-block: space("medium") 0;
+  padding: space("large");
+  border: 1px solid var(--flight-rule);
+  border-radius: space("small");
+  background: var(--flight-button);
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: space("x-small");
+    min-width: 0;
+
+    &.is-wide {
+      grid-column: 1 / -1;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: space("small");
+      border: 1px solid var(--flight-rule);
+      border-radius: space("x-small");
+      background: var(--flight-horizon);
+      color: var(--flight-ink);
+      font: inherit;
+      font-size: 1rem; // iOS で入力時に拡大しないよう 16px 以上
+      box-sizing: border-box;
+
+      &:focus-visible {
+        outline: 1px solid var(--flight-lamp);
+        outline-offset: 2px;
+      }
+    }
+
+    textarea {
+      resize: vertical;
+    }
+  }
+
+  &__label {
+    font-size: font-size("small");
+  }
+
+  &__required,
+  &__optional {
+    margin-inline-start: space("x-small");
+    font-family: $flight-font-mono;
+    font-size: font-size("x-small");
+    letter-spacing: 0.08em;
+  }
+
+  &__required {
+    color: var(--flight-lamp);
+  }
+
+  &__optional {
+    color: var(--flight-ink-dim);
+  }
+
+  &__actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: space("medium");
+    margin-block-start: space("small");
+
+    // 確認画面の input (送信する, 前画面に戻る) にも .button の見た目を使う
+    .button {
+      cursor: pointer;
+    }
+
+    .button:disabled {
+      opacity: 0.5;
+      cursor: wait;
+    }
+  }
+
+  // ボット対策の見えない入力欄 (人には表示しない)
+  &__honeypot {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+}
+
+// 確認画面の入力内容 (js/contact-form.js が tr を足していく)
+.contactConfirm {
+  width: 100%;
+  margin-block: space("medium");
+  border-collapse: collapse;
+  font-size: font-size("small");
+
+  th,
+  td {
+    padding: space("small");
+    border: 0;
+    border-top: 1px solid var(--flight-rule);
+    background: transparent;
+    color: var(--flight-ink);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  tr:last-child > * {
+    border-bottom: 1px solid var(--flight-rule);
+  }
+
+  th {
+    width: 10rem;
+    color: var(--flight-ink-dim);
+    font-weight: 400;
+  }
+
+  td {
+    white-space: pre-wrap; // 本文の改行をそのまま表示する
+    overflow-wrap: anywhere;
+  }
+
+  @media (max-width: breakpoint("sm")) {
+    th,
+    td {
+      display: block;
+      width: auto;
+    }
+
+    th {
+      padding-block-end: 0;
+    }
+
+    td {
+      border-top: 0;
+    }
+  }
+}
+
+// 送信に失敗したときの知らせ
+.contactMessage {
+  margin: 0;
+  padding: space("small") space("medium");
+  border: 1px solid var(--flight-lamp);
+  border-radius: space("x-small");
+  color: var(--flight-ink);
+  font-size: font-size("small");
+  white-space: pre-line;
+}
+
+// 補足の文 (迷惑メールの案内など)
+.contactNote {
+  color: var(--flight-ink-dim);
+  font-size: font-size("small");
+}

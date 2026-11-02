@@ -22,6 +22,9 @@ require_once __DIR__ . '/postList.php';
  *   latest: 個別記事の横に並べる最新記事の件数 (規定で 4. 0 で出さない)
  *   adjacent: 個別記事の下に前後の記事へのリンクを出すか (規定で true)
  *   description: 一覧ページの description (規定で lead)
+ *   meta: 個別記事の見出しの下に出力する関数 (引数は ContentEngine. frontmatter の独自の項目を出すときなど)
+ *   after: 個別記事の本文の後に出力する関数 (引数は ContentEngine. 問い合わせへの案内など)
+ *   head: 個別記事の <head> の値 (render_header の $page) を受け取り, 書き換えて返す関数 (引数は $page と ContentEngine)
  */
 function render_posts(string $type, array $options = []): void {
   $config = post_type($type);
@@ -41,7 +44,10 @@ function render_posts(string $type, array $options = []): void {
       'description' => $cms->get_meta('summary'),
       'path'        => post_path($type, ['slug' => $cms->get_meta('slug')]),
       'image'       => $cms->get_meta('img'),
+      'image_alt'   => $cms->get_title(),
     ];
+    // title, description などを投稿タイプに合わせて書き換える
+    if (isset($options['head'])) $page = $options['head']($page, $cms);
   } else {
     $pageNumber = $cms->get_page();
     $page = [
@@ -69,9 +75,11 @@ function render_posts(string $type, array $options = []): void {
 <?php if ($config['show_date'] && $cms->get_meta('date')) { ?>
           <p class="main__date"><?= date_tag($cms->get_meta('date')) ?></p>
 <?php } ?>
+<?php if (isset($options['meta'])) $options['meta']($cms); ?>
           <div class="entry">
 <?= $cms->get_content() ?>
           </div>
+<?php if (isset($options['after'])) $options['after']($cms); ?>
 <?php if ($options['adjacent'] ?? true) { ?>
 <?php $adjacent = $cms->get_adjacent(); ?>
           <nav class="postNav" aria-label="前後の記事">

@@ -87,6 +87,8 @@ function render_contact_field(string $name, array $field): void {
   $label    = $field['label'] ?? $name;
   $required = !empty($field['required']);
   $mark     = $required ? '<span class="is-required">*必須</span>' : '';
+  // どれか1つの入力が必要な項目 (required_group)
+  if (!$required && !empty($field['required_group'])) $mark = '<span class="is-required">*いずれか必須</span>';
   // 入力欄に付ける属性
   $attrs = ' name="' . e($name) . '"';
   if ($required && $type !== 'checkbox') $attrs .= ' required';
@@ -154,8 +156,13 @@ function render_contact_confirm(): void {
 function render_contact_thanks(): void {
 ?>
       <div class="thanks">
-        <p>お問い合わせありがとうございました。<br>ご入力いただいたメールアドレスに、確認のメールをお送りしました。</p>
-        <p><a href="<?= e(path()) ?>">トップへ戻る</a></p>
+        <p>お問い合わせありがとうございました。
+          <br>ご入力いただいたメールアドレスに、確認のメールをお送りしました。
+          <br>内容を確認のうえ、3営業日以内にお返事します。
+        </p>
+        <p>確認のメールが届かない場合は、迷惑メールのフォルダもご確認ください。</p>
+        <p>&nbsp;
+        <p><a href="<?= e(path()) ?>">「ちいさなサイト工房」のトップへ戻る</a></p>
       </div>
 <?php
 }

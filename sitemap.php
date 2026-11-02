@@ -21,8 +21,11 @@ foreach (array_keys(SITE_POST_TYPES) as $type) {
   if ($config['list']) {
     $urls[] = ['path' => type_path($type), 'date' => $latest];
   }
-  foreach ($posts as $post) {
-    $urls[] = ['path' => post_path($type, $post), 'date' => $post['date'] ?? ''];
+  // 個別のページを作らない投稿タイプ (items: false) は, 一覧だけを載せる
+  if ($config['items']) {
+    foreach ($posts as $post) {
+      $urls[] = ['path' => post_path($type, $post), 'date' => $post['date'] ?? ''];
+    }
   }
 }
 

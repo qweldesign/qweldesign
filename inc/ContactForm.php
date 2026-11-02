@@ -90,6 +90,20 @@ class ContactForm {
       $values[$name] = $value;
     }
 
+    // どれか1つの入力が必要な項目のまとまり (required_group に同じ名前を書いた項目. 例: メールか電話番号)
+    $groups = [];
+    foreach ($this->fields as $name => $field) {
+      if (!empty($field['required_group'])) $groups[$field['required_group']][] = $name;
+    }
+    foreach ($groups as $names) {
+      // 形式の誤りなどで既にエラーがある場合は, そちらを優先する
+      if (array_intersect_key($errors, array_flip($names))) continue;
+      $filled = array_filter($names, fn($name) => ($values[$name] ?? '') !== '' && ($values[$name] ?? []) !== []);
+      if ($filled) continue;
+      $labels = array_map(fn($name) => $this->fields[$name]['label'] ?? $name, $names);
+      $errors[$names[0]] = implode('か', $labels) . (count($names) > 2 ? 'のいずれか' : 'のどちらか') . 'を入力してください';
+    }
+
     return ['values' => $values, 'errors' => $errors];
   }
 

@@ -1,0 +1,223 @@
+/**
+ * Project - Section
+ */
+
+.section {
+  &__inner {
+    padding-block: space();
+    background-color: $body-bg;
+  }
+
+  &__container {
+    @include container("md");
+    padding-block: space();
+  }
+
+  &__row {
+    @include row();
+  }
+
+  &__col {
+    padding: space("medium");
+  }
+
+  &__heading {
+    margin: space("medium") 0 space();
+
+    &::after {
+      content: "✶";
+      color: theme-color("secondary");
+      font-size: 1.25em;
+      margin-inline-start: space("x-small");
+    }
+  }
+
+  &__subHeading {
+    margin: 0 0 space("medium");
+    color: theme-color("dark");
+    font-size: 0.875rem;
+    letter-spacing: var(--heading-letter-spacing);
+
+    &::before {
+      content: "―";
+      color: theme-color("secondary");
+      font-weight: 700;
+      margin-inline-end: space("x-small");
+    }
+  }
+
+  &__content {
+    p {
+      text-align: justify;
+    }
+
+    strong, em {
+      font-weight: 600;
+      font-style: normal;
+      color: theme-color("darker");
+      background-color: rgba(map-get($theme-colors, "secondary"), 0.15);
+      padding: 0 0.2em;
+      border-radius: 0.2em;
+    }
+  }
+
+  &__list {
+    list-style-type: none;
+    padding: 0 space("medium");
+  }
+
+  &__listItem {
+    position: relative;
+
+    &::before {
+      content: '✶';
+      position: absolute;
+      top: -0.4em;
+      right: calc(100% + 0.4em);
+      color: color-active($theme-accent);
+      font-size: 1.5em;
+    }
+
+    h4 {
+      width: fit-content;
+      font-family: var(--font-family-base);
+      font-weight: 600;
+      font-style: normal;
+      font-size: 1rem;
+      color: theme-color("darker");
+      background-color: rgba(map-get($theme-colors, $theme-accent), 0.1);
+      padding: 0 0.2em;
+      border-radius: 0.2em;
+    }
+
+    p {
+      margin: space("x-small") 0;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__figure {
+    width: min(100%, 45rem);
+    margin: 0 auto;
+  }
+
+  // 関わり方の札 (制作・運営・運用 など)
+  &__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space("x-small");
+    margin-block: 0 space("x-small");
+    padding: 0;
+    list-style: none;
+  }
+
+  &__tag {
+    margin: 0;
+    padding: 0.25em 1em;
+    border: 1px solid rgba(map-get($theme-colors, $theme-accent), 0.4);
+    border-radius: space("small");
+    color: theme-color("darker");
+    font-size: font-size("x-small");
+    letter-spacing: 0.16em;
+  }
+
+  // サイトへのリンク (URL をそのまま見せる)
+  &__link {
+    display: inline-block;
+    margin-block-start: space("x-small");
+    font-size: font-size("small");
+    letter-spacing: 0.08em;
+
+    &::after {
+      content: " ↗";
+    }
+  }
+
+  // 小見出し (ブロックの区切り. 英語の見出し ― 日本語の補足)
+  &__caption {
+    margin-block: space("large") space("small");
+    color: theme-color("dark");
+    font-family: var(--font-family-base);
+    font-size: font-size("small");
+    font-weight: 400;
+    letter-spacing: 0.16em;
+  }
+
+  // 基本情報 (ラベルと値の組)
+  &__specs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    column-gap: space("large");
+    margin-block: space("medium");
+  }
+
+  &__spec {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: space("small");
+    align-items: baseline;
+    min-width: 0;
+    padding-block: space("x-small");
+    border-top: 1px solid rgba(map-get($theme-colors, $theme-accent), 0.25);
+
+    dt {
+      color: theme-color("dark");
+      font-size: font-size("x-small");
+      letter-spacing: 0.16em;
+    }
+
+    dd {
+      margin: 0;
+    }
+  }
+
+  // 経歴 (年と出来事の組. 左の縦線を航路に, 各年を経由地に見立てる)
+  &__timeline {
+    list-style: none;
+    margin-block: space("medium");
+    padding: 0;
+  }
+
+  &__timelineItem {
+    position: relative;
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: space("small");
+    margin: 0;
+    padding-block: space("x-small");
+    padding-inline-start: space("small");
+    border-inline-start: 1px dashed rgba(map-get($theme-colors, $theme-accent), 0.5);
+
+    // 経由地
+    &::before {
+      content: "";
+      position: absolute;
+      top: 1.05em;
+      left: -0.25rem;
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background-color: theme-color("secondary");
+    }
+
+    p {
+      margin: 0;
+      text-align: left;
+    }
+  }
+
+  &__timelineYear {
+    color: color-active($theme-accent);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+}
+
+// 狭い画面では, 経歴の年を出来事の上に置く
+@media (max-width: breakpoint("sm") - 0.1) {
+  .section__timelineItem {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+}
+

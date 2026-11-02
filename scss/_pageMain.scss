@@ -1,11 +1,19 @@
 /**
- * Layout - Main
+ * Layout - Page Main
  */
 
-.main {
-  @include container("md");
+.pageMain {
+  width: min(100%, 768px);
+  min-height: calc(100vh - 18rem);
+  margin: 0 auto;
+  padding: 0 clamp(0.75rem, 2%, 1.5rem);
 
   &__title {
+    margin-block: space("medium") space("small");
+    font-family: map-get($body-typography, "font-family");
+    font-weight: 400;
+    letter-spacing: 0;
+
     &::after {
       content: "✶";
       color: theme-color("secondary");
@@ -45,23 +53,5 @@
         font-weight: 700;
       }
     }
-  }
-
-  // 個別記事の日付, 一覧の見出しの下の文
-  &__date, &__lead {
-    color: theme-color("dark");
-    font-size: font-size("small");
-  }
-
-  &__row {
-    @include row(flex-start, flex-start);
-  }
-
-  &__article {
-    @include col(6, false, "md");
-  }
-
-  &__aside {
-    @include col(3, false, "md");
   }
 }

@@ -19,15 +19,24 @@ require_once dirname(__DIR__) . '/helpers.php';
  *   full_title: <title> をそのまま指定する (トップページなど)
  *   description: description (規定で SITE_DESCRIPTION)
  *   path: このページのサイトのルートからのパス (canonical, og:url に使う)
- *   image: OGP 画像 (規定で SITE_OGP_IMAGE)
+ *   image: OGP 画像 (規定で SITE_OGP_IMAGE. サイト内の画像のファイルがまだなければ SITE_OGP_IMAGE にする)
+ *   image_alt: OGP 画像の代替テキスト (規定で SITE_OGP_IMAGE_ALT. 記事の画像では記事のタイトル)
  *   type: og:type (規定で article)
  *   noindex: 検索結果に出さない (404 など)
+ *   nav: ヘッダーのメニュー ([href => 表示名]. 規定で SITE_NAV. ページの中のセクションへのメニューを渡すと, 表示中のセクションに合わせて灯る)
+ *   brand_tag: ロゴを囲む要素 (規定で p. トップは h1)
+ *   footer_links: フッターの文字のリンク ([サイトのルートからのパス => 表示名]. 規定で SITE_FOOTER_LINKS)
+ *   head: </head> の直前に出力する HTML (構造化データなど)
  */
 function render_header(array $page = []): void {
+  // フッターでも使う値 (footer_links) を覚えておく
+  $GLOBALS['site_page'] = $page;
   $title = $page['full_title'] ?? (!empty($page['title']) ? $page['title'] . ' | ' . SITE_NAME : SITE_NAME);
   $description = ($page['description'] ?? '') ?: SITE_DESCRIPTION;
   $url = absolute_url($page['path'] ?? '');
-  $image = absolute_url(($page['image'] ?? '') ?: SITE_OGP_IMAGE);
+  $og = og_image(($page['image'] ?? '') ?: SITE_OGP_IMAGE);
+  $defaultAlt = defined('SITE_OGP_IMAGE_ALT') ? SITE_OGP_IMAGE_ALT : SITE_NAME;
+  $imageAlt = $og['is_default'] ? $defaultAlt : (($page['image_alt'] ?? '') ?: ($page['title'] ?? $defaultAlt));
   ?>
 <!DOCTYPE html>
 <html lang="<?= e(SITE_LANG) ?>">
@@ -52,7 +61,15 @@ function render_header(array $page = []): void {
     <meta property="og:title" content="<?= e($title) ?>">
     <meta property="og:description" content="<?= e($description) ?>">
     <meta property="og:url" content="<?= e($url) ?>">
-    <meta property="og:image" content="<?= e($image) ?>">
+<?php if (defined('SITE_OG_LOCALE') && SITE_OG_LOCALE) { ?>
+    <meta property="og:locale" content="<?= e(SITE_OG_LOCALE) ?>">
+<?php } ?>
+    <meta property="og:image" content="<?= e($og['url']) ?>">
+<?php if ($og['width'] && $og['height']) { ?>
+    <meta property="og:image:width" content="<?= $og['width'] ?>">
+    <meta property="og:image:height" content="<?= $og['height'] ?>">
+<?php } ?>
+    <meta property="og:image:alt" content="<?= e($imageAlt) ?>">
     <meta name="twitter:card" content="summary_large_image">
 <?php if (SITE_FONTS_URL) { ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -60,40 +77,65 @@ function render_header(array $page = []): void {
     <link rel="stylesheet" href="<?= e(SITE_FONTS_URL) ?>">
 <?php } ?>
     <link rel="stylesheet" href="<?= path('style.css') ?>">
-    <link rel="icon" href="<?= path('favicon.ico') ?>">
-  </head>
-  <body>
-    <header class="header">
-      <p id="logo" class="header__logo">
-        <a href="<?= e(SITE_LOGO_LINK ?: path()) ?>">
-<?php if (SITE_LOGO) { ?>
-          <img src="<?= path(SITE_LOGO) ?>" alt="<?= e(SITE_NAME) ?>">
-<?php } else { ?>
-          <?= e(SITE_NAME) ?>
+    <link rel="icon" href="/assets/favicon.ico" sizes="32x32">
+    <link rel="icon" href="/assets/logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+    <!-- 選んだ便 (昼・夜) をページをまたいで保つ: 描画の前に戻す (js/scene-switch.js) -->
+    <script>try{const s=sessionStorage.getItem('qwel-flight-scene');if(s==='day'||s==='night')document.documentElement.dataset.scene=s}catch(e){}</script>
+<?php if (SITE_GA_ID) { ?>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<?= e(SITE_GA_ID) ?>"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '<?= e(SITE_GA_ID) ?>');
+    </script>
 <?php } ?>
-        </a>
-      </p>
-<?php if (SITE_NAV) { ?>
-      <nav class="header__nav" aria-label="グローバルナビゲーション">
-        <ul>
-<?php foreach (SITE_NAV as $navPath => $label) { ?>
-          <li><a href="<?= e(path($navPath)) ?>"><?= e($label) ?></a></li>
+<?= $page['head'] ?? '' ?>
+  </head>
+  <body class="is-flight">
+    <div data-scroll-sentinel></div>
+    <canvas class="dotBand" data-dot-band aria-hidden="true"></canvas>
+    <header id="header" class="header" data-active-header>
+      <nav id="gNav" class="gNav">
+<?php
+  // ロゴ (昼の便・夜の便. 夜の便の source は js/scene-switch.js が切り替える)
+  $brandTag = ($page['brand_tag'] ?? 'p') === 'h1' ? 'h1' : 'p';
+  // メニュー: ページの中のセクションへのメニュー (nav) は href をそのまま使い, 表示中のセクションに合わせて灯す
+  $isPageNav = isset($page['nav']);
+  $nav = $page['nav'] ?? array_combine(array_map('path', array_keys(SITE_NAV)), array_values(SITE_NAV));
+?>
+        <<?= $brandTag ?> id="siteBrand" class="gNav__siteBrand" data-site-brand>
+          <a href="<?= e(SITE_LOGO_LINK ?: path()) ?>">
+            <picture>
+              <source srcset="<?= path(SITE_LOGO_NIGHT) ?>" media="(prefers-color-scheme: dark)" data-night-source>
+              <img src="<?= path(SITE_LOGO) ?>" alt="<?= e(SITE_NAME) ?>">
+            </picture>
+          </a>
+        </<?= $brandTag ?>>
+<?php if ($nav) { ?>
+        <ul class="gNav__primaryMenu visible-lg" data-primary-menu>
+<?php foreach ($nav as $href => $label) { ?>
+          <li class="gNav__menuItem"<?= $isPageNav ? ' data-spy-nav' : '' ?>><a href="<?= e($href) ?>"><?= e($label) ?></a></li>
 <?php } ?>
         </ul>
-      </nav>
 <?php } ?>
+      </nav>
     </header>
 <?php
 }
 
-// フッター ~ </html> まで出力
+// フッター ~ </html> まで出力 (文字のリンク / アイコン / 著作権表示 の3段. ちいさなサイト工房と同じ組み方)
 function render_footer(): void {
+  $links = $GLOBALS['site_page']['footer_links'] ?? SITE_FOOTER_LINKS;
   ?>
     <footer id="footer" class="footer">
-<?php if (SITE_FOOTER_LINKS) { ?>
+<?php if ($links) { ?>
       <nav class="footer__nav" aria-label="サイト内のページ">
         <ul>
-<?php foreach (SITE_FOOTER_LINKS as $linkPath => $label) { ?>
+<?php foreach ($links as $linkPath => $label) { ?>
           <li><a href="<?= e(path($linkPath)) ?>"><?= e($label) ?></a></li>
 <?php } ?>
         </ul>
@@ -105,7 +147,7 @@ function render_footer(): void {
 <?php $external = (bool)preg_match('#^https?://#', $sns['url']); ?>
         <a class="footer__item" href="<?= e(path($sns['url'])) ?>"<?= $external ? ' target="_blank" rel="noopener"' : '' ?>>
 <?php if (!empty($sns['icon'])) { ?>
-          <svg class="icon is-md" width="36" height="36" aria-hidden="true">
+          <svg class="icon is-<?= e($sns['icon']) ?> is-md" width="36" height="36" aria-hidden="true">
             <use href="<?= path('assets/icons.svg') ?>#<?= e($sns['icon']) ?>"></use>
           </svg>
 <?php } ?>

@@ -2,6 +2,6 @@
 # 画像の拡張子のファイルだけを許可し, それ以外 (誤って置いた .md や .php など) は禁止する
 Require all denied
 
-<FilesMatch "\.(?i:jpe?g|png|gif|webp|avif|svg)$">
+<FilesMatch "\.(?i:jpe?g|png|gif|webp|avif|svg|mp4|webm|pdf)$">
   Require all granted
 </FilesMatch>

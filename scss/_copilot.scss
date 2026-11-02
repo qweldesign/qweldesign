@@ -1,0 +1,217 @@
+/**
+ * Project - Co-Pilot
+ * 制作会社・広告代理店向けのページ (index.html) の部品
+ * 配色はすべて --flight-* (scss/_flight.scss) を使い, 昼の便・夜の便のどちらでも成り立たせる
+ * 見出し・一覧・仕様の表 (.section__*) は本体と同じ部品を使い, ここには本ページだけの部品を置く
+ */
+
+// ファーストビューのキャッチコピー (ヒーローの組み方は .flightHero.is-sub. scss/_flight.scss)
+.copilotHero {
+  &__catch {
+    margin: space("medium") 0 0;
+    font-family: $flight-font-mincho;
+    font-size: clamp(1.15rem, 4.2vw, 2rem);
+    font-weight: 700;
+    line-height: 1.6;
+  }
+}
+
+// 導入の相談ボタンと受付状況
+.copilotIntro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: space("small") space("large");
+  margin-block-start: space("medium");
+}
+
+// 受付状況 (計器灯のように灯る点)
+.copilotStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: space("small");
+  margin: 0;
+  color: var(--flight-ink-dim);
+  font-size: font-size("small");
+
+  &::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background-color: var(--flight-lamp);
+    box-shadow: 0 0 0.6rem var(--flight-lamp);
+  }
+
+  // 稼働状況のセクションでは, 大きめの札にする
+  &.is-panel {
+    flex-wrap: wrap;
+    width: 100%;
+    padding: space("medium") space("large");
+    border: 1px solid var(--flight-rule);
+    border-radius: space("small");
+    background: var(--flight-button);
+    color: var(--flight-ink);
+    font-size: font-size("normal");
+    box-sizing: border-box;
+  }
+
+  // 応相談のとき (js/flight-status.js が付ける): 計器灯を消し, 輪郭だけにする
+  &.is-consult::before {
+    border: 1px solid var(--flight-ink-dim);
+    background-color: transparent;
+    box-shadow: none;
+    box-sizing: border-box;
+  }
+
+  &__updated {
+    margin-inline-start: auto;
+    color: var(--flight-ink-dim);
+    font-family: $flight-font-mono;
+    font-size: font-size("x-small");
+    letter-spacing: 0.12em;
+  }
+}
+
+// 補足の文 (受けないこと, 料金の注記など)
+.copilotNote {
+  color: var(--flight-ink-dim);
+  font-size: font-size("small");
+}
+
+// 注記の中の数値 (計器の表示のように, 等幅の文字と計器灯の色で)
+.copilotValue {
+  color: var(--flight-lamp);
+  font-family: $flight-font-mono;
+  font-size: 0.95em;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+// 名前を伏せた実績 (業種・規模・担当の3列)
+.copilotRecords {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--flight-rule);
+
+  & > li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: space("x-small") space("medium");
+    margin: 0;
+    padding-block: space("small");
+    border-top: 1px solid var(--flight-rule);
+    font-size: font-size("small");
+
+    @media (max-width: breakpoint("sm")) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    & > span + span {
+      color: var(--flight-ink-dim);
+    }
+  }
+}
+
+// 公開している実績の画面
+.copilotShots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: space("medium");
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & > li {
+    margin: 0;
+  }
+
+  a {
+    display: flex;
+    flex-direction: column;
+    gap: space("x-small");
+    font-family: $flight-font-mono;
+    font-size: font-size("x-small");
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--flight-rule);
+    border-radius: space("x-small");
+  }
+}
+
+// 料金の目安 (狭い画面では横にスクロールする)
+.copilotFare {
+  overflow-x: auto;
+
+  table {
+    width: 100%;
+    min-width: 34rem;
+    border-collapse: collapse;
+    font-size: font-size("small");
+  }
+
+  th,
+  td {
+    padding: space("small") space("x-small");
+    border: 0;
+    border-top: 1px solid var(--flight-rule);
+    background: transparent;
+    color: var(--flight-ink);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 1px solid var(--flight-rule);
+  }
+
+  thead th {
+    border-top: 0;
+    color: var(--flight-ink-dim);
+    font-family: $flight-font-mono;
+    font-size: font-size("x-small");
+    font-weight: 400;
+    letter-spacing: 0.12em;
+  }
+
+  &__group {
+    color: var(--flight-lamp) !important;
+    font-family: $flight-font-mono;
+    white-space: nowrap;
+  }
+
+  &__price {
+    font-weight: 700;
+    text-align: right !important;
+    white-space: nowrap;
+
+    &.is-text {
+      color: var(--flight-ink-dim) !important;
+      font-weight: 400;
+    }
+  }
+}
+
+// 仕様の表 (.section__specs) の, ラベルが長いもの (品質の基準・進め方・取引条件)
+// 本体の基本情報は2文字のラベル向けなので, 1列にしてラベルの幅を広げる
+.section__specs.is-wide {
+  grid-template-columns: minmax(0, 1fr);
+
+  .section__spec {
+    grid-template-columns: 9rem minmax(0, 1fr);
+
+    @media (max-width: breakpoint("sm")) {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+  }
+}

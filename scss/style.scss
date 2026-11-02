@@ -14,6 +14,7 @@
 @import "settings/colorSystem";
 @import "settings/gridSystem";
 @import "settings/typography";
+@import "settings/flightColors";
 
 // Mixins
 @import "mixins/background";
@@ -28,32 +29,31 @@
 
 // Layout
 @import "header";
-@import "main";
+@import "gNav";
 @import "footer";
 
+// Page
+@import "pageHeader";
+@import "pageMain";
+
 // Components
-@import "icon";
 @import "button";
-@import "embed";
+@import "icon";
 @import "breadcrumb";
-@import "pagination";
+//@import "pagination";
 @import "backToTop";
 @import "drawerMenu";
-@import "fader";
-@import "modal";
-@import "slider";
 
 // Projects
-@import "postItem";
-@import "postList";
-@import "postIndex";
-@import "postNav";
-@import "form";
+@import "section";
+@import "flight";
+@import "contact";
+@import "copilot";
 
 // Utility
 @import "utilities/scroll-offset";
 @import "utilities/scroll-inview";
-@import "utilities/safe-embed";
+//@import "utilities/safe-embed";
 //@import "utilities/flex";
 //@import "utilities/flexItem";
 @import "utilities/spacing";

@@ -66,9 +66,9 @@ $body-color:       theme-color("darkest") !default;
 @function color-activate($key) {
   $color: map-get($theme-colors, $key);
   @if (get-color-yiq($key)) {
-    @return lighten($color, 20%);
+    @return lighten($color, 25%);
   } @else {
-    @return darken($color, 20%);
+    @return darken($color, 25%);
   }
 }
 

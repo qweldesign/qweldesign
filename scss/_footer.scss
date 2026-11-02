@@ -4,13 +4,23 @@
 
 .footer {
   padding: space("x-large") 0;
-  @include background("primary");
+  @include background($theme-accent);
   text-align: center;
 
   &__inner {
     @include row(center);
     gap: space("large");
     @include container();
+  }
+
+  // 文字のリンク (サービスやページ). アイコンの並びの上に置く
+  // ちいさなサイト工房 (qwel-small-site-studio) の .footer__nav と同じ組み方
+  &__nav ul {
+    @include list-unstyled();
+    @include row(center);
+    gap: space("x-small") space("medium");
+    margin: 0 auto space("medium");
+    @include small-text();
   }
 
   &__item {
@@ -23,23 +33,9 @@
     }
   }
 
-  // サイト内のリンク (config.php の SITE_FOOTER_LINKS)
-  &__nav ul {
-    @include list-unstyled();
-    @include row(center);
-    gap: space("x-small") space("medium");
-    margin: 0 auto space("medium");
-    @include small-text();
-  }
-
+  // 著作権表示は, アイコンの並びの下に1行で (ちいさなサイト工房と同じ)
   &__copyright {
     display: block;
     margin-block-start: space("medium");
-  }
-
-  small {
-    font-size: 0.875rem;
-    line-height: 1.8;
-    letter-spacing: 0.02em;
   }
 }

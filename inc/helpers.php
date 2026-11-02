@@ -28,6 +28,35 @@ function absolute_url(string $path): string {
   return preg_match('#^https?://#', $path) ? $path : SITE_URL . path($path);
 }
 
+// サイトのルートからのパスを, サーバー上のファイルのパスにする (クエリ文字列は除く)
+function site_file(string $path): string {
+  return dirname(__DIR__) . '/' . preg_replace(['#^\.?/#', '#[?\#].*$#'], '', $path);
+}
+
+/**
+ * OGP 画像の URL と大きさ
+ * サイト内の画像でファイルがまだない場合は, SITE_OGP_IMAGE に置き換える (共有したときのプレビューが空にならないように)
+ * 戻り値: ['url' => 絶対URL, 'width' => int|null, 'height' => int|null, 'is_default' => SITE_OGP_IMAGE か]
+ */
+function og_image(string $img): array {
+  $isDefault = $img === SITE_OGP_IMAGE;
+  $size = false;
+  if (!preg_match('#^https?://#', $img)) {
+    if (!$isDefault && !is_file(site_file($img))) {
+      $img = SITE_OGP_IMAGE;
+      $isDefault = true;
+    }
+    $file = site_file($img);
+    if (is_file($file)) $size = @getimagesize($file);
+  }
+  return [
+    'url'        => absolute_url($img),
+    'width'      => $size ? $size[0] : null,
+    'height'     => $size ? $size[1] : null,
+    'is_default' => $isDefault,
+  ];
+}
+
 // 投稿タイプの設定 (未指定の項目は既定値で補う)
 function post_type(string $type): array {
   if (!isset(SITE_POST_TYPES[$type])) {
@@ -41,6 +70,7 @@ function post_type(string $type): array {
     'show_date' => true,
     'lead'      => '',
     'list'      => true,
+    'items'     => true,
   ];
 }
 
