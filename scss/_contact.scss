@@ -1,8 +1,8 @@
 /**
  * Project - Contact
- * お問い合わせフォームの共通部品 (Co-Pilot /co-pilot/ と, お問い合わせ /tools/contact-form/ で使う)
- * 入力 (各ページの #contact) → 確認 (各ページの confirm.html) → 送信 (/api/send.php) → 完了 (各ページの thanks.html)
- * 画面の受け渡しは js/contact-form.js, 送信は api/send.php と inc/ (qwel-tools-contact-form を移植. 設定は inc/.env)
+ * お問い合わせフォームの部品 (/contact/ と, Co-Pilot /co-pilot/ の #contact で使う)
+ * 入力 (/contact/ か #contact) → 確認 (/contact/confirm/) → 送信 (api/send.php) → 完了 (/contact/thanks/)
+ * マークアップは inc/templates/contact.php, 項目は config.php の SITE_CONTACT_FIELDS, 画面の受け渡しは js/contact-form.js
  * 配色はすべて --flight-* (scss/_flight.scss) を使い, 昼の便・夜の便のどちらでも成り立たせる
  */
 
@@ -53,6 +53,26 @@
 
   &__label {
     font-size: font-size("small");
+  }
+
+  // 選択肢 (radio, checkbox) の並び
+  &__choices {
+    display: flex;
+    flex-wrap: wrap;
+    gap: space("x-small") space("medium");
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    & > li {
+      margin: 0;
+    }
+
+    label {
+      display: inline-flex;
+      align-items: center;
+      gap: space("x-small");
+    }
   }
 
   &__required,

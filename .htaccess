@@ -14,4 +14,7 @@
 
   # サイトマップは sitemap.php が content/ から自動で作る
   RewriteRule ^sitemap\.xml$ sitemap.php [L]
+
+  # 旧 URL からの転送
+  RewriteRule ^tools/contact-form(/.*)?$ %{ENV:BASE}contact/ [R=301,L]
 </IfModule>

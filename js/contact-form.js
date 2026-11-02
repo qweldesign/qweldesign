@@ -9,7 +9,8 @@
  * お問い合わせフォーム (入力 → 確認 → 完了)
  * 入力内容は sessionStorage で確認画面へ渡し, 確認画面から送信する
  *
- * 入力画面: form[data-contact-form][data-confirm-url]
+ * 入力画面: form[data-contact-form][data-confirm-url] (1つのサイトの中の複数のページに置ける)
+ *   確認画面の「入力画面に戻る」は, 送信を始めたページ (のフォームの位置) へ戻る
  * 確認画面: [data-contact-confirm][data-form-url][data-thanks-url][data-send-url]
  *   値を入れる欄: [data-contact-value="name 属性"]
  *   ボタン: [data-contact-send], [data-contact-back]
@@ -19,6 +20,8 @@
 export default class ContactForm {
   constructor() {
     this.storageKey = 'contact-form';
+    // 入力を始めたページ (確認画面から戻る先. フォームを複数のページに置くため)
+    this.originKey = 'contact-form-origin';
 
     this.form = document.querySelector('[data-contact-form]');
     if (this.form) this.formInit();
@@ -56,6 +59,8 @@ export default class ContactForm {
       }
 
       sessionStorage.setItem(this.storageKey, JSON.stringify(data));
+      const anchor = this.form.closest('[id]')?.id;
+      sessionStorage.setItem(this.originKey, location.pathname + (anchor ? '#' + anchor : ''));
       location.href = this.form.dataset.confirmUrl;
     });
   }
@@ -97,7 +102,7 @@ export default class ContactForm {
     const backButton = this.confirm.querySelector('[data-contact-back]');
     if (backButton) {
       backButton.addEventListener('click', () => {
-        location.href = this.confirm.dataset.formUrl;
+        location.href = sessionStorage.getItem(this.originKey) || this.confirm.dataset.formUrl;
       });
     }
 
