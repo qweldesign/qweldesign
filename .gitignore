@@ -3,6 +3,7 @@
 
 # Node_modules
 node_modules/
+out/
 
 # Composer
 inc/vendor/
