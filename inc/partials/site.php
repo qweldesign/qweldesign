@@ -5,11 +5,10 @@
  * Released under the MIT License.
  * See LICENSE file for details.
  *
- * 全ページ共通のヘッダー・フッターを出力する
- * 中身 (サイト名, ナビ, SNS など) は config.php の設定から作る
+ * 本家の区画 (SITE_LAYOUT 'site') のヘッダー・フッターを出力する
+ * 中身 (サイト名, ナビ, SNS など) は区画の設定 (config.php) から作る. 読み込みは inc/bootstrap.php から
  */
 
-require_once dirname(__DIR__, 2) . '/config.php';
 require_once dirname(__DIR__) . '/helpers.php';
 
 /**

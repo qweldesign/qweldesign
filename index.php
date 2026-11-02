@@ -5,7 +5,7 @@
  * ヘッダーのメニューは, このページの各セクションへ (表示中のセクションに合わせて灯る)
  * フッターの文字のリンクは, 2つのサービス (ちいさなサイト工房, Co-Pilot) へ
  */
-require_once __DIR__ . '/inc/partials/site.php';
+require_once __DIR__ . '/inc/bootstrap.php';
 
 // 構造化データ: サイトと運営者 (検索エンジンに, 名前・拠点・活動を正しく伝える)
 ob_start();

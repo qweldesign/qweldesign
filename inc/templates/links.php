@@ -21,7 +21,7 @@
  * ※ このディレクトリには投稿タイプ用の .htaccess (リライト) を置かない (作品のディレクトリを横取りしないように)
  */
 
-require_once dirname(__DIR__) . '/partials/site.php';
+require_once dirname(__DIR__) . '/bootstrap.php';
 require_once dirname(__DIR__) . '/ContentLoader.php';
 
 /**

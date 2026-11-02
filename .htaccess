@@ -1,9 +1,9 @@
 # サイト全体の設定 (Apache)
 
-# 設定ファイルは直接公開しない
-<Files "config.php">
+# 設定ファイル (共通・本家・工房) は直接公開しない
+<FilesMatch "^(config|config-common|studio-config)\.php$">
   Require all denied
-</Files>
+</FilesMatch>
 
 <IfModule mod_rewrite.c>
   RewriteEngine On

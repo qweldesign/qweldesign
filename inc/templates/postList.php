@@ -9,7 +9,7 @@
  * アイキャッチがない記事は, SITE_THUMBNAIL_IMAGE (config.php) を代わりに表示する
  */
 
-require_once dirname(__DIR__) . '/partials/site.php';
+require_once dirname(__DIR__) . '/bootstrap.php';
 
 /**
  * $posts: ContentEngine::get_posts() の戻り値

@@ -14,7 +14,7 @@
  *   content/co-pilot/fares.json    料金の目安 (工程ごとの項目と金額)
  */
 
-require_once dirname(__DIR__) . '/partials/site.php';
+require_once dirname(__DIR__) . '/bootstrap.php';
 require_once dirname(__DIR__) . '/ContentLoader.php';
 
 // 匿名の実績 (業種・案件の種類 / 担当した範囲・使った技術 の2列)

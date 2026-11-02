@@ -17,7 +17,7 @@
  *   (確認・完了は /contact/confirm/, /contact/thanks/ を共通で使う. 確認画面から戻ると, 入力を始めたページへ戻る)
  */
 
-require_once dirname(__DIR__) . '/partials/site.php';
+require_once dirname(__DIR__) . '/bootstrap.php';
 require_once dirname(__DIR__) . '/ContactForm.php';
 
 // お問い合わせフォームの各画面の URL ($step: '' (入力), 'confirm/', 'thanks/')

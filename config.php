@@ -1,38 +1,37 @@
 <?php
 /**
- * サイトの設定 (qwel.design / QWEL in Action)
- * サイト名や URL, 投稿タイプ, お問い合わせの項目など, サイトごとに変わる値はここにまとめる
+ * 本家 (QWEL in Action) の設定
+ * サイト名や URL, メニュー, 投稿タイプ, お問い合わせの項目など, 本家の区画だけの値をここにまとめる
+ * 本家とちいさなサイト工房で共通の値は config-common.php に書く
  * (inc/ 以下のエンジン・テンプレートには, サイト固有の値を書かない)
  *
- * このリポジトリが受け持つ URL: /, /co-pilot/, /contact/, /creative/ (一覧), /tools/ (一覧)
- * /small-site-studio/ (qwel-small-site-studio) と, /creative/ /tools/ 以下の各作品 (それぞれのリポジトリ) は別に置く
+ * 本家の区画が受け持つ URL: /, /co-pilot/, /contact/, /creative/ (一覧), /tools/ (一覧)
+ * 各ページは, この設定を読んでから (inc/bootstrap.php が自動で読む) テンプレートを使う
+ * /creative/ /tools/ 以下の各作品は, それぞれのリポジトリから置く
  */
 
-// 日付の判定・表示のタイムゾーン
-date_default_timezone_set('Asia/Tokyo');
+require_once __DIR__ . '/config-common.php';
+
+// この区画のヘッダー・フッターの部品 (inc/partials/{SITE_LAYOUT}.php)
+const SITE_LAYOUT = 'site';
+
+
 
 // サイト名 (<title> の「ページ名 | サイト名」と og:site_name に使う)
 const SITE_NAME = 'QWEL in Action';
 // トップページの <title> (サイト名だけでなく, 何のサイトかまで伝える)
 const SITE_TOP_TITLE = 'QWEL in Action | 福井・越前海岸から、フルスクラッチのWeb開発';
-// サイトの URL (末尾のスラッシュなし. OGP, canonical の絶対URLに使う)
-const SITE_URL = 'https://qwel.design';
-// サイトのルートのパス (ドメイン直下なので '/')
+// この区画のルートのパス (ドメイン直下なので '/'. ページの URL は path() でここから作る)
 const SITE_ROOT = '/';
 // サイトの説明 (description の既定値)
 const SITE_DESCRIPTION = '福井市の越前海岸を拠点にする QWEL.DESIGN (伊藤大悟) のポートフォリオです。地域の活動に加わりながら、WordPress のオリジナルテーマ開発や、JavaScript によるフルスクラッチの UI/UX 実装を手掛けています。';
 // OGP 画像の既定値 (サイトのルートからのパス. 原稿は tools/ogp/)
 const SITE_OGP_IMAGE = 'assets/ogp.jpg';
 const SITE_OGP_IMAGE_ALT = 'QWEL in Action ― 福井・越前海岸から、フルスクラッチのWeb開発';
-const SITE_OG_LOCALE = 'ja_JP';
 // 記事一覧のサムネイルの既定値 (このサイトでは使わないが, エンジンが参照する)
 const SITE_THUMBNAIL_IMAGE = 'assets/ogp.jpg';
 // Google Fonts (欧文の見出し, 等幅, 明朝)
 const SITE_FONTS_URL = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=IBM+Plex+Mono&family=Noto+Sans:wght@100..900&family=Noto+Serif:wght@100..900&family=Shippori+Mincho:wght@500&display=swap';
-// 言語
-const SITE_LANG = 'ja';
-// Google アナリティクス (不要なら空文字)
-const SITE_GA_ID = 'G-28NN8JBME5';
 
 // ヘッダーのロゴ (昼の便と夜の便. リンク先は空ならサイトのトップ)
 const SITE_LOGO = 'assets/logo.svg';
@@ -69,7 +68,6 @@ const SITE_SNS = [
 ];
 
 // 著作権表示 (開始年 - 今年 運営者)
-const SITE_OWNER = 'QWEL.DESIGN';
 const SITE_START_YEAR = 2019;
 
 /**
@@ -108,8 +106,6 @@ const SITE_POST_TYPES = [
   ],
 ];
 
-// URL の形式 (false: ?slug=xxx, ?page=2 / true: xxx/, page/2/ ※ .htaccess のリライトが必要)
-const SITE_PRETTY_URLS = true;
 
 // 投稿タイプ以外のページ (サイトのルートからのパス. サイトマップに載せる)
 const SITE_PAGES = [

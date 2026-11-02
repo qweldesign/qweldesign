@@ -16,11 +16,19 @@ function e(?string $value): string {
   return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
-// サイトのルートからのパス (例: content/images/a.jpg) を, ドメインからの絶対パスにする
-// 先頭の「/」「./」はサイトのルートとみなす. http から始まる URL はそのまま返す
+// 区画をまたいで共通のファイル (ロゴ・アイコンなどの assets/, 原稿と画像の content/) のパスか
+function is_shared_path(string $path): bool {
+  return (bool)preg_match('#^(assets|content)/#', $path);
+}
+
+// 区画のルートからのパス (例: works/, style.css) を, ドメインからの絶対パスにする
+// 先頭の「/」「./」は区画のルートとみなす. http から始まる URL はそのまま返す
+// assets/, content/ から始まるパスは区画をまたいで共通なので, リポジトリのルート (SITE_BASE) から作る
 function path(string $path = ''): string {
   if (preg_match('#^https?://#', $path)) return $path;
-  return SITE_ROOT . preg_replace('#^\.?/#', '', $path);
+  $path = preg_replace('#^\.?/#', '', $path);
+  if (is_shared_path($path)) return SITE_BASE . $path;
+  return SITE_ROOT . $path;
 }
 
 // サイトのルートからのパスを絶対URLにする (OGP, canonical 用)
@@ -28,9 +36,12 @@ function absolute_url(string $path): string {
   return preg_match('#^https?://#', $path) ? $path : SITE_URL . path($path);
 }
 
-// サイトのルートからのパスを, サーバー上のファイルのパスにする (クエリ文字列は除く)
+// 区画のルートからのパスを, サーバー上のファイルのパスにする (クエリ文字列は除く)
+// path() と同じく, assets/, content/ から始まるパスはリポジトリのルートから
 function site_file(string $path): string {
-  return dirname(__DIR__) . '/' . preg_replace(['#^\.?/#', '#[?\#].*$#'], '', $path);
+  $path = preg_replace(['#^\.?/#', '#[?\#].*$#'], '', $path);
+  $section = is_shared_path($path) ? '' : trim(substr(SITE_ROOT, strlen(SITE_BASE)), '/');
+  return dirname(__DIR__) . '/' . ($section !== '' ? $section . '/' : '') . $path;
 }
 
 /**
