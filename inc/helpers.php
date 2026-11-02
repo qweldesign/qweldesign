@@ -139,3 +139,34 @@ function content_engine(string $type, array $options = []): ContentEngine {
     ],
   ]);
 }
+
+/**
+ * content/ の JSON を読む (例: content_json('co-pilot/fares') → content/co-pilot/fares.json)
+ * 読めない・壊れている場合は空の配列にし, サーバーのエラーログに残す
+ * 「_」から始まるキー (_note など) は説明書き用なので, 使う側で無視する
+ */
+function content_json(string $name): array {
+  static $cache = [];
+  if (isset($cache[$name])) return $cache[$name];
+  $file = dirname(__DIR__) . '/content/' . $name . '.json';
+  $data = is_file($file) ? json_decode((string)file_get_contents($file), true) : null;
+  if (!is_array($data)) {
+    error_log("content/{$name}.json を読めませんでした");
+    $data = [];
+  }
+  return $cache[$name] = $data;
+}
+
+// 数値の設定 (content/options.json. 返信の日数, 最低受注額など)
+function site_option(string $key): mixed {
+  return content_json('options')[$key] ?? null;
+}
+
+// 文中の {名前} を content/options.json の値に置き換える (整数は 3 桁区切り. 例: '{reply_days}営業日以内')
+function fill_options(string $text): string {
+  return preg_replace_callback('/\{(\w+)\}/', function ($m) {
+    $value = site_option($m[1]);
+    if ($value === null) return $m[0];
+    return is_int($value) ? number_format($value) : (string)$value;
+  }, $text);
+}

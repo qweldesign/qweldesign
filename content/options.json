@@ -1,0 +1,11 @@
+{
+  "_note": "Co-Pilot (/co-pilot/) とお問い合わせ (/contact/) に出す数値. 文中では {reply_days} のように名前で差し込む",
+  "price_as_of": "2026年",
+  "reply_days": 3,
+  "reply_days_active": 1,
+  "revisions": 2,
+  "min_order": 30000,
+  "rush_rate": 25,
+  "rush_term": "通常の半分の納期",
+  "concurrent": 3
+}

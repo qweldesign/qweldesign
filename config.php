@@ -124,7 +124,7 @@ const SITE_PAGES = [
  * path: フォームの URL (サイトのルートからのパス. 同じ名前のディレクトリに index.php, confirm/, thanks/ を置く. 送信は api/send.php)
  * title: ページのタイトル (<title> とパンくず)
  * heading, subheading: ページの見出し (欧文) と, その下の和文
- * lead: フォームの上の説明文 (HTML 可)
+ * lead: フォームの上の説明文 (HTML 可. {reply_days} などは content/options.json の値に置き換える)
  * interval: 同じ人 (セッション) が続けて送信できるまでの秒数 (0 で制限しない)
  * reply_footer: 自動返信メールの末尾に付ける文
  * env: .env の場所 (公開ディレクトリの外に置く場合は, このパスを書き換える)
@@ -134,7 +134,7 @@ const SITE_CONTACT = [
   'title'        => 'お問い合わせ',
   'heading'      => 'Contact',
   'subheading'   => 'ご相談・お見積もり',
-  'lead'         => '資料の URL だけでも構いません。3営業日以内にお返事します。',
+  'lead'         => '資料の URL だけでも構いません。{reply_days}営業日以内にお返事します。',
   'interval'     => 60,
   'reply_footer' => "
 内容を確認のうえ、あらためてご連絡いたします。今しばらくお待ちください。

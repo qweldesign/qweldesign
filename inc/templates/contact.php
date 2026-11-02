@@ -35,7 +35,7 @@ function render_contact(string $step): void {
 
   render_header([
     'title'       => $stepTitle ? "{$stepTitle} | {$title}" : $title,
-    'description' => strip_tags(SITE_CONTACT['lead'] ?? ''),
+    'description' => strip_tags(fill_options(SITE_CONTACT['lead'] ?? '')),
     'path'        => SITE_CONTACT['path'] . ($stepTitle ? $step . '/' : ''),
     'noindex'     => $stepTitle !== null,
   ]);
@@ -67,7 +67,7 @@ function render_contact_page(): void {
         <h1 class="flightHero__title"><?= e(SITE_CONTACT['heading']) ?><span class="flightHero__mark" aria-hidden="true">✶</span></h1>
         <p class="flightHero__audience"><?= e(SITE_CONTACT['subheading']) ?></p>
 <?php if (!empty(SITE_CONTACT['lead'])) { ?>
-        <p class="flightHero__text"><?= SITE_CONTACT['lead'] ?></p>
+        <p class="flightHero__text"><?= fill_options(SITE_CONTACT['lead']) ?></p>
 <?php } ?>
       </div>
 
@@ -205,7 +205,7 @@ function render_contact_thanks(): void {
               <h1 class="section__heading">Thank You</h1>
               <p class="section__subHeading">送信しました</p>
               <p>ご相談ありがとうございます。ご入力いただいたメールアドレスに、確認のメールをお送りしました。
-                <br>内容を確認のうえ、3営業日以内にお返事します。</p>
+                <br>内容を確認のうえ、<?= e(fill_options('{reply_days}')) ?>営業日以内にお返事します。</p>
               <p class="contactNote">確認のメールが届かない場合は、迷惑メールのフォルダもご確認ください。</p>
               <div class="section__row py-medium">
                 <div class="section__col">

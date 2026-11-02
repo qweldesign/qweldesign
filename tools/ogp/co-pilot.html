@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>OGP (Co-Pilot) | QWEL in Action</title>
+    <!--
+      Co-Pilot (/co-pilot/) の OGP 画像 (1200 × 630) の原稿
+      ブラウザで開き, 1200 × 630 の範囲をスクリーンショットして ogp_co-pilot.jpg として書き出す
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+JP:wght@400;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        /* 夜の便の配色 (_flight.scss と同値) */
+        --sky: hsl(220, 47.5%, 10%);
+        --horizon: hsl(220, 57.5%, 5%);
+        --ink: hsl(220, 32.5%, 95%);
+        --ink-dim: hsl(220, 15%, 65%);
+        --star: hsl(220, 37.5%, 77.5%);
+        --lamp: hsl(30, 100%, 75%);
+        --mark: hsla(30, 100%, 75%, 0.3);
+        --mincho: "Shippori Mincho", "Yu Mincho", serif;
+        --mono: "IBM Plex Mono", ui-monospace, monospace;
+      }
+
+      html, body {
+        margin: 0;
+        background: #888;
+      }
+
+      .ogp {
+        position: relative;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        align-items: center;
+        gap: 60px;
+        width: 1200px;
+        height: 630px;
+        margin: 30px auto;
+        padding: 24px 72px 84px;
+        box-sizing: border-box;
+        overflow: hidden;
+        background: linear-gradient(to bottom, var(--sky), var(--horizon));
+        border-top: 12px solid var(--star);
+        color: var(--ink);
+        font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
+      }
+
+      /* 下端の帯: 工房 (青 | オレンジ) と左右を入れ替える */
+      .ogp::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        height: 14px;
+        background: linear-gradient(to right, var(--lamp) 0 50%, var(--star) 50% 100%);
+      }
+
+      /* 天の川 (js/dot-band.js の夜のプリセットを静止画として描く) */
+      .ogp__stars {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      .ogp__side,
+      .ogp__text {
+        position: relative;
+      }
+
+      .ogp__side {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        padding-top: 6px;
+      }
+
+      /* ロゴ (logo.svg の機体とプロペラを, 夜の便の色で. 機体は右の文字へ向かって飛ぶ) */
+      .ogp__logo {
+        width: 330px;
+        height: auto;
+      }
+
+      .ogp__logo .main {
+        fill: none;
+        stroke: var(--star);
+        stroke-miterlimit: 10;
+        stroke-width: 6px;
+      }
+
+      .ogp__logo .wind {
+        fill: none;
+        stroke: var(--star);
+        stroke-width: 6;
+        stroke-linecap: round;
+        stroke-dasharray: 18 18;
+        opacity: 0.4;
+      }
+
+      .ogp__tags {
+        display: flex;
+        gap: 12px;
+      }
+
+      .ogp__tag {
+        padding: 6px 24px;
+        border-radius: 36px;
+        font-family: var(--mincho);
+        font-size: 24px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        color: var(--horizon);
+      }
+
+      .ogp__tag.is-build {
+        background: var(--star);
+      }
+
+      .ogp__tag.is-support {
+        background: var(--lamp);
+      }
+
+      .ogp__text {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .ogp__label {
+        margin: 0;
+        color: var(--lamp);
+        font-family: var(--mono);
+        font-size: 24px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+      }
+
+      .ogp__label::before {
+        content: "✶ ";
+      }
+
+      .ogp__name {
+        margin: -12px 0 0;
+        font-family: "Cormorant Garamond", "Times New Roman", serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 144px;
+        line-height: 1;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+      }
+
+      .ogp__lead {
+        margin: 6px 0 0;
+        font-family: var(--mincho);
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .ogp__sub {
+        margin: 0;
+        color: var(--ink-dim);
+        font-family: var(--mincho);
+        font-size: 30px;
+        font-weight: 700;
+        line-height: 1.35;
+      }
+
+      .ogp__tagline {
+        margin: 10px 0 0;
+        font-family: var(--mincho);
+        font-size: 30px;
+        font-weight: 700;
+      }
+
+      .ogp__tagline span {
+        background: linear-gradient(transparent 50%, var(--mark) 50%);
+      }
+
+      /* 工房では左下. 対になるよう右下に置く */
+      .ogp__by {
+        position: absolute;
+        right: 72px;
+        bottom: 48px;
+        margin: 0;
+        color: var(--ink-dim);
+        font-family: var(--mono);
+        font-size: 24px;
+        letter-spacing: 0.12em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="ogp">
+      <canvas class="ogp__stars" width="1200" height="630" aria-hidden="true"></canvas>
+
+      <div class="ogp__side">
+        <svg class="ogp__logo" viewBox="0 40 576 420" aria-hidden="true">
+          <path class="wind" d="M140,220 C180,260 240,270 300,260" />
+          <path class="wind" d="M140,240 C190,280 250,290 310,275" />
+          <path class="wind" d="M140,260 C200,300 260,310 320,290" />
+          <defs>
+            <!-- <use> の複製には CSS が届かないので, 羽根の色は fill 属性で指定する (夜の便の lamp) -->
+            <path id="bladeA" fill="hsl(30, 100%, 75%)" d="M98.55,220.5c2.06-15.75-2.52-51.01-23.59-84.75-18.21-29.13-46.76-56.73-60.69-48.9-14.21,7.98,2.56,40.48,23.59,71.72,22.05,32.73,46.47,57.84,60.69,61.93Z"/>
+            <path id="bladeB" fill="hsl(30, 100%, 75%)" d="M99.33,220.5c-1.54,11.81,1.89,38.26,17.7,63.57,13.65,21.86,35.07,42.54,45.51,36.67,10.65-5.99-1.92-30.36-17.7-53.79-16.53-24.54-34.84-43.38-45.51-46.46Z"/>
+          </defs>
+          <path class="main" d="M144.48,199.11c-26.58-44.58-73.65-56.37-97.31-41.11-20.98,13.53-26.58,50.37-12.17,70.49,23.19,32.36,98.33,21.67,121.62-11.75,18.33-26.29,5.22-67.65,0-67.54-12.51.27-22.42,239.13-9.12,240.81,1.53.2-17.98-119.8,42.57-167.4,53.17-41.79,165.39,48.85,243.24,11.75,9.21-4.4,28.86-13.75,27.36-20.55-1.86-8.42-36.18-13.23-42.57-2.94-5.96,9.6,10.05,36.09,30.4,41.12,33.53,8.26,76.56-25.37,82.1-76.35,3.24-29.77.07-64.02-12.16-64.6-13.1-.63-22.72,31.19-18.24,64.6,6.88,51.33,51.2,79.55,57.77,82.23"/>
+          <path class="main" d="M204.75,151.9c27.27,66.04,44.47,60.04,52.29,58.22,11.4-2.67,10.16-46.26,17.43-46.58,7.75-.33,9.18,49.29,23.24,52.4,9.9,2.17,100.7-58.97,136.54-148.44"/>
+          <g transform="rotate(0,98,220)" opacity="0.3">
+            <use href="#bladeA"/>
+            <use href="#bladeB"/>
+          </g>
+          <g transform="rotate(10,98,220)">
+            <use href="#bladeA"/>
+            <use href="#bladeB"/>
+          </g>
+        </svg>
+        <div class="ogp__tags">
+          <span class="ogp__tag is-build">組む</span>
+          <span class="ogp__tag is-support">支える</span>
+        </div>
+      </div>
+
+      <div class="ogp__text">
+        <p class="ogp__label">For Agencies</p>
+        <p class="ogp__name">Co-Pilot</p>
+        <p class="ogp__lead">隣の席で、操縦を支える。</p>
+        <p class="ogp__sub">制作会社・広告代理店の方へ</p>
+        <p class="ogp__tagline"><span>コーディング・WordPress・UI 実装</span></p>
+      </div>
+
+      <p class="ogp__by">by QWEL.DESIGN 福井・越前海岸</p>
+    </div>
+
+    <script>
+      /**
+       * 天の川 (js/dot-band.js の夜のプリセットを静止画として描く)
+       * 画面の左下から右上の対角線に沿った帯. 書き出すたびに星の並びが変わらないよう, 乱数の種を固定する
+       */
+      function seededRandom(seed) {
+        return () => {
+          seed |= 0;
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      const random = seededRandom(19840209);
+      const gaussian = () => Math.sqrt(-2 * Math.log(1 - random())) * Math.cos(Math.PI * 2 * random());
+
+      const canvas = document.querySelector('.ogp__stars');
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width;
+      const height = canvas.height;
+
+      // 夜のプリセット (帯は対角線, 太さは短辺の 0.2 倍)
+      const angle = Math.atan2(height, width);
+      const dirX = Math.cos(angle);
+      const dirY = -Math.sin(angle);
+      const length = Math.hypot(width, height);
+      const sigma = Math.min(width, height) * 0.2;
+      const count = 320;
+      const edgeFade = 1.0;
+      const opacity = 0.3;
+
+      ctx.fillStyle = 'hsl(220, 37.5%, 77.5%)'; // star
+      for (let i = 0; i < count; i++) {
+        const size = random() ** 3; // 小さい星ほど多く, 大きい星は少なく
+        const v = gaussian() * 0.5;
+        const along = (random() - 0.5) * length;
+        const across = v * sigma;
+        const x = width / 2 + dirX * along - dirY * across;
+        const y = height / 2 + dirY * along + dirX * across;
+        const r = 1.5 + size * 9.5;
+        ctx.globalAlpha = (0.35 + size * 0.65) * Math.exp(-(v ** 2) * edgeFade) * opacity;
+        ctx.beginPath();
+        ctx.arc(x, y, r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    </script>
+  </body>
+</html>
