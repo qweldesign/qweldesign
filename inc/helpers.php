@@ -109,13 +109,13 @@ function isExternal(string $path): bool {
 
 // リポジトリ直下に置く共有静的ファイルのパス
 function siteBaseFile(string $path): string {
-  $path = preg_replace(['#^\.?/#', '#[?#].*$#'], '', $path);
+  $path = preg_replace(['#^\.?/#', '~[?#].*$~'], '', $path);
   return dirname(__DIR__) . '/' . $path;
 }
 
 // 区画または共有領域のパスを, サーバー上のファイルのパスにする
 function siteFile(string $path): string {
-  $path = preg_replace(['#^\.?/#', '#[?#].*$#'], '', $path);
+  $path = preg_replace(['#^\.?/#', '~[?#].*$~'], '', $path);
   $base = rtrim(siteBase(), '/') . '/';
   $root = rtrim(SITE_ROOT, '/') . '/';
   if (!str_starts_with($root, $base)) {
