@@ -118,7 +118,10 @@ function siteFile(string $path): string {
   $path = preg_replace(['#^\.?/#', '#[?#].*$#'], '', $path);
   $base = rtrim(siteBase(), '/') . '/';
   $root = rtrim(SITE_ROOT, '/') . '/';
-  $section = str_starts_with($root, $base) ? substr($root, strlen($base)) : '';
+  if (!str_starts_with($root, $base)) {
+    throw new LogicException('SITE_ROOT は SITE_BASE の下に設定してください');
+  }
+  $section = substr($root, strlen($base));
   $relative = isSharedPath($path) ? $path : $section . $path;
   return dirname(__DIR__) . '/' . $relative;
 }

@@ -42,7 +42,7 @@ Markdown の原稿から、データベースなしでサイトを作るPHPの�
 
 | 場所 | 持ち主 | 役割 |
 | --- | --- | --- |
-| `inc/` | エンジン | 原稿の読み込み、データの用意、フォームの検証と送信、404、サイトマップ、robots.txt |
+| `inc/` | エンジン | 区画設定の初期化、原稿の読み込み、データの用意、フォームの検証と送信、404、サイトマップ、robots.txt |
 | `templates/` | サイト | HTML。デザインに合わせて書き換える |
 | `templates/config.php` | サイト | サイトごとの設定 |
 | `content/` | サイト | 原稿と画像 |
@@ -53,6 +53,21 @@ Markdown の原稿から、データベースなしでサイトを作るPHPの�
 - **秘密の値だけを `.env` に置く:** 宛先とSMTPの設定以外は `templates/config.php` に書く
 - **外部依存は最小限:** Markdown の変換に Parsedown、メール送信に PHPMailer を Composer で使う
 - **作らないもの:** 管理画面、データベース、ベーシック認証、CSSとJSのビルドの仕組み
+
+### 区画設定の初期化
+
+複数の区画を持つサイトでは、ページ入口が区画 ID と設定ファイルの対応表を渡してから、テンプレートや helper を使う。設定は定数で読み込むため、1 回のリクエストで初期化できる区画は 1 つだけ。
+
+```php
+require_once __DIR__ . '/inc/bootstrap.php';
+
+$sections = [
+  'main' => ['config' => __DIR__ . '/templates/config.php'],
+];
+bootstrapSection('main', $sections);
+```
+
+設定ファイルには、選んだ区画の `SITE_ROOT` と設定値を書く。`SITE_BASE` は共有 `assets/`・`content/` の URL 基点で、`SITE_ROOT` はその下に置く。`path()` は区画内 URL と共有ファイル URL を使い分け、`siteFile()` はリポジトリ内の対応するファイルを参照する。
 
 ---
 
