@@ -13,8 +13,10 @@ const SITE_NAME = 'Simple CMS';
 const SITE_TITLE = 'Simple CMS | Markdown で作る軽量なサイト';
 // サイトの URL (末尾のスラッシュなし. canonical, OGP の絶対 URL と, お問い合わせフォームの送信元の確認に使う)
 const SITE_URL = 'https://qwel.design';
-// サイトのルートのパス (ドメイン直下なら /, サブディレクトリなら /tools/simple-cms/ のように)
+// 区画のルートの URL (ドメイン直下なら /, サブディレクトリ配置の区画なら /small-site-studio/ のように)
 const SITE_ROOT = '/';
+// 共有ファイルの URL の基点 (サイト全体をサブディレクトリに置く場合は /tools/simple-cms/ のように)
+const SITE_BASE = '/';
 const SITE_LANG = 'ja';
 // description の既定値
 const SITE_DESCRIPTION = 'Markdown の原稿から、データベースなしでサイトを作るエンジンです。';
@@ -67,7 +69,7 @@ const SITE_START_YEAR = 2019;
  * キー: 投稿タイプの名前. 入口のディレクトリ (投稿タイプの名前/index.php) に使う
  * label: 表示名 (一覧の見出し, パンくず)
  * path: 一覧の URL (サイトのルートからのパス. 省略するとキー + /. '' でルートに置く)
- * dir: 原稿のディレクトリ (サイトのルートからのパス. 省略すると content/キー)
+ * dir: 原稿のディレクトリ (共有 content/ からのパス. 省略すると content/キー)
  * count: 1 ページの件数 (既定で 10. null で全件)
  * showDate: 日付を出すか (既定で true)
  * lead: 一覧の見出しの下の文. 一覧の description にも使う

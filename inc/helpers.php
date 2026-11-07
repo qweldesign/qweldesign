@@ -17,14 +17,27 @@ function e(?string $value): string {
   return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
+// SITE_BASE がない古い設定では, これまでどおり SITE_ROOT を使う
+function siteBase(): string {
+  return defined('SITE_BASE') ? SITE_BASE : SITE_ROOT;
+}
+
+// 区画をまたいで共有するファイルのパスか
+function isSharedPath(string $path): bool {
+  return (bool)preg_match('#^(assets|content)/#', $path);
+}
+
 /**
- * サイトのルートからのパスを, リンクに使う URL にする
+ * 区画または共有領域のパスを, リンクに使う URL にする
  * 例: path('blog/') → /blog/, path('#about') → /#about (どのページからでもトップのセクションへ移動する)
- * 先頭の「/」「./」はサイトのルートとみなす. http から始まる URL はそのまま返す
+ * 先頭の「/」「./」は各領域のルートとみなす. http から始まる URL はそのまま返す
  */
 function path(string $path = ''): string {
   if (isExternal($path)) return $path;
-  return SITE_ROOT . preg_replace('#^\.?/#', '', $path);
+  $path = preg_replace('#^\.?/#', '', $path);
+  $base = rtrim(siteBase(), '/') . '/';
+  $root = rtrim(SITE_ROOT, '/') . '/';
+  return (isSharedPath($path) ? $base : $root) . $path;
 }
 
 /**
@@ -33,7 +46,10 @@ function path(string $path = ''): string {
  */
 function assetUrl(string $path): string {
   if (isExternal($path)) return $path;
-  return path($path) . (siteFileExists($path) ? '?v=' . filemtime(siteFile($path)) : '');
+  $path = preg_replace('#^\.?/#', '', $path);
+  $file = siteBaseFile($path);
+  $version = is_file($file) ? '?v=' . filemtime($file) : '';
+  return rtrim(siteBase(), '/') . '/' . $path . $version;
 }
 
 /**
@@ -91,9 +107,20 @@ function isExternal(string $path): bool {
   return (bool)preg_match('#^https?://#', $path);
 }
 
-// サイトのルートからのパスを, サーバー上のパスにする
+// リポジトリ直下に置く共有静的ファイルのパス
+function siteBaseFile(string $path): string {
+  $path = preg_replace(['#^\.?/#', '#[?#].*$#'], '', $path);
+  return dirname(__DIR__) . '/' . $path;
+}
+
+// 区画または共有領域のパスを, サーバー上のファイルのパスにする
 function siteFile(string $path): string {
-  return dirname(__DIR__) . '/' . trim($path, '/');
+  $path = preg_replace(['#^\.?/#', '#[?#].*$#'], '', $path);
+  $base = rtrim(siteBase(), '/') . '/';
+  $root = rtrim(SITE_ROOT, '/') . '/';
+  $section = str_starts_with($root, $base) ? substr($root, strlen($base)) : '';
+  $relative = isSharedPath($path) ? $path : $section . $path;
+  return dirname(__DIR__) . '/' . $relative;
 }
 
 // サイトのルートからのパスにファイルがあるか (設置していない favicon などを出さないため)
