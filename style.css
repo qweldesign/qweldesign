@@ -1962,6 +1962,71 @@ html[data-scene=night]:has(.is-flight) {
   font-size: clamp(0.8rem, 3.2vw, 1.2rem);
   letter-spacing: 0.16em;
 }
+.is-flight .flightHero.is-sub {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--spacing--small);
+  padding-block: var(--spacing--large);
+}
+.is-flight .flightHero.is-sub .flightHero__title {
+  font-size: clamp(3.5rem, 12vw, 5.5rem);
+  font-style: italic;
+}
+.is-flight .flightHero__mark {
+  margin-inline-start: 0.2em;
+  color: var(--flight-lamp);
+  font-size: 0.4em;
+  font-style: normal;
+  vertical-align: super;
+}
+.is-flight .flightHero__audience {
+  margin: 0;
+  color: var(--flight-lamp);
+  font-family: serif;
+  font-size: var(--font-size--medium);
+  letter-spacing: 0.2em;
+}
+.is-flight .flightHero__text {
+  max-width: 40rem;
+  margin: 0;
+  color: var(--flight-ink-dim);
+}
+.is-flight .flightHero__text em {
+  color: var(--flight-ink);
+  font-style: normal;
+  background-color: var(--flight-mark);
+}
+.is-flight .flightLinks {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--flight-rule);
+}
+.is-flight .flightLinks > li {
+  margin: 0;
+  border-top: 1px solid var(--flight-rule);
+}
+.is-flight .flightLinks a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+  align-items: baseline;
+  gap: 0 var(--spacing--medium);
+  padding-block: var(--spacing--small);
+}
+@media (max-width: 600px) {
+  .is-flight .flightLinks a {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.is-flight .flightLinks__name {
+  font-family: var(--heading-font-family);
+  font-size: var(--font-size--medium);
+}
+.is-flight .flightLinks__note {
+  color: var(--flight-ink-dim);
+  font-size: var(--font-size--small);
+}
 
 /**
  * Utility - Scroll Offset

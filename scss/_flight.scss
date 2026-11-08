@@ -653,5 +653,88 @@ button:       (rgba(map.get($theme-colors, "lightest"), 0.7), night-color("horiz
       font-size: clamp(0.8rem, 3.2vw, 1.2rem);
       letter-spacing: 0.16em;
     }
+
+    // 下層ページのヒーロー (Co-Pilot, Creative Crafts, Creative Tools, お問い合わせ)
+    // トップ「QWEL in Action」と見分けられるよう, パンくずを添え, 左寄せの小さめの斜体の見出しにする
+    &.is-sub {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: space("small");
+      padding-block: space("large");
+
+      .flightHero__title {
+        font-size: clamp(3.5rem, 12vw, 5.5rem);
+        font-style: italic;
+      }
+    }
+
+    // 見出しに添える星 (計器灯の色で)
+    &__mark {
+      margin-inline-start: 0.2em;
+      color: var(--flight-lamp);
+      font-size: 0.4em;
+      font-style: normal;
+      vertical-align: super;
+    }
+
+    // 読み手・ページの用途 (計器灯の色の明朝で)
+    &__audience {
+      margin: 0;
+      color: var(--flight-lamp);
+      font-family: $flight-font-mincho;
+      font-size: font-size("medium");
+      letter-spacing: 0.2em;
+    }
+
+    // 導入文
+    &__text {
+      max-width: 40rem;
+      margin: 0;
+      color: var(--flight-ink-dim);
+
+      em {
+        color: var(--flight-ink);
+        font-style: normal;
+        background-color: var(--flight-mark);
+      }
+    }
+  }
+
+  // Project - Flight Links
+  // 作品・ツールの一覧 (Creative Crafts, Creative Tools)
+  // 細い罫線で区切り, 名前 (欧文) と説明 (和文) を 2 列に並べる. 行全体をリンクにする
+  .flightLinks {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--flight-rule);
+
+    & > li {
+      margin: 0;
+      border-top: 1px solid var(--flight-rule);
+    }
+
+    a {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+      align-items: baseline;
+      gap: 0 space("medium");
+      padding-block: space("small");
+
+      @media (max-width: breakpoint("sm")) {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    &__name {
+      font-family: var(--heading-font-family);
+      font-size: font-size("medium");
+    }
+
+    &__note {
+      color: var(--flight-ink-dim);
+      font-size: font-size("small");
+    }
   }
 }

@@ -31,9 +31,9 @@ const SITE_NAV = [
   '#creative' => 'Tools & Crafts',
   '#story'    => 'A Little Story',
 ];
+// フッターの文字のリンク (下層ページ). トップは index.php で 2 つのサービスへのリンクに替える
 const SITE_FOOTER_LINKS = [
-  'small-site-studio/' => 'ちいさなサイト工房',
-  'co-pilot/'          => '制作会社・広告代理店の方へ',
+  '' => 'QWEL in Action',
 ];
 const SITE_SNS = [
   ['label' => 'note', 'url' => 'https://note.com/qweldesign', 'icon' => 'si-journal'],
@@ -46,8 +46,6 @@ const SITE_BREADCRUMB = [
 const SITE_PAGES = [
   'co-pilot/',
   'contact/',
-  'creative/',
-  'tools/',
 ];
 const SITE_ROBOTS_DISALLOW = [];
 const SITE_AUTHOR = [
@@ -57,6 +55,13 @@ const SITE_AUTHOR = [
 ];
 const SITE_OWNER = 'QWEL.DESIGN';
 const SITE_START_YEAR = 2019;
+/**
+ * creative, tools は一覧だけ (items: false)。各作品の中身は, それぞれのリポジトリから /creative/xxx/, /tools/xxx/ に置く
+ * そのため creative/, tools/ には投稿タイプ用の .htaccess (リライト) を置かない (作品のディレクトリを横取りしないように)
+ * このサイトだけのキー (templates/postList.php が読む):
+ *   audience: 見出しの下の和文 (読み手・ページの用途)
+ *   texts: 導入文 (段落ごとの配列)
+ */
 const SITE_POST_TYPES = [
   'creative' => [
     'label'    => 'Creative Crafts',
@@ -66,6 +71,12 @@ const SITE_POST_TYPES = [
     'count'    => null,
     'showDate' => false,
     'sort'     => 'order',
+    'lead'     => 'Vanilla JS でスクラッチした、アニメーションやインタラクティブな表現作品の一覧です。',
+    'audience' => 'インタラクティブ表現・JavaScript 作品集',
+    'texts'    => [
+      'Vanilla JS でスクラッチした、アニメーションやインタラクティブな表現作品群。',
+      '2025年から、Three / Vue / React 各ライブラリ・フレームワークも併用しています。',
+    ],
   ],
   'tools' => [
     'label'    => 'Creative Tools',
@@ -75,6 +86,11 @@ const SITE_POST_TYPES = [
     'count'    => null,
     'showDate' => false,
     'sort'     => 'order',
+    'lead'     => 'PHP / JS でスクラッチした、実用的な機能モジュールの一覧です。',
+    'audience' => 'UI/UX コンポーネント・PHP 作品集',
+    'texts'    => [
+      'PHP / JS でスクラッチした、実用的な機能モジュール群。',
+    ],
   ],
 ];
 
