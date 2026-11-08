@@ -1,0 +1,657 @@
+/**
+* Project - Flight
+*/
+
+@use "variables" as *;
+@use "sass:color";
+@use "sass:list";
+@use "sass:map";
+@use "sass:string";
+
+$night-hue:        220;
+$light-hue:        30;
+
+$night-colors:     (
+//                 H           S      L
+horizon:           $night-hue  57.5%   5.0%, // 地平線側の空
+sky:               $night-hue  47.5%  10.0%, // 夜間飛行の空
+ink-dim:           $night-hue  15.0%  65.0%, // 補助テキスト
+star:              $night-hue  37.5%  77.5%, // 天の川の水玉
+panel:             $night-hue  30.0%  20.0%, // 計器盤 (アイコン・ドロワーの面)
+ink:               $night-hue  32.5%  95.0%, // 本文
+lamp:              $light-hue  100%   75.0%  // 操縦席の計器灯
+);
+
+// 配色の配列から hsl() を出力する関数 ($alpha で不透明度を指定)
+@function night-color($key, $alpha: 1) {
+  $hsl: map.get($night-colors, $key);
+  @if ($alpha == 1) {
+    @return string.unquote("hsl(#{list.nth($hsl, 1)}, #{list.nth($hsl, 2)}, #{list.nth($hsl, 3)})");
+  }
+  @return string.unquote("hsla(#{list.nth($hsl, 1)}, #{list.nth($hsl, 2)}, #{list.nth($hsl, 3)}, #{$alpha})");
+}
+
+// 書体
+// 見出しの和文と, ボタンやラベルに使う計器のような等幅
+$flight-font-mincho: serif !default;
+$flight-font-mono:   ui-monospace, monospace !default;
+
+// 昼夜の配色 (役割: [昼, 夜])
+// 昼は既存の配色. 空 (primary の青, 色相 200) と陽の光 (橙, 色相 30) で, 補色に近い関係
+// 夜は夜空 (色相 220) と計器灯 (色相 30) の補色. 昼夜で「空と, その補色の光」という同じ構図になる
+$flight-colors: (
+// 空 (グラデーションの上端): 白地に primary の青をごく薄く / 夜間飛行の空
+sky:          (hsl(200, 100%, 95%), night-color("sky")),
+// 空 (下端): 白 / 地平線側の空
+horizon:      (theme-color("lightest"), night-color("horizon")),
+// 本文
+ink:          (theme-color("darkest"), night-color("ink")),
+// 補助テキスト
+ink-dim:      (theme-color("darker"), night-color("ink-dim")),
+// 流れる粒 (雲・星) と同じ色. ヒーローの "in Action" に使う
+star:         (theme-color("primary"), night-color("star")),
+// 文字・装飾に使う光 (見出しの星・矢印・縦罫). 昼は secondary を 25% 暗くした色 (旧エンジンの color-active と同じ計算)
+lamp:         (color.adjust(map.get($theme-colors, "secondary"), $lightness: -25%), night-color("lamp")),
+// 強調の下地
+mark:         (rgba(map.get($theme-colors, "secondary"), 0.25), night-color("lamp", 0.25)),
+// 罫線・ボタンの縁
+rule:         (rgba(map.get($theme-colors, "primary"), 0.25), night-color("star", 0.25)),
+// ヘッダー
+header:       (rgba(map.get($theme-colors, "lightest"), 0.7), night-color("sky", 0.7)),
+header-hover: (rgba(map.get($theme-colors, "lightest"), 0.95), night-color("sky", 0.95)),
+// ボタンの面
+button:       (rgba(map.get($theme-colors, "lightest"), 0.7), night-color("horizon", 0.7))
+);
+
+// transition-property に並べる, 登録したカスタムプロパティの一覧
+@function flight-transition-properties($map) {
+  $list: ();
+  @each $key, $values in $map {
+    $list: list.append($list, string.unquote("--flight-#{$key}"), $separator: comma);
+  }
+  @return $list;
+}
+
+// 昼夜で補間できるよう, 色として登録する (OS の設定を切り替えると, 空がゆっくり移り変わる)
+@each $key, $values in $flight-colors {
+  @property --flight-#{$key} {
+    syntax: "<color>";
+    inherits: true;
+    initial-value: transparent;
+  }
+}
+
+// 夜の便を適用する条件
+// html[data-scene] があれば切り替えボタンで選んだ便, 無ければ OS の設定 (ダークモード) に従う
+@mixin flight-night() {
+  html[data-scene="night"] & {
+    @content;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html:not([data-scene="day"]) & {
+      @content;
+    }
+  }
+}
+
+.is-flight {
+  // 昼 (ライトモード)
+  @each $key, $values in $flight-colors {
+    --flight-#{$key}: #{list.nth($values, 1)};
+  }
+
+  // 夜 (ダークモード, または夜の便を選んだとき)
+  @include flight-night() {
+    @each $key, $values in $flight-colors {
+      --flight-#{$key}: #{list.nth($values, 2)};
+    }
+
+    // アイコン・ドロワー (this file の $icon-* が参照する)
+    --flight-icon-bg: #{night-color("panel")};
+    --flight-icon-color: #{night-color("lamp")};
+    --flight-icon-hover-bg: #{night-color("lamp")};
+    --flight-icon-hover-color: #{night-color("sky")};
+    --flight-drawer-color: #{night-color("ink")};
+  }
+
+  transition-property: flight-transition-properties($flight-colors);
+  transition-duration: 1.6s;
+  transition-timing-function: ease;
+
+  background: linear-gradient(to bottom, var(--flight-sky), var(--flight-horizon)) fixed;
+  background-color: var(--flight-sky);
+  color: var(--flight-ink);
+
+  // ボタンは .button 側で配色する
+  a:not(.button) {
+    @include link-text(var(--flight-ink), var(--flight-lamp));
+  }
+
+  // 背景の天の川・雲海 (固定) の上に, 各レイヤーを重ねる
+  main {
+    position: relative;
+    z-index: 1;
+  }
+
+  // Foundation - Flight Background
+  @at-root {
+    // body の外 (スクロールの行き過ぎ等) も空の色に
+    html:has(.is-flight) {
+      background-color: theme-color("lightest");
+    }
+
+    html[data-scene="night"]:has(.is-flight) {
+      background-color: night-color("horizon");
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html:not([data-scene="day"]):has(.is-flight) {
+        background-color: night-color("horizon");
+      }
+    }
+
+  }
+
+  // Layout - Header
+  .header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 9rem;
+    margin: 0;
+    padding: 0;
+    background-color: var(--flight-header);
+    transition: height 0.5s ease, background-color 0.5s ease;
+
+    &:not(.is-active) {
+      height: 6rem;
+    }
+
+    &:hover {
+      background-color: var(--flight-header-hover);
+    }
+  }
+
+  // Layout - G Nav
+  .gNav {
+    @include row(flex-start);
+    @include container();
+    gap: space("large");
+    height: 100%;
+    padding-block: space();
+    &__siteBrand {
+      display: block;
+      flex: 0 0 auto;
+      width: fit-content;
+      height: 100%;
+      margin: 0;
+      transition: height 0.5s ease;
+
+      // 昼夜でロゴを出し分ける picture は, 箱を作らず img の高さ指定を通す
+      picture {
+        display: contents;
+      }
+
+      img {
+        width: auto;
+        height: 100%;
+        transition: height 0.5s ease;
+      }
+    }
+
+    &__primaryMenu {
+      @include list-unstyled();
+      @include row();
+      gap: space("large");
+      flex: 0 0 auto;
+      margin: 0;
+      font-family: var(--heading-font-family);
+      font-weight: var(--heading-font-weight);
+      font-size: 1.25rem;
+      transition: font-size 0.5s ease;
+
+      @at-root .gNav--shrink & {
+        font-size: 1rem;
+      }
+    }
+
+    &__menuItem {
+      margin: 0;
+
+      a {
+        display: block;
+        line-height: 1;
+      }
+    }
+  }
+
+  .gNav__menuItem.is-current a {
+    color: var(--flight-lamp);
+  }
+
+  // Component - Breadcrumb
+  .breadcrumb {
+    gap: 0 space("small");
+    margin: 0 0 space("small");
+    font-family: $flight-font-mono;
+    font-size: font-size("x-small");
+    letter-spacing: 0.12em;
+
+    .breadcrumb__item {
+      &:not(.is-current)::after {
+        content: "/";
+        margin: 0 0 0 space("small");
+        color: var(--flight-ink-dim);
+      }
+
+      a,
+      span {
+        padding: 0;
+        border-radius: 0;
+        background-color: transparent;
+        font-size: inherit;
+        font-weight: 400;
+      }
+
+      a {
+        color: var(--flight-ink-dim);
+      }
+
+      span {
+        color: var(--flight-ink);
+      }
+    }
+  }
+
+  // Component - Button
+  // 空に溶け込む細い縁取りのピル型. 色の違い (is-primary 等) は付けず, 一律の扱いにする
+  .button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: space("x-small");
+    width: auto;
+    height: auto;
+    padding: space("medium") space("large");
+    border: 1px solid var(--flight-rule);
+    border-radius: space("medium");
+    background: var(--flight-button);
+    color: var(--flight-ink);
+    font-family: $flight-font-mono;
+    font-size: font-size("small");
+    line-height: 1;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    transition: border-color 0.35s ease, color 0.35s ease;
+
+    // 既存のボタン (.button.is-primary:focus 等) は, フォーカス中に文字色を白や黒へ切り替える
+    // リンクを開いて戻ってきたとき, 押したボタンにはフォーカスが残るため,
+    // その配色が空の上に出て文字が沈まないよう, :active と :focus でも通常の配色に揃える
+    &:active,
+    &:focus {
+      border-color: var(--flight-rule);
+      background: var(--flight-button);
+      color: var(--flight-ink);
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--flight-lamp);
+      background: var(--flight-button);
+      color: var(--flight-lamp);
+    }
+
+    &:focus-visible {
+      outline: 1px solid var(--flight-lamp);
+      outline-offset: 4px;
+    }
+
+    // サービス名の表記 (note など) は大文字にしない
+    &.is-brandName {
+      text-transform: none;
+    }
+
+    // アイコンの無いボタンには, 進む方向を示す矢印を添える
+    &:not(:has(.button__icon))::after {
+      content: "→";
+      color: var(--flight-lamp);
+    }
+
+    &__icon {
+      flex: 0 0 auto;
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+
+    &__text {
+      flex: 0 0 auto;
+      padding: 0;
+    }
+  }
+
+  // Project - Section
+  .section {
+    &__inner {
+      background-color: transparent;
+    }
+
+    &__heading {
+      margin-block: space("x-large") 0;
+      font-style: italic;
+      font-size: clamp(2rem, 8vw, 3rem);
+      line-height: 1.2;
+      text-wrap: balance;
+
+      // 見出しの星は, 光の色で小さく灯す
+      &::after {
+        color: var(--flight-lamp);
+        font-style: normal;
+        font-size: 0.5em;
+        vertical-align: super;
+      }
+    }
+
+    &__subHeading {
+      margin-block: space("x-small") space("medium");
+      color: var(--flight-lamp);
+      font-family: $flight-font-mincho;
+      font-size: 1rem;
+      letter-spacing: 0.16em;
+
+      &::before {
+        content: none;
+      }
+    }
+
+    &__content {
+      strong, em {
+        color: var(--flight-ink);
+        background-color: var(--flight-mark);
+      }
+    }
+
+    // 10のコンポーネントは, 細い罫線で区切った2列の一覧にする
+    &__list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+      column-gap: space("large");
+      padding: 0;
+    }
+
+    &__listItem {
+      min-width: 0;
+      margin: 0;
+      padding-block: space("small") space("medium");
+      border-top: 1px solid var(--flight-rule);
+
+      &::before {
+        content: none;
+      }
+
+      h3 {
+        margin-block: 0 space("small");
+        color: var(--flight-lamp);
+        font-family: $flight-font-mono;
+        font-size: 1rem;
+        letter-spacing: 0.04em;
+      }
+
+      h4 {
+        margin-block: space("small") 0;
+        padding: 0;
+        background-color: transparent;
+        color: var(--flight-ink-dim);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+      }
+
+      h4 + p {
+        margin-block-start: space("x-small");
+      }
+    }
+
+    // 制作実績・地域活動
+    &__tag {
+      border-color: var(--flight-rule);
+      color: var(--flight-ink-dim);
+      font-family: $flight-font-mono;
+    }
+
+    &__link {
+      font-family: $flight-font-mono;
+
+      &::after {
+        color: var(--flight-lamp);
+      }
+    }
+
+    &__bannerArea {
+      padding-block: space("medium");
+    }
+
+    &__banner {
+      display: block;
+      margin-block: space("medium");
+      transition: opacity 0.35s ease;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      & > img {
+        display: block;
+        aspect-ratio: 2;
+        object-fit: cover;
+        width: min(100%, 42rem);
+        height: auto;
+        margin: auto;
+        border: 2px solid var(--flight-lamp);
+        border-radius: space("large");
+      }
+    }
+
+    // プロフィール
+    &__caption {
+      color: var(--flight-ink-dim);
+      font-family: $flight-font-mono;
+    }
+
+    &__spec {
+      border-top-color: var(--flight-rule);
+
+      dt {
+        color: var(--flight-ink-dim);
+      }
+    }
+
+    &__timelineItem {
+      border-inline-start-color: var(--flight-rule);
+
+      &::before {
+        background-color: var(--flight-lamp);
+      }
+    }
+
+    &__timelineYear {
+      color: var(--flight-lamp);
+      font-family: $flight-font-mono;
+    }
+
+    // 「届けたい」の一節は, 光の罫線を添えた明朝で
+    &__motto {
+      margin-block: space("medium");
+      padding-inline-start: space("small");
+      border-inline-start: 1px solid var(--flight-lamp);
+      font-family: $flight-font-mincho;
+      font-size: font-size("medium");
+      line-height: 2;
+      text-align: left;
+    }
+  }
+
+  // Layout - Footer
+  .footer {
+    position: relative;
+    z-index: 1;
+    background-color: transparent;
+    border-top: 1px solid var(--flight-rule);
+    color: var(--flight-ink-dim);
+
+    &__copyright {
+      display: block;
+      margin-block-start: space("medium");
+    }
+  }
+
+  // Component - Icon
+  // シーン切替のアイコンを, Flight テーマの中だけで描画する
+  .icon.is-moon .icon__span {
+    width: 44%;
+    height: 44%;
+    margin: 28%;
+    border-radius: 50%;
+    border-inline-end-width: 3px;
+    transform: rotate(30deg);
+  }
+
+  .icon.is-sun .icon__span {
+    width: 30%;
+    height: 30%;
+    margin: 35%;
+    border-radius: 50%;
+    border-width: 2px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -70%;
+      border-width: 2px;
+      border-style: dotted;
+      border-radius: 50%;
+    }
+  }
+
+
+  // Component - BackToTop
+  // 昼夜の切り替えボタン (js/scene-switch.js)
+  // 右下の BackToTop と対になるよう, 左下に同じ大きさで置く
+  .sceneSwitch {
+    position: fixed;
+    left: $back-to-top-pad;
+    bottom: $back-to-top-pad;
+    z-index: 1000;
+    display: block;
+    width: $back-to-top-height;
+    height: $back-to-top-height;
+    padding: 0; // Reset
+    border: 0; // Reset (button要素)
+    background-color: transparent; // Reset (button要素)
+    outline: 0;
+    cursor: pointer;
+
+    @include use-icon();
+
+    &:focus-visible > .icon {
+      outline: 1px solid var(--flight-lamp);
+      outline-offset: 3px;
+    }
+
+    // 切り替え先を示すラベル. ボタンの右へ, 空に浮かぶ小さな札として出す
+    &__label {
+      position: absolute;
+      top: 50%;
+      left: calc(100% + #{space("x-small")});
+      padding: space("x-small") space("small");
+      border: 1px solid var(--flight-rule);
+      border-radius: space("small");
+      background: var(--flight-header-hover);
+      color: var(--flight-ink);
+      font-family: $flight-font-mono;
+      font-size: font-size("x-small");
+      line-height: 1;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translate(-0.5rem, -50%);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+      pointer-events: none;
+    }
+
+    // ホバー (マウス操作時のみ)・キーボードのフォーカス・読み込み直後のヒントで表示
+    @media (hover: hover) {
+      &:hover .sceneSwitch__label {
+        opacity: 1;
+        transform: translate(0, -50%);
+      }
+    }
+
+    &:focus-visible .sceneSwitch__label,
+    &.is-hinted .sceneSwitch__label {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &__label {
+        transition: none;
+      }
+    }
+  }
+
+  // Component - Drawer Menu
+  // 上の a:not(.button) より詳細度を上げ, _drawerMenu.scss の配色を保つ
+  .drawerMenu__item {
+    a {
+      &, &:active {
+        color: $drawer-color;
+      }
+    }
+
+    &:not(.is-siteBrand) a:hover {
+      color: $drawer-hover-color;
+      text-decoration: none;
+    }
+  }
+
+  // Project - Dot Band
+  .dotBand {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  // Project - Flight Hero
+  .flightHero {
+    @include container("md");
+    padding-block: space("x-large");
+
+    &__title {
+      margin: 0;
+      font-family: var(--heading-font-family);
+      font-weight: var(--heading-font-weight);
+      font-size: clamp(4rem, 16vw, 6rem);
+      line-height: 1;
+      letter-spacing: var(--heading-letter-spacing);
+
+      em {
+        font-style: italic;
+        color: var(--flight-star);
+      }
+    }
+
+    &__lead {
+      margin-block: space("medium") 0;
+      color: var(--flight-ink-dim);
+      font-size: clamp(0.8rem, 3.2vw, 1.2rem);
+      letter-spacing: 0.16em;
+    }
+  }
+}
