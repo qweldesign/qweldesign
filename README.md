@@ -245,8 +245,8 @@ img: "/content/images/my-first-post/00.jpg"
 | 関数 | 内容 |
 | --- | --- |
 | `contentJson('prices')` | `content/prices.json` を配列で返す。`contentJson('shop/fares')` のように、下のディレクトリも読める |
-| `siteOption('minPrice')` | `content/options.json` の値を返す (なければ `null`) |
-| `fillOptions('{minPrice}円から')` | 文中の `{名前}` を `options.json` の値に置き換える (整数は 3 桁区切り。値がないときはそのまま残す。エスケープはしない) |
+| `siteOption('minPrice')` | `content/options.json` の値を返す (なければ `null`)。区画ごとに分けるときは、区画の設定に `SITE_OPTIONS` (例: `'small-site-studio/options'`) を書くと、`content/small-site-studio/options.json` を読む |
+| `fillOptions('{minPrice}円から')` | 文中の `{名前}` を `siteOption()` の値に置き換える (整数は 3 桁区切り。値がないときはそのまま残す。エスケープはしない) |
 
 読めない JSON は空の配列になり、ページの表示は止まらない。内容はサーバーのエラーログに残るので、健全性チェックで確かめる。JSON はWebから読めない。`contentJson()` の引数には、URLのパラメータなど、外から来た値を渡さない。
 

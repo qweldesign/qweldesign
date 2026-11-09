@@ -260,9 +260,10 @@ function contentJson(string $name): array {
   return $cache[$name] = $data ?? [];
 }
 
-// content/options.json の値 (なければ null)
+// 区画の設定の SITE_OPTIONS の JSON の値 (既定で content/options.json. なければ null)
+// 区画ごとに値を分けるときは, 区画の設定に SITE_OPTIONS を書く (例: 'small-site-studio/options' → content/small-site-studio/options.json)
 function siteOption(string $key): mixed {
-  return contentJson('options')[$key] ?? null;
+  return contentJson(defined('SITE_OPTIONS') ? SITE_OPTIONS : 'options')[$key] ?? null;
 }
 
 /**
