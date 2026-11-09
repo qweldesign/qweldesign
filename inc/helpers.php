@@ -157,7 +157,12 @@ function postType(string $type): array {
   if (!isset(SITE_POST_TYPES[$type])) {
     throw new InvalidArgumentException("投稿タイプ {$type} はこの区画 (templates/sections.php の postTypes) にありません");
   }
-  return SITE_POST_TYPES[$type] + [
+  return postTypeDefaults($type, SITE_POST_TYPES[$type]);
+}
+
+// 投稿タイプの設定の未指定の項目を, 既定値で補う (区画をまたいで使う. サイトマップ, 健全性チェック)
+function postTypeDefaults(string $type, array $config): array {
+  return $config + [
     'label'      => $type,
     'path'       => $type . '/',
     'dir'        => 'content/' . $type,
@@ -185,7 +190,11 @@ function typePath(string $type): string {
  * ルートに置く投稿タイプ (path: '') は, SITE_PRETTY_URLS が false のときだけ, 入口のディレクトリ (投稿タイプの名前) を通す
  */
 function postPath(string $type, array $post): string {
-  $config = postType($type);
+  return postPathOf($type, postType($type), $post);
+}
+
+// 記事のパス (区画のルートから). $config は postTypeDefaults() で補った設定 (区画をまたいで使う)
+function postPathOf(string $type, array $config, array $post): string {
   if (!$config['items']) return $post['url'] ?? '';
   $slug = rawurlencode($post['slug'] ?? '');
   if (SITE_PRETTY_URLS) return $config['path'] . $slug . '/';

@@ -70,6 +70,34 @@ function sectionTemplate(string $file): string {
   return dirname(__DIR__) . '/templates/' . $file;
 }
 
+/**
+ * 全区画のルート, 固定ページ, 投稿タイプ ([区画の名前 => ['root' => ..., 'pages' => [...], 'postTypes' => [...]]])
+ * 選んだ区画は定数から, ほかの区画は地図から取る. 地図に root がない区画 (設定ファイルに書く古い形) は, 選んでいなければ飛ばす
+ * サイトマップと健全性チェックが, 1 回のリクエストで全区画を見るために使う
+ */
+function sectionMaps(): array {
+  bootstrapSection();
+  $maps = [];
+  foreach (siteSections() as $name => $map) {
+    if ($name === activeSection()) {
+      $maps[$name] = [
+        'root'      => SITE_ROOT,
+        'pages'     => defined('SITE_PAGES') ? SITE_PAGES : [],
+        'postTypes' => defined('SITE_POST_TYPES') ? SITE_POST_TYPES : [],
+      ];
+    } elseif (isset($map['root'])) {
+      $maps[$name] = ['root' => $map['root'], 'pages' => $map['pages'] ?? [], 'postTypes' => $map['postTypes'] ?? []];
+    }
+  }
+  return $maps;
+}
+
+// 区画のルートの, リポジトリのルート (SITE_BASE) からのパス (例: 本家は '', 工房は 'small-site-studio/')
+function sectionDir(string $root): string {
+  $base = rtrim(siteBase(), '/') . '/';
+  return substr(rtrim($root, '/') . '/', strlen($base));
+}
+
 // 選んだ区画の名前 (まだ選んでいなければ null)
 function activeSection(): ?string {
   return defined('SITE_SECTION') ? SITE_SECTION : null;

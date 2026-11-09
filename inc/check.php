@@ -67,6 +67,15 @@ if (is_file("{$root}/.htaccess")) {
   $errorDocument = preg_match('/^\s*ErrorDocument\s+404\s+(\S+)/m', (string)file_get_contents("{$root}/.htaccess"), $match) ? $match[1] : '';
   check($errorDocument === SITE_ROOT . 'inc/404.php', '.htaccess の ErrorDocument が ' . SITE_ROOT . 'inc/404.php' . " ({$errorDocument})");
 }
+// 区画のフォルダの .htaccess の ErrorDocument (区画ごとの 404) が指すファイルがある
+$sections = sectionMaps();
+foreach ($sections as $name => $section) {
+  $dir = sectionDir($section['root']);
+  if ($dir === '' || !is_file("{$root}/{$dir}.htaccess")) continue;
+  if (!preg_match('/^\s*ErrorDocument\s+404\s+(\S+)/m', (string)file_get_contents("{$root}/{$dir}.htaccess"), $match)) continue;
+  $file = substr($match[1], strlen(rtrim(siteBase(), '/') . '/'));
+  check(str_starts_with($match[1], rtrim(siteBase(), '/') . '/') && is_file("{$root}/{$file}"), "{$name}: {$dir}.htaccess の ErrorDocument のファイルがある ({$match[1]})");
+}
 foreach (['SITE_OGP_IMAGE', 'SITE_THUMBNAIL_IMAGE', 'SITE_LOGO'] as $name) {
   $image = defined($name) ? constant($name) : '';
   if ($image === '' || isExternal($image)) continue;
@@ -76,22 +85,27 @@ foreach (['SITE_OGP_IMAGE', 'SITE_THUMBNAIL_IMAGE', 'SITE_LOGO'] as $name) {
 // ---- 原稿 ----
 echo "原稿\n";
 $loader = new ContentLoader();
-$samples = []; // HTTP のチェックに使う, 投稿タイプごとの記事を 1 つ
+$samples = []; // HTTP のチェックに使う, 投稿タイプごとの記事を 1 つ ([区画のフォルダ, 投稿タイプ, 設定, 原稿のファイル名, 記事])
 $sampleImage = '';
-foreach (array_keys(SITE_POST_TYPES) as $type) {
-  $config = postType($type);
+foreach ($sections as $sectionName => $section) {
+$sectionDir = sectionDir($section['root']);
+foreach ($section['postTypes'] as $type => $rawConfig) {
+  $config = postTypeDefaults($type, $rawConfig);
   $isRoot = $config['path'] === '';
-  $entry = trim($isRoot ? $type : $config['path'], '/');
-  $dir = siteFile($config['dir']);
+  $entry = $sectionDir . trim($isRoot ? $type : $config['path'], '/');
+  $dir = $root . '/' . (isSharedPath($config['dir']) ? '' : $sectionDir) . trim($config['dir'], '/');
+  // 複数の区画があるときは, 区画の名前を添える
+  $label = count($sections) > 1 ? "{$sectionName}/{$type}" : $type;
 
-  check(is_file("{$root}/{$entry}/index.php"), "{$type}: {$entry}/index.php がある");
-  if (SITE_PRETTY_URLS && !$isRoot) {
-    check(is_file("{$root}/{$entry}/.htaccess"), "{$type}: {$entry}/.htaccess がある (SITE_PRETTY_URLS)");
+  check(is_file("{$root}/{$entry}/index.php"), "{$label}: {$entry}/index.php がある");
+  // 個別のページを持たない投稿タイプ (一覧だけ) は, リライトが要らない
+  if (SITE_PRETTY_URLS && !$isRoot && $config['items']) {
+    check(is_file("{$root}/{$entry}/.htaccess"), "{$label}: {$entry}/.htaccess がある (SITE_PRETTY_URLS)");
   }
   // 固定ページのリライトが効かなくなるので, ルートに置く投稿タイプの入口には .htaccess を置かない
-  if ($isRoot) check(!is_file("{$root}/{$entry}/.htaccess"), "{$type}: {$entry}/.htaccess がない");
+  if ($isRoot) check(!is_file("{$root}/{$entry}/.htaccess"), "{$label}: {$entry}/.htaccess がない");
   if (!is_dir($dir)) {
-    report('WARN', "{$type}: 原稿のディレクトリ {$config['dir']} がない");
+    report('WARN', "{$label}: 原稿のディレクトリ {$config['dir']} がない");
     continue;
   }
 
@@ -102,7 +116,7 @@ foreach (array_keys(SITE_POST_TYPES) as $type) {
     $name = basename($file);
     $post = $loader->read($file);
     if ($post === null) {
-      report('NG', "{$type}/{$name}: frontmatter を読めない");
+      report('NG', "{$label}/{$name}: frontmatter を読めない");
       $problems++;
       continue;
     }
@@ -112,13 +126,13 @@ foreach (array_keys(SITE_POST_TYPES) as $type) {
     if ($config['sort'] === 'date' && $config['showDate']) $required[] = 'date';
     $missing = array_filter($required, fn(string $key): bool => ($post[$key] ?? '') === '');
     if ($missing) {
-      report('NG', "{$type}/{$name}: " . implode(', ', $missing) . ' がない');
+      report('NG', "{$label}/{$name}: " . implode(', ', $missing) . ' がない');
       $problems++;
     }
 
     $date = $post['date'] ?? '';
     if ($date !== '' && !isValidDate($date)) {
-      report('NG', "{$type}/{$name}: date \"{$date}\" は使えない (2026-10-09, または 2026-10 の形)");
+      report('NG', "{$label}/{$name}: date \"{$date}\" は使えない (2026-10-09, または 2026-10 の形)");
       $problems++;
     }
 
@@ -126,17 +140,17 @@ foreach (array_keys(SITE_POST_TYPES) as $type) {
     if ($slug !== '') {
       // page はページ送りの URL (/blog/page/2/) と重なる
       if (!preg_match('/^[A-Za-z0-9_-]+$/', $slug) || $slug === 'page') {
-        report('NG', "{$type}/{$name}: slug \"{$slug}\" は使えない (英数字, ハイフン, アンダースコア. page は不可)");
+        report('NG', "{$label}/{$name}: slug \"{$slug}\" は使えない (英数字, ハイフン, アンダースコア. page は不可)");
         $problems++;
       }
       if (isset($slugs[$slug])) {
-        report('NG', "{$type}/{$name}: slug \"{$slug}\" が {$slugs[$slug]} と重なっている");
+        report('NG', "{$label}/{$name}: slug \"{$slug}\" が {$slugs[$slug]} と重なっている");
         $problems++;
       }
       $slugs[$slug] = $name;
       // 実在するフォルダが優先されて, 原稿が黙って隠れる
-      if ($isRoot && (is_dir("{$root}/{$slug}") || is_file("{$root}/{$slug}"))) {
-        report('NG', "{$type}/{$name}: slug \"{$slug}\" は実在するフォルダと重なっている");
+      if ($isRoot && (is_dir("{$root}/{$sectionDir}{$slug}") || is_file("{$root}/{$sectionDir}{$slug}"))) {
+        report('NG', "{$label}/{$name}: slug \"{$slug}\" は実在するフォルダと重なっている");
         $problems++;
       }
     }
@@ -144,18 +158,19 @@ foreach (array_keys(SITE_POST_TYPES) as $type) {
     $image = $post['img'] ?? '';
     if ($image !== '' && !isExternal($image)) {
       if (!siteFileExists($image)) {
-        report('WARN', "{$type}/{$name}: img {$image} がない");
+        report('WARN', "{$label}/{$name}: img {$image} がない");
       } elseif ($sampleImage === '' && str_contains($image, 'content/images/')) {
         $sampleImage = trim($image, '/');
       }
     }
 
     // 下書きは本番で 404 になるので, 公開中のサイトの確認に使わない
-    if (!isset($samples[$type]) && $config['items'] && !$missing && $slug !== '' && !ContentLoader::isDraft($post)) {
-      $samples[$type] = ['file' => $name, 'post' => $post];
+    if (!isset($samples["{$sectionName}/{$type}"]) && $config['items'] && !$missing && $slug !== '' && !ContentLoader::isDraft($post)) {
+      $samples["{$sectionName}/{$type}"] = ['sectionDir' => $sectionDir, 'type' => $type, 'config' => $config, 'file' => $name, 'post' => $post];
     }
   }
-  if (!$problems) report('OK', "{$type}: 原稿 " . count($files) . ' 件');
+  if (!$problems) report('OK', "{$label}: 原稿 " . count($files) . ' 件');
+}
 }
 
 // ---- データファイル (content/ の JSON があるサイトだけ) ----
@@ -235,8 +250,8 @@ if (array_key_exists('http', $args)) {
   $expect('inc/helpers.php', 403, 'inc/ を公開しない');
   $expect('inc/.env', 403, '.env を公開しない');
   $expect('templates/site.php', 403, 'templates/ を公開しない');
-  foreach ($samples as $type => $sample) {
-    $expect(trim(postType($type)['dir'], '/') . '/' . rawurlencode($sample['file']), 403, '原稿を公開しない');
+  foreach ($samples as $sample) {
+    $expect(trim($sample['config']['dir'], '/') . '/' . rawurlencode($sample['file']), 403, '原稿を公開しない');
     break;
   }
   if ($sampleImage !== '') $expect($sampleImage, 200, '原稿の画像を公開する');
@@ -248,6 +263,10 @@ if (array_key_exists('http', $args)) {
     $sitemap['status'] === 200 && str_contains($sitemap['type'], 'xml'),
     '/sitemap.xml が XML (inc/sitemap.php へのリライト) → ' . ($sitemap['status'] ?: '応答なし') . ($sitemap['type'] ? " {$sitemap['type']}" : '')
   );
+  foreach ($sections as $name => $section) {
+    $loc = '<loc>' . SITE_URL . rtrim($section['root'], '/') . '/</loc>';
+    check(str_contains($sitemap['body'], $loc), "/sitemap.xml に {$name} のトップがある");
+  }
   $robots = $request('robots.txt');
   check(
     $robots['status'] === 200 && str_contains($robots['body'], 'Sitemap: '),
@@ -255,15 +274,14 @@ if (array_key_exists('http', $args)) {
   );
 
   // 記事の URL と転送
-  foreach ($samples as $type => $sample) {
-    $config = postType($type);
+  foreach ($samples as $sample) {
     $slug = rawurlencode($sample['post']['slug']);
-    $prefix = $config['path'];
-    $entry = $prefix === '' ? $type . '/' : $prefix;
+    $prefix = $sample['sectionDir'] . $sample['config']['path'];
+    $entry = $sample['config']['path'] === '' ? $sample['sectionDir'] . $sample['type'] . '/' : $prefix;
     $expect("{$prefix}{$slug}/", 200, '記事の URL');
     $expectRedirect("{$prefix}{$slug}", "{$prefix}{$slug}/", '末尾のスラッシュ');
     $expectRedirect("{$entry}?slug={$slug}", "{$prefix}{$slug}/", 'きれいな URL へ');
-    if ($prefix === '') $expectRedirect("{$entry}{$slug}/", "{$slug}/", '固定ページの入口から');
+    if ($sample['config']['path'] === '') $expectRedirect("{$entry}{$slug}/", "{$prefix}{$slug}/", '固定ページの入口から');
   }
 
   // 404 (Apache の既定の画面ではなく, このサイトの 404. noindex で 404 のページを, og:site_name で同じドメインの別のサイトと見分ける)
@@ -273,6 +291,17 @@ if (array_key_exists('http', $args)) {
     check(
       $notFound['status'] === 404 && str_contains($notFound['body'], 'noindex') && str_contains($notFound['body'], $siteNameTag),
       "存在しない URL がサイトの 404 のページ ({$note}) → " . ($notFound['status'] ?: '応答なし')
+    );
+  }
+
+  // ほかの区画の 404 (区画の .htaccess の ErrorDocument. サイト名は区画の設定にあり読めないので, noindex の 404 かだけを見る)
+  foreach ($sections as $name => $section) {
+    $dir = sectionDir($section['root']);
+    if ($dir === '') continue;
+    $notFound = $request("{$dir}simple-cms-check/not/found/");
+    check(
+      $notFound['status'] === 404 && str_contains($notFound['body'], 'noindex'),
+      "{$name}: 存在しない URL が 404 のページ → " . ($notFound['status'] ?: '応答なし')
     );
   }
 
