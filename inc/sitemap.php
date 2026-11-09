@@ -1,12 +1,12 @@
 <?php
 /**
  * サイトマップ (/sitemap.xml)
- * templates/config.php の投稿タイプと content/ の原稿から作るので, 記事を足しても書き換えは要らない
+ * 区画の投稿タイプ (templates/sections.php) と content/ の原稿から作るので, 記事を足しても書き換えは要らない
  * /sitemap.xml へのアクセスは, ルートの .htaccess でここに振り分ける
  */
 
-require_once dirname(__DIR__) . '/templates/config.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/bootstrap.php';
+bootstrapSection();
 require_once __DIR__ . '/ContentLoader.php';
 
 $today = date('Y-m-d');

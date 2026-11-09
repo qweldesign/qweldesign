@@ -22,8 +22,8 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $root = dirname(__DIR__);
-require_once $root . '/templates/config.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/bootstrap.php';
+bootstrapSection();
 require_once __DIR__ . '/ContentLoader.php';
 require_once __DIR__ . '/env.php';
 

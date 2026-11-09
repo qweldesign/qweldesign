@@ -155,7 +155,7 @@ function siteFileExists(string $path): bool {
 // 投稿タイプの設定 (未指定の項目は既定値で補う)
 function postType(string $type): array {
   if (!isset(SITE_POST_TYPES[$type])) {
-    throw new InvalidArgumentException("投稿タイプ {$type} は templates/config.php にありません");
+    throw new InvalidArgumentException("投稿タイプ {$type} はこの区画 (templates/sections.php の postTypes) にありません");
   }
   return SITE_POST_TYPES[$type] + [
     'label'      => $type,

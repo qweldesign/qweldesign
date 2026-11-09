@@ -5,7 +5,8 @@
  * 設定の不備や送信の失敗の内容は, サーバーのエラーログにだけ残す
  */
 
-require_once dirname(__DIR__) . '/templates/config.php';
+require_once dirname(__DIR__) . '/inc/bootstrap.php';
+bootstrapSection();
 require_once dirname(__DIR__) . '/inc/vendor/autoload.php';
 require_once dirname(__DIR__) . '/inc/env.php';
 require_once dirname(__DIR__) . '/inc/ContactForm.php';

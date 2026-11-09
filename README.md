@@ -44,7 +44,8 @@ Markdown の原稿から、データベースなしでサイトを作るPHPの�
 | --- | --- | --- |
 | `inc/` | エンジン | 区画設定の初期化、原稿の読み込み、データの用意、フォームの検証と送信、404、サイトマップ、robots.txt |
 | `templates/` | サイト | HTML。デザインに合わせて書き換える |
-| `templates/config.php` | サイト | サイトごとの設定 |
+| `templates/sections.php` | サイト | 区画の地図 (区画ごとの設定ファイル、ルート、固定ページ、投稿タイプ) |
+| `templates/config.php` | サイト | 本家区画の設定 |
 | `content/` | サイト | 原稿と画像 |
 
 - **読み込みと表示を分ける:** `ContentLoader` と `ContentNavigation` はデータだけを返し、HTMLは `templates/` に書く
@@ -56,18 +57,15 @@ Markdown の原稿から、データベースなしでサイトを作るPHPの�
 
 ### 区画設定の初期化
 
-複数の区画を持つサイトでは、ページ入口が区画 ID と設定ファイルの対応表を渡してから、テンプレートや helper を使う。設定は定数で読み込むため、1 回のリクエストで初期化できる区画は 1 つだけ。
+複数の区画を持つサイトでは、ページ入口が `templates/sections.php` の地図から区画を選び、テンプレートや helper より先に初期化する。設定は定数で読み込むため、1 回のリクエストで初期化できる区画は 1 つだけ。区画を選ばない入口 (サイトマップ、robots.txt、送信の入口、健全性チェック) と、区画を選ばずにテンプレートを読んだページは、最初の区画を使う。
 
 ```php
 require_once __DIR__ . '/inc/bootstrap.php';
 
-$sections = [
-  'main' => ['config' => __DIR__ . '/templates/config.php'],
-];
-bootstrapSection('main', $sections);
+bootstrapSection('main');
 ```
 
-設定ファイルには、選んだ区画の `SITE_ROOT` と設定値を書く。`SITE_BASE` は共有 `assets/`・`content/` の URL 基点で、`SITE_ROOT` はその下に置く。`path()` は区画内 URL と共有ファイル URL を使い分け、`siteFile()` はリポジトリ内の対応するファイルを参照する。
+地図には、区画ごとに設定ファイル (`config`)、ルート (`root`)、固定ページ (`pages`)、投稿タイプ (`postTypes`) を書く。`bootstrapSection()` は `root`, `pages`, `postTypes` から `SITE_ROOT`, `SITE_PAGES`, `SITE_POST_TYPES` を作ってから設定ファイルを読む (地図に書かなければ、これまでどおり設定ファイルに書く)。サイトマップや健全性チェックが、1 回のリクエストで全区画を見られるようにするため。設定ファイルには、それ以外の設定値を書く。`SITE_BASE` は共有 `assets/`・`content/` の URL 基点で、`SITE_ROOT` はその下に置く。`path()` は区画内 URL と共有ファイル URL を使い分け、`siteFile()` はリポジトリ内の対応するファイルを参照する。
 
 ---
 
@@ -263,11 +261,11 @@ img: "/content/images/my-first-post/00.jpg"
 
 ### 投稿タイプを増やす
 
-1. `templates/config.php` の `SITE_POST_TYPES` に追加する (例: `news`)
+1. `templates/sections.php` の区画の `postTypes` に追加する (例: `news`)
 2. `blog/` を `news/` としてコピーし、`index.php` の `ContentPage::render('blog')` を `'news'` に変える
 3. `content/news/` に原稿を置く
 
-項目の説明は `templates/config.php` のコメントを参照。
+項目と既定値は `inc/helpers.php` の `postType()` を参照。
 
 ### 固定ページ
 

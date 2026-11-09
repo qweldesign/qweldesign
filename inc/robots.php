@@ -1,12 +1,12 @@
 <?php
 /**
  * robots.txt (/robots.txt)
- * templates/config.php の設定から作る. /robots.txt へのアクセスは, ルートの .htaccess でここに振り分ける
+ * 最初の区画の設定 (templates/sections.php) から作る. /robots.txt へのアクセスは, ルートの .htaccess でここに振り分ける
  * ※ robots.txt はドメインのルートでしか読まれないため, サブディレクトリに置いたサイトでは効かない
  */
 
-require_once dirname(__DIR__) . '/templates/config.php';
-require_once __DIR__ . '/helpers.php';
+require_once __DIR__ . '/bootstrap.php';
+bootstrapSection();
 
 $disallow = defined('SITE_ROBOTS_DISALLOW') ? SITE_ROBOTS_DISALLOW : [];
 
