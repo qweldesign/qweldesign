@@ -37,6 +37,9 @@ ErrorDocument 404 /inc/404.php
   # robots.txt は inc/robots.php が templates/config.php から作る
   RewriteRule ^robots\.txt$ inc/robots.php [L]
 
+  # 旧 URL からの転送 (お問い合わせフォームは, 以前は /tools/contact-form/ にあった)
+  RewriteRule ^tools/contact-form(/.*)?$ %{ENV:BASE}contact/ [R=301,L]
+
   # 固定ページの入口を直接開いた場合は, きれいな URL へ恒久的に転送する
   # (THE_REQUEST を見ることで, 下の内部の書き換えでは転送がループしない)
   RewriteCond %{THE_REQUEST} \s[^?\s]*\?(?:[^\s&]*&)*slug=([A-Za-z0-9_-]+)[\s&]
