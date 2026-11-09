@@ -28,6 +28,16 @@ return [
     //   audience: 見出しの下の和文 (読み手・ページの用途)
     //   texts: 導入文 (段落ごとの配列)
     'postTypes' => [
+      // 固定ページ (content/page/*.md → /xxx/. 今は原稿がない. ルートの .htaccess が, ないページの /xxx/ もここへ回すので, 404 を返すために要る)
+      'page' => [
+        'label'    => 'ページ',
+        'path'     => '',
+        'dir'      => 'content/page',
+        'layout'   => 'page',
+        'count'    => null,
+        'showDate' => false,
+        'schema'   => 'WebPage',
+      ],
       'creative' => [
         'label'    => 'Creative Crafts',
         'path'     => 'creative/',
