@@ -216,16 +216,24 @@ button, input, select, textarea {
  * Layout - Main
  */
 .main {
-  margin-inline: auto;
-  padding-inline: var(--container-pad--md);
-  width: min(100%, var(--container-width--md));
+  box-sizing: border-box;
+  width: min(100%, 45rem);
   min-height: calc(100vh - 24rem);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+.main__title {
+  margin-block: var(--spacing--large) var(--spacing--medium);
+  font-family: "Shippori Mincho", "游明朝", "Yu Mincho", serif;
+  font-weight: 700;
+  font-size: 1.75rem;
+  line-height: 1.5;
 }
 .main__title::after {
   content: "✶";
+  margin-inline-start: var(--spacing--x-small);
   color: var(--color--secondary);
   font-size: 1.25em;
-  margin-inline-start: var(--spacing--x-small);
 }
 .main__title > span {
   font-family: "Cormorant Garamond", serif;
@@ -1333,6 +1341,80 @@ button, input, select, textarea {
   justify-content: center;
   gap: var(--spacing--small);
   margin-block-start: var(--spacing--small) !important;
+}
+
+.entry h2 {
+  margin: var(--spacing--large) 0 var(--spacing--small);
+  padding-block-end: var(--spacing--x-small);
+  border-block-end: 1px solid rgba(32, 159, 223, 0.25);
+  font-family: "Shippori Mincho", "游明朝", "Yu Mincho", serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  line-height: 1.5;
+}
+.entry h2::before {
+  content: "✦ ";
+  color: var(--color--secondary);
+  font-size: 0.75em;
+  vertical-align: 0.1em;
+}
+.entry h3 {
+  margin: var(--spacing--medium) 0 var(--spacing--x-small);
+  font-weight: 700;
+  font-size: 1.0625rem;
+}
+.entry strong {
+  background: linear-gradient(transparent 50%, var(--color--secondary--light) 50%);
+}
+.entry a {
+  color: var(--color--primary--dark);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+.entry ul {
+  padding-inline-start: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: var(--spacing--small) 0;
+}
+.entry ul li {
+  position: relative;
+  margin: 0;
+  padding-inline-start: var(--spacing--medium);
+  line-height: 1.8;
+}
+.entry ul li::before {
+  content: "○";
+  position: absolute;
+  left: 0;
+  color: var(--color--primary--dark);
+  font-weight: 700;
+}
+.entry ol {
+  padding-inline-start: 0;
+  list-style: none;
+  margin: var(--spacing--small) 0 var(--spacing--small) var(--spacing--small);
+  border-inline-start: 2px dotted var(--color--secondary--dark);
+  counter-reset: entry-step;
+}
+.entry ol li {
+  margin: 0;
+  padding: 0 0 1.125rem 1.375rem;
+  line-height: 1.8;
+  counter-increment: entry-step;
+}
+.entry ol li:last-child {
+  padding-block-end: 0;
+}
+.entry ol li::before {
+  content: "STEP " counter(entry-step);
+  display: block;
+  color: var(--color--primary--dark);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
 }
 
 /**

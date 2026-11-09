@@ -80,6 +80,16 @@ return [
     ],
     'templates' => __DIR__ . '/studio',
     'postTypes' => [
+      // 固定ページ (content/small-site-studio/page/*.md → /small-site-studio/xxx/. 技術的な説明など)
+      'page' => [
+        'label'    => 'ページ',
+        'path'     => '',
+        'dir'      => 'content/small-site-studio/page',
+        'layout'   => 'page',
+        'count'    => null,
+        'showDate' => false,
+        'schema'   => 'WebPage',
+      ],
       'works' => [
         'label'    => '実績',
         'path'     => 'works/',

@@ -147,7 +147,9 @@ $works = (new ContentLoader())->load(siteFile($worksConfig['dir']), null, $works
               <p>LINE やメールで写真と文章を送ってもらえば、こちらで掲載します。</p>
             </li>
           </ol>
-          <p class="studio__note"><a href="https://github.com/qweldesign/qwel-tools-md-engine">仕組みが気になる方へ（技術的な説明）</a></p>
+<?php // 技術的な説明のページ (content/small-site-studio/page/tech.md). 原稿がない環境では, エンジンの GitHub へ ?>
+<?php $techUrl = siteFileExists('content/small-site-studio/page/tech.md') ? postUrl('page', ['slug' => 'tech']) : 'https://github.com/qweldesign/qwel-tools-md-engine'; ?>
+          <p class="studio__note"><a href="<?= e($techUrl) ?>">仕組みが気になる方へ（技術的な説明）</a></p>
         </div>
       </section>
 

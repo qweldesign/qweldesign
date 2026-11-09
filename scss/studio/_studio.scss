@@ -768,3 +768,93 @@ $studio-bar-height:    5.25rem;
     margin-block-start: space("small") !important;
   }
 }
+
+// Project - Entry (Markdown から作る本文: 固定ページ page/index.php, 実績 works/index.php)
+// トップの部品にそろえる (見出しは明朝と ✦, 箇条書きは ○, 手順は「ご依頼の流れ」の点線と STEP, 強調はオレンジの下線)
+.entry {
+  h2 {
+    margin: space("large") 0 space("small");
+    padding-block-end: space("x-small");
+    border-block-end: 1px solid $studio-rule;
+    font-family: $studio-font-mincho;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 1.5;
+
+    &::before {
+      content: "✦ ";
+      color: $studio-orange;
+      font-size: 0.75em;
+      vertical-align: 0.1em;
+    }
+  }
+
+  h3 {
+    margin: space("medium") 0 space("x-small");
+    font-weight: 700;
+    font-size: 1.0625rem;
+  }
+
+  strong {
+    background: linear-gradient(transparent 50%, $studio-orange-light 50%);
+  }
+
+  a {
+    color: $studio-blue-dark;
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  // 箇条書き (トップの「こんな方に向いています」の ○)
+  ul {
+    @include list-unstyled();
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: space("small") 0;
+
+    // 基本の書式の項目の余白を消し, 間隔は gap だけにする. 行の高さは本文 (1.8) より少しだけ広く
+    li {
+      position: relative;
+      margin: 0;
+      padding-inline-start: space("medium");
+      line-height: 1.8;
+
+      &::before {
+        content: "○";
+        position: absolute;
+        left: 0;
+        color: $studio-blue-dark;
+        font-weight: 700;
+      }
+    }
+  }
+
+  // 番号付きの手順 (トップの「ご依頼の流れ」の点線と STEP)
+  ol {
+    @include list-unstyled();
+    margin: space("small") 0 space("small") space("small");
+    border-inline-start: 2px dotted $studio-orange-dark;
+    counter-reset: entry-step;
+
+    li {
+      margin: 0;
+      padding: 0 0 1.125rem 1.375rem;
+      line-height: 1.8;
+      counter-increment: entry-step;
+
+      &:last-child {
+        padding-block-end: 0;
+      }
+
+      &::before {
+        content: "STEP " counter(entry-step);
+        display: block;
+        color: $studio-blue-dark;
+        font-family: $studio-font-mono;
+        font-size: 0.75rem;
+        letter-spacing: 0.12em;
+      }
+    }
+  }
+}

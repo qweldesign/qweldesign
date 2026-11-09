@@ -6,6 +6,25 @@ ErrorDocument 404 /small-site-studio/404.php
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
+  # この区画のルートの URL (/small-site-studio/) を BASE に入れる
+  # (このフォルダの .htaccess の規則は, ルートの .htaccess の規則より優先されるので, ここで求め直す)
+  RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+  RewriteRule ^(.*)$ - [E=BASE:%1]
+
   # サイトマップは本家と1つにまとめた (/sitemap.xml). 以前の工房のサイトマップの URL から転送する
   RewriteRule ^sitemap\.xml$ /sitemap.xml [R=301,L]
+
+  # 固定ページ (content/small-site-studio/page/*.md → /small-site-studio/xxx/. 書き方はルートの .htaccess と同じ)
+  # 固定ページの入口を直接開いた場合は, きれいな URL へ恒久的に転送する
+  RewriteCond %{THE_REQUEST} \s[^?\s]*\?(?:[^\s&]*&)*slug=([A-Za-z0-9_-]+)[\s&]
+  RewriteRule ^page/(?:index\.php)?$ %{ENV:BASE}%1/? [R=301,L]
+  RewriteRule ^page/([A-Za-z0-9_-]+)/?$ %{ENV:BASE}$1/ [R=301,L]
+
+  # 実在するファイルとフォルダ (works/, contact/ など) が優先される
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([A-Za-z0-9_-]+)$ %{ENV:BASE}$1/ [R=301,L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^([A-Za-z0-9_-]+)/$ page/index.php?slug=$1 [L,QSA]
 </IfModule>

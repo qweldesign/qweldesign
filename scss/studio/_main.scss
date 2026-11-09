@@ -6,15 +6,26 @@
 @use "../variables" as *;
 
 .main {
-  @include container("md");
+  // 幅はトップの内側 (.studio__inner) とそろえる (720px)
+  box-sizing: border-box;
+  width: min(100%, 45rem);
   min-height: calc(100vh - 24rem);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
 
+  // ページの見出し (トップの見出し .studio__heading と同じ明朝の太字. 本文の見出し h2 より一回り大きく)
   &__title {
+    margin-block: space("large") space("medium");
+    font-family: "Shippori Mincho", "游明朝", "Yu Mincho", serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1.5;
+
     &::after {
       content: "✶";
+      margin-inline-start: space("x-small");
       color: theme-color("secondary");
       font-size: 1.25em;
-      margin-inline-start: space("x-small");
     }
 
     & > span {
