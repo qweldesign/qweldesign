@@ -1,6 +1,10 @@
 # VS code
 .vscode/
 
+# Node_modules (tools/flyer の書き出し)
+node_modules/
+out/
+
 # Composer
 inc/vendor/
 
