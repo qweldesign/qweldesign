@@ -129,7 +129,7 @@ php -S 127.0.0.1:8000
 
 既定では `Noto Sans JP` を可変フォント (`wght@100..900`) で読む。太さを並べて指定するより CSS が軽い。日本語の Web フォントは、ページで使う文字を含む分だけを取得するが、それでも 1 ページで約 1 MB になる。表示の速さを優先するなら、`SITE_FONTS_URL` を空にして OS の書体に任せる (Mac や iPhone ではヒラギノ、Windows では游ゴシックや Noto Sans JP など。OS によって見た目が変わる)。
 
-書体を変えるときは、`SITE_FONTS_URL` と一緒に、`scss/_variables.scss` の `@forward "settings" with (...)` に `$font-family-sans` などを足す。CSS が名前を挙げる書体と、読み込む書体を揃える。
+書体を変えるときは、`SITE_FONTS_URL` と一緒に、`scss/style.scss` の先頭の `@use "variables" with (...)` に `$font-family-sans` などを足す。CSS が名前を挙げる書体と、読み込む書体を揃える。
 
 ヒーローの見出しなど、決まった文言だけに使う書体は、`SITE_TEXT_FONTS` で文字を絞って読める。書体のファイルが数 KB で済むので、本文は OS の書体に任せ、目立つ所だけ Web フォントにするときに使う。
 
@@ -144,9 +144,15 @@ const SITE_TEXT_FONTS = [
 - 文言を変えたら `text` も直す。抜けた文字は代わりの書体で表示され、見た目では気づきにくい。健全性チェックは文字の抜けを見ない
 - CSS の `font-family` には、`SITE_FONTS_URL` の書体とは別に、この書体の名前を書く
 
+### SCSS の値
+
+サイトごとの値 (ブレイクポイント、書体、配色など) は、入口 (`scss/style.scss`) の先頭の `@use "variables" with (...)` で渡す。`scss/_variables.scss` は `settings/` と `mixins/` を転送するだけで、値を持たない。各部品は `_variables.scss` を読むので、最初に読む入口で値を決めれば、すべての部品に効く。渡さない値は `settings/` の既定値になる。
+
+区画ごとに CSS を分けるときは、入口を増やし (例: `scss/studio.scss` → `studio.css`)、それぞれの先頭で値を渡す。区画の設定の `SITE_STYLESHEET` で、読む CSS を選ぶ。
+
 ### 配色の段階
 
-メインカラー (`$colors`) から、色相を保って OKLCH の明度 (`l`) と、必要なら彩度 (`c`) を変えた段階の色を作れる。白地の文字に使う `dark`、帯やカードの面に使う `light` など。既定では作らない。使うときは、`scss/_variables.scss` の `@forward "settings" with (...)` に足す。
+メインカラー (`$colors`) から、色相を保って OKLCH の明度 (`l`) と、必要なら彩度 (`c`) を変えた段階の色を作れる。白地の文字に使う `dark`、帯やカードの面に使う `light` など。既定では作らない。使うときは、`scss/style.scss` の先頭の `@use "variables" with (...)` に足す。
 
 ```scss
 $color-tones: (dark: (l: 54%), light: (l: 96%, c: 0.02)),
