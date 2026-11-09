@@ -1984,6 +1984,203 @@ html[data-scene=night]:has(.is-flight) {
  * 配色はすべて --flight-* (scss/_flight.scss) を使い, 昼の便・夜の便のどちらでも成り立たせる
  */
 /**
+ * Project - Co-Pilot
+ * 制作会社・広告代理店向けのページ (co-pilot/index.php) の部品
+ * 配色はすべて --flight-* (scss/_flight.scss) を使い, 昼の便・夜の便のどちらでも成り立たせる
+ * 見出し・一覧・仕様の表 (.section__*) は本体と同じ部品を使い, ここには本ページだけの部品を置く
+ */
+.copilotHero__catch {
+  margin: var(--spacing--medium) 0 0;
+  font-family: serif;
+  font-size: clamp(1.15rem, 4.2vw, 2rem);
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.copilotIntro {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--spacing--small) var(--spacing--large);
+  margin-block-start: var(--spacing--medium);
+}
+
+.copilotStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing--small);
+  margin: 0;
+  color: var(--flight-ink-dim);
+  font-size: var(--font-size--small);
+}
+.copilotStatus::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: var(--flight-lamp);
+  box-shadow: 0 0 0.6rem var(--flight-lamp);
+}
+.copilotStatus.is-panel {
+  flex-wrap: wrap;
+  width: 100%;
+  padding: var(--spacing--medium) var(--spacing--large);
+  border: 1px solid var(--flight-rule);
+  border-radius: var(--spacing--small);
+  background: var(--flight-button);
+  color: var(--flight-ink);
+  font-size: var(--font-size--normal);
+  box-sizing: border-box;
+}
+.copilotStatus.is-consult::before {
+  border: 1px solid var(--flight-ink-dim);
+  background-color: transparent;
+  box-shadow: none;
+  box-sizing: border-box;
+}
+.copilotStatus__updated {
+  margin-inline-start: auto;
+  color: var(--flight-ink-dim);
+  font-family: ui-monospace, monospace;
+  font-size: var(--font-size--x-small);
+  letter-spacing: 0.12em;
+}
+
+.copilotNote {
+  color: var(--flight-ink-dim);
+  font-size: var(--font-size--small);
+}
+
+.copilotValue {
+  color: var(--flight-lamp);
+  font-family: ui-monospace, monospace;
+  font-size: 0.95em;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.copilotRecords {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--flight-rule);
+}
+.copilotRecords > li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+  gap: var(--spacing--x-small) var(--spacing--medium);
+  margin: 0;
+  padding-block: var(--spacing--small);
+  border-top: 1px solid var(--flight-rule);
+  font-size: var(--font-size--small);
+}
+@media (max-width: 600px) {
+  .copilotRecords > li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.copilotRecords > li > span + span {
+  color: var(--flight-ink-dim);
+}
+
+.copilotShots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+  gap: var(--spacing--medium);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.copilotShots > li {
+  margin: 0;
+}
+.copilotShots a {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing--x-small);
+  font-family: ui-monospace, monospace;
+  font-size: var(--font-size--x-small);
+}
+.copilotShots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16/10;
+  -o-object-fit: cover;
+     object-fit: cover;
+  -o-object-position: top;
+     object-position: top;
+  border: 1px solid var(--flight-rule);
+  border-radius: var(--spacing--x-small);
+}
+
+.copilotFare {
+  overflow-x: auto;
+}
+.copilotFare table {
+  width: 100%;
+  min-width: 34rem;
+  border-collapse: collapse;
+  font-size: var(--font-size--small);
+}
+.copilotFare th,
+.copilotFare td {
+  padding: var(--spacing--small) var(--spacing--x-small);
+  border: 0;
+  border-top: 1px solid var(--flight-rule);
+  background: transparent;
+  color: var(--flight-ink);
+  text-align: left;
+  vertical-align: top;
+}
+.copilotFare tbody tr:last-child > * {
+  border-bottom: 1px solid var(--flight-rule);
+}
+.copilotFare thead th {
+  border-top: 0;
+  color: var(--flight-ink-dim);
+  font-family: ui-monospace, monospace;
+  font-size: var(--font-size--x-small);
+  font-weight: 400;
+  letter-spacing: 0.12em;
+}
+.copilotFare__group {
+  color: var(--flight-lamp) !important;
+  font-family: ui-monospace, monospace;
+  white-space: nowrap;
+}
+.copilotFare__price {
+  font-weight: 700;
+  text-align: right !important;
+  white-space: nowrap;
+}
+.copilotFare__price.is-text {
+  color: var(--flight-ink-dim) !important;
+  font-weight: 400;
+}
+
+.section__specs.is-wide {
+  grid-template-columns: minmax(0, 1fr);
+}
+.section__specs.is-wide .section__spec {
+  grid-template-columns: 9rem minmax(0, 1fr);
+}
+@media (max-width: 600px) {
+  .section__specs.is-wide .section__spec {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
+/**
+ * Component - Contact
+ * お問い合わせフォームの部品 (/contact/ と, Co-Pilot /co-pilot/ の #contact で使う. ちいさなサイト工房は studio.css)
+ * 入力 (/contact/ か #contact) → 確認 (/contact/confirm/) → 送信 (api/send.php) → 完了 (/contact/thanks/)
+ * マークアップは templates/contact.php, 項目は templates/config.php の SITE_CONTACT_FIELDS, 画面の受け渡しは js/contact-form.js
+ * 配色はすべて --flight-* (scss/_flight.scss) を使い, 昼の便・夜の便のどちらでも成り立たせる
+ */
+/**
  * Utility - Scroll Offset
  */
 :root {
