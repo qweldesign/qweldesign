@@ -65,7 +65,9 @@ require_once __DIR__ . '/inc/bootstrap.php';
 bootstrapSection('main');
 ```
 
-地図には、区画ごとに設定ファイル (`config`)、ルート (`root`)、固定ページ (`pages`)、投稿タイプ (`postTypes`) を書く。`bootstrapSection()` は `root`, `pages`, `postTypes` から `SITE_ROOT`, `SITE_PAGES`, `SITE_POST_TYPES` を作ってから設定ファイルを読む (地図に書かなければ、これまでどおり設定ファイルに書く)。サイトマップや健全性チェックが、1 回のリクエストで全区画を見られるようにするため。設定ファイルには、それ以外の設定値を書く。`SITE_BASE` は共有 `assets/`・`content/` の URL 基点で、`SITE_ROOT` はその下に置く。`path()` は区画内 URL と共有ファイル URL を使い分け、`siteFile()` はリポジトリ内の対応するファイルを参照する。
+地図には、区画ごとに設定ファイル (`config`)、ルート (`root`)、固定ページ (`pages`)、投稿タイプ (`postTypes`) を書く。`bootstrapSection()` は `root`, `pages`, `postTypes` から `SITE_ROOT`, `SITE_PAGES`, `SITE_POST_TYPES` を作ってから設定ファイルを読む (地図に書かなければ、これまでどおり設定ファイルに書く)。サイトマップや健全性チェックが、1 回のリクエストで全区画を見られるようにするため。設定ファイルには、それ以外の設定値を書く。
+
+区画ごとに見た目を変えるときは、地図の `templates` にその区画のテンプレートの置き場 (例: `templates/studio`) を書く。`sectionTemplate('page.php')` は、置き場にファイルがあればそれを、なければ `templates/` のファイルを返す。`ContentPage` と `inc/404.php` は、これで画面のテンプレートを選ぶ。レイアウト (`site.php`) だけを置けば、パンくずなどの部品は共通のものを使える。置き場のテンプレートは `templates/` より 1 段深いので、`dirname(__DIR__)` などの相対パスに気をつける。区画の 404 は、区画の入口 (例: `small-site-studio/404.php`) で区画を選んでから `inc/404.php` を読む。`SITE_BASE` は共有 `assets/`・`content/` の URL 基点で、`SITE_ROOT` はその下に置く。`path()` は区画内 URL と共有ファイル URL を使い分け、`siteFile()` はリポジトリ内の対応するファイルを参照する。
 
 ---
 

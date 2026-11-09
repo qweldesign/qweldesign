@@ -6,7 +6,7 @@
  * See LICENSE file for details.
  *
  * 投稿タイプの URL を受けて, 必要なデータを集め, 画面のテンプレートを選ぶ
- * HTML はテンプレート (templates/) が持つ
+ * HTML はテンプレート (templates/) が持つ. 区画の地図に templates があれば, その区画のテンプレートを優先する (sectionTemplate())
  *
  * 使い方 (投稿タイプのディレクトリの index.php):
  *   require_once dirname(__DIR__) . '/inc/ContentPage.php';
@@ -14,12 +14,13 @@
  */
 
 require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap.php';
 require_once __DIR__ . '/ContentLoader.php';
 require_once __DIR__ . '/ContentNavigation.php';
-require_once dirname(__DIR__) . '/templates/postList.php';
-require_once dirname(__DIR__) . '/templates/postSingle.php';
-require_once dirname(__DIR__) . '/templates/page.php';
-require_once dirname(__DIR__) . '/templates/notFound.php';
+require_once sectionTemplate('postList.php');
+require_once sectionTemplate('postSingle.php');
+require_once sectionTemplate('page.php');
+require_once sectionTemplate('notFound.php');
 
 class ContentPage {
   public static function render(string $type): void {

@@ -3,7 +3,7 @@
  * bootstrap.php
  * 区画の設定と共通の helper を読み込む
  *
- * 区画の地図は templates/sections.php ([区画の名前 => ['config' => 設定ファイル, 'root' => ..., 'pages' => [...], 'postTypes' => [...]]])
+ * 区画の地図は templates/sections.php ([区画の名前 => ['config' => 設定ファイル, 'root' => ..., 'pages' => [...], 'postTypes' => [...], 'templates' => テンプレートの置き場]])
  * 1 回のリクエストで読む区画は 1 つだけ (PHP の定数は上書きできないため)
  *
  * 使い方 (区画のページの先頭):
@@ -56,6 +56,18 @@ function bootstrapSection(?string $section = null): array {
   }
 
   return $sections[$section];
+}
+
+/**
+ * 区画のテンプレートのファイルのパス (例: sectionTemplate('page.php'))
+ * 地図の templates (その区画のテンプレートの置き場) にあればそれを, なければ templates/ のファイルを返す
+ * 区画ごとにレイアウト (site.php) や画面のテンプレートを差し替え, 差し替えないものは共通のものを使う
+ */
+function sectionTemplate(string $file): string {
+  // 区画をまだ選んでいなければ, 最初の区画を選ぶ
+  $dir = bootstrapSection()['templates'] ?? null;
+  if ($dir !== null && is_file($dir . '/' . $file)) return $dir . '/' . $file;
+  return dirname(__DIR__) . '/templates/' . $file;
 }
 
 // 選んだ区画の名前 (まだ選んでいなければ null)
