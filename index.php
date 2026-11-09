@@ -137,7 +137,15 @@ renderHeader([
                 </li>
               </ul>
             </div>
-
+            <!-- 2 つのサービス (ちいさなサイト工房, Co-Pilot) へのバナー. 画像は OGP と共用 (tools/ogp/) -->
+            <div class="section__bannerArea">
+              <a class="section__banner" href="<?= e(path('small-site-studio/')) ?>">
+                <img src="<?= e(path('content/images/banners/small-site-studio.jpg')) ?>" alt="ちいさなサイト工房"<?= imageAttrs('content/images/banners/small-site-studio.jpg') ?>>
+              </a>
+              <a class="section__banner" href="<?= e(path('co-pilot/')) ?>">
+                <img src="<?= e(path('content/images/banners/co-pilot.jpg')) ?>" alt="Co-Pilot ― 制作会社・広告代理店の方へ"<?= imageAttrs('content/images/banners/co-pilot.jpg') ?>>
+              </a>
+            </div>
           </div>
         </div>
       </section>
