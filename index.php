@@ -6,8 +6,7 @@
  * フッターの文字のリンクは, 2つのサービス (ちいさなサイト工房, Co-Pilot) へ
  */
 require_once __DIR__ . '/inc/bootstrap.php';
-$sections = require __DIR__ . '/templates/sections.php';
-bootstrapSection('main', $sections);
+bootstrapSection('main');
 require_once __DIR__ . '/templates/site.php';
 
 $siteUrl = absoluteUrl();

@@ -9,7 +9,6 @@ const SITE_NAME = 'QWEL in Action';
 const SITE_TITLE = 'QWEL in Action | 福井・越前海岸から、フルスクラッチのWeb開発';
 const SITE_TOP_TITLE = 'QWEL in Action | 福井・越前海岸から、フルスクラッチのWeb開発';
 const SITE_URL = 'https://qwel.design';
-const SITE_ROOT = '/';
 const SITE_BASE = '/';
 const SITE_LANG = 'ja';
 const SITE_DESCRIPTION = '福井市の越前海岸を拠点にする QWEL.DESIGN (伊藤大悟) のポートフォリオです。地域の活動に加わりながら、WordPress のオリジナルテーマ開発や、JavaScript によるフルスクラッチの UI/UX 実装を手掛けています。';
@@ -44,10 +43,6 @@ const SITE_SNS = [
 const SITE_BREADCRUMB = [
   ['label' => 'QWEL in Action', 'path' => ''],
 ];
-const SITE_PAGES = [
-  'co-pilot/',
-  'contact/',
-];
 const SITE_ROBOTS_DISALLOW = [];
 const SITE_AUTHOR = [
   '@type' => 'Person',
@@ -56,44 +51,6 @@ const SITE_AUTHOR = [
 ];
 const SITE_OWNER = 'QWEL.DESIGN';
 const SITE_START_YEAR = 2019;
-/**
- * creative, tools は一覧だけ (items: false)。各作品の中身は, それぞれのリポジトリから /creative/xxx/, /tools/xxx/ に置く
- * そのため creative/, tools/ には投稿タイプ用の .htaccess (リライト) を置かない (作品のディレクトリを横取りしないように)
- * このサイトだけのキー (templates/postList.php が読む):
- *   audience: 見出しの下の和文 (読み手・ページの用途)
- *   texts: 導入文 (段落ごとの配列)
- */
-const SITE_POST_TYPES = [
-  'creative' => [
-    'label'    => 'Creative Crafts',
-    'path'     => 'creative/',
-    'dir'      => 'content/creative',
-    'items'    => false,
-    'count'    => null,
-    'showDate' => false,
-    'sort'     => 'order',
-    'lead'     => 'Vanilla JS でスクラッチした、アニメーションやインタラクティブな表現作品の一覧です。',
-    'audience' => 'インタラクティブ表現・JavaScript 作品集',
-    'texts'    => [
-      'Vanilla JS でスクラッチした、アニメーションやインタラクティブな表現作品群。',
-      '2025年から、Three / Vue / React 各ライブラリ・フレームワークも併用しています。',
-    ],
-  ],
-  'tools' => [
-    'label'    => 'Creative Tools',
-    'path'     => 'tools/',
-    'dir'      => 'content/tools',
-    'items'    => false,
-    'count'    => null,
-    'showDate' => false,
-    'sort'     => 'order',
-    'lead'     => 'PHP / JS でスクラッチした、実用的な機能モジュールの一覧です。',
-    'audience' => 'UI/UX コンポーネント・PHP 作品集',
-    'texts'    => [
-      'PHP / JS でスクラッチした、実用的な機能モジュール群。',
-    ],
-  ],
-];
 
 /**
  * お問い合わせフォーム (/contact/. Co-Pilot の #contact, ちいさなサイト工房にも同じ項目のフォームを置く)

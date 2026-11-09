@@ -13,8 +13,7 @@
  * 稼働状況 ([data-flight-status]) は content/options.json の flight_status (open / consult) で切り替える. 受付中の年月は js/flight-status.js が添える
  */
 require_once dirname(__DIR__) . '/inc/bootstrap.php';
-$sections = require dirname(__DIR__) . '/templates/sections.php';
-bootstrapSection('main', $sections);
+bootstrapSection('main');
 require_once dirname(__DIR__) . '/templates/site.php';
 require_once dirname(__DIR__) . '/templates/contact.php';
 require_once dirname(__DIR__) . '/templates/copilot.php';

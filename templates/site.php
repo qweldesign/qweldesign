@@ -10,9 +10,8 @@
  */
 
 require_once dirname(__DIR__) . '/inc/bootstrap.php';
-$sections = require __DIR__ . '/sections.php';
-if (activeSection() === null) bootstrapSection('main', $sections);
-require_once dirname(__DIR__) . '/inc/helpers.php';
+// 区画をまだ選んでいなければ, 最初の区画 (本家) の設定を読む
+bootstrapSection();
 
 /**
  * <head> ~ ヘッダーまで出力
