@@ -1419,7 +1419,7 @@ html[data-scene=night]:has(.is-flight) {
 .is-flight .breadcrumb {
   gap: 0 var(--spacing--small);
   margin: 0 0 var(--spacing--small);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--x-small);
   letter-spacing: 0.12em;
 }
@@ -1454,7 +1454,7 @@ html[data-scene=night]:has(.is-flight) {
   border-radius: var(--spacing--medium);
   background: var(--flight-button);
   color: var(--flight-ink);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--small);
   line-height: 1;
   letter-spacing: 0.16em;
@@ -1540,7 +1540,7 @@ html[data-scene=night]:has(.is-flight) {
 .is-flight .section__listItem h3 {
   margin-block: 0 var(--spacing--small);
   color: var(--flight-lamp);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 1rem;
   letter-spacing: 0.04em;
 }
@@ -1559,10 +1559,10 @@ html[data-scene=night]:has(.is-flight) {
 .is-flight .section__tag {
   border-color: var(--flight-rule);
   color: var(--flight-ink-dim);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 .is-flight .section__link {
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 .is-flight .section__link::after {
   color: var(--flight-lamp);
@@ -1591,7 +1591,7 @@ html[data-scene=night]:has(.is-flight) {
 }
 .is-flight .section__caption {
   color: var(--flight-ink-dim);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 .is-flight .section__spec {
   border-top-color: var(--flight-rule);
@@ -1607,7 +1607,7 @@ html[data-scene=night]:has(.is-flight) {
 }
 .is-flight .section__timelineYear {
   color: var(--flight-lamp);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
 }
 .is-flight .section__motto {
   margin-block: var(--spacing--medium);
@@ -1693,7 +1693,7 @@ html[data-scene=night]:has(.is-flight) {
   border-radius: var(--spacing--small);
   background: var(--flight-header-hover);
   color: var(--flight-ink);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--x-small);
   line-height: 1;
   letter-spacing: 0.08em;
@@ -1886,7 +1886,7 @@ html[data-scene=night]:has(.is-flight) {
 }
 .contactForm__required, .contactForm__optional {
   margin-inline-start: var(--spacing--x-small);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--x-small);
   letter-spacing: 0.08em;
 }
@@ -2042,7 +2042,7 @@ html[data-scene=night]:has(.is-flight) {
 .copilotStatus__updated {
   margin-inline-start: auto;
   color: var(--flight-ink-dim);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--x-small);
   letter-spacing: 0.12em;
 }
@@ -2054,7 +2054,7 @@ html[data-scene=night]:has(.is-flight) {
 
 .copilotValue {
   color: var(--flight-lamp);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.95em;
   letter-spacing: 0.04em;
   white-space: nowrap;
@@ -2099,7 +2099,7 @@ html[data-scene=night]:has(.is-flight) {
   display: flex;
   flex-direction: column;
   gap: var(--spacing--x-small);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--x-small);
 }
 .copilotShots img {
@@ -2140,14 +2140,14 @@ html[data-scene=night]:has(.is-flight) {
 .copilotFare thead th {
   border-top: 0;
   color: var(--flight-ink-dim);
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: var(--font-size--x-small);
   font-weight: 400;
   letter-spacing: 0.12em;
 }
 .copilotFare__group {
   color: var(--flight-lamp) !important;
-  font-family: ui-monospace, monospace;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   white-space: nowrap;
 }
 .copilotFare__price {

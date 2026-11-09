@@ -8,8 +8,14 @@ const SITE_NAME = 'QWEL in Action';
 const SITE_TITLE = 'QWEL in Action | 福井・越前海岸から、フルスクラッチのWeb開発';
 const SITE_TOP_TITLE = 'QWEL in Action | 福井・越前海岸から、フルスクラッチのWeb開発';
 const SITE_DESCRIPTION = '福井市の越前海岸を拠点にする QWEL.DESIGN (伊藤大悟) のポートフォリオです。地域の活動に加わりながら、WordPress のオリジナルテーマ開発や、JavaScript によるフルスクラッチの UI/UX 実装を手掛けています。';
-const SITE_FONTS_URL = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&display=swap';
-const SITE_TEXT_FONTS = [];
+const SITE_FONTS_URL = '';
+// 見出しの欧文 (Cormorant Garamond) と計器のような等幅 (IBM Plex Mono) は, 半角の英数字と記号 (ASCII の 95 字) だけを読む
+// 和文はどちらも OS の書体になる. 後から変わる作品名なども, 半角なら文字が抜けない
+const SITE_FONT_TEXT_ASCII = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+const SITE_TEXT_FONTS = [
+  ['family' => 'Cormorant Garamond:ital,wght@0,500;1,500', 'text' => SITE_FONT_TEXT_ASCII],
+  ['family' => 'IBM Plex Mono', 'text' => SITE_FONT_TEXT_ASCII],
+];
 const SITE_OGP_IMAGE = 'assets/ogp.jpg';
 const SITE_OGP_IMAGE_ALT = 'QWEL in Action ― 福井・越前海岸から、フルスクラッチのWeb開発';
 const SITE_THUMBNAIL_IMAGE = 'assets/ogp.jpg';

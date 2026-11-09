@@ -34,7 +34,7 @@ lamp:              $light-hue  100%   75.0%  // 操縦席の計器灯
 // 書体
 // 見出しの和文と, ボタンやラベルに使う計器のような等幅
 $flight-font-mincho: serif !default;
-$flight-font-mono:   ui-monospace, monospace !default;
+$flight-font-mono:   ("IBM Plex Mono", ui-monospace, monospace) !default;
 
 // 昼夜の配色 (役割: [昼, 夜])
 // 昼は既存の配色. 空 (primary の青, 色相 200) と陽の光 (橙, 色相 30) で, 補色に近い関係
