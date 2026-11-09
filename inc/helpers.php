@@ -10,7 +10,7 @@
  */
 
 // エンジンの版 (リリースのときに更新する. サイトがどの版から作られたかを, 公開中のページのソースで確かめられるように出力する)
-const SITE_ENGINE_VERSION = '1.2.2';
+const SITE_ENGINE_VERSION = '1.3.1';
 
 // HTMLに出す値のエスケープ
 function e(?string $value): string {
@@ -105,6 +105,27 @@ function ogImage(string $image = ''): ?array {
 // http から始まる URL か
 function isExternal(string $path): bool {
   return (bool)preg_match('#^https?://#', $path);
+}
+
+/**
+ * 文字を絞って読む Google Fonts の CSS の URL (ヒーローの見出しなど, 決まった文言だけに使う書体を軽く読む)
+ * $family: 書体と太さ (例: "Zen Kaku Gothic New:wght@400;700". 空白は + に置き換える)
+ * $text: 表示する文言をそのまま書く. 重なる文字と改行は除き, 並べ替えて URL に入れる
+ */
+function textFontUrl(string $family, string $text): string {
+  $chars = array_unique(mb_str_split(preg_replace('/[\r\n\t]/u', '', $text)));
+  sort($chars, SORT_STRING);
+  return 'https://fonts.googleapis.com/css2?family=' . str_replace(' ', '+', trim($family))
+    . '&text=' . rawurlencode(implode('', $chars)) . '&display=swap';
+}
+
+// 文字を絞って読む書体の URL の一覧 (templates/config.php の SITE_TEXT_FONTS. 古い config.php では空)
+function textFontUrls(): array {
+  $fonts = defined('SITE_TEXT_FONTS') ? SITE_TEXT_FONTS : [];
+  return array_values(array_filter(array_map(
+    fn(array $font): string => ($font['family'] ?? '') !== '' && ($font['text'] ?? '') !== '' ? textFontUrl($font['family'], $font['text']) : '',
+    $fonts
+  )));
 }
 
 // リポジトリ直下に置く共有静的ファイルのパス

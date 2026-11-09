@@ -207,3 +207,37 @@ Markdown の原稿の表示からお問い合わせフォームまで、サイ�
 - `js/slider.js` を置き換える。`inc/`, `templates/` の書き換えは要らない
 
 [1.2.2]: https://github.com/qweldesign/qwel-tools-md-engine/releases/tag/v1.2.2
+
+## [1.3.0] 既定の Web フォント
+
+### Web フォント
+
+- 既定の `SITE_FONTS_URL` で `Noto Sans JP` を読み込む。CSS の既定の書体は `Noto Sans JP` なのに読み込んでおらず、OS に入っている環境でだけ使われていた (Mac や iPhone ではヒラギノになっていた)
+- 使っていなかった `Noto Sans`, `Noto Serif` と `Cormorant Garamond` を外す。`Cormorant Garamond` を指定していた `.main__title > span` は、どのテンプレートも `<span>` を出さないので消す
+- 新しく作るサイトは、日本語の Web フォントで 1 ページに約 1 MB を読み込む。速さを優先するなら `SITE_FONTS_URL` を空にする (README の「Web フォント」)
+
+### 1.2.2 からの更新
+
+- 新しく作るサイトの既定値の変更。既存のサイトは自分の `SITE_FONTS_URL` を持つので、当てなくてよい
+- 当てる場合、`templates/config.php` の `SITE_FONTS_URL` は自分の値を残す。題を書き換えたサイトでは `scss/_main.scss` も自分の版を残す
+
+修正は `v1.0.0` から切ったコミットなので、古い版のサイトにも新機能なしで当てられる (`c6ee41e`)。
+
+[1.3.0]: https://github.com/qweldesign/qwel-tools-md-engine/releases/tag/v1.3.0
+
+## [1.3.1] 文字を絞って読む Web フォント
+
+### Web フォント
+
+- `SITE_TEXT_FONTS` で、決まった文言だけに使う書体を、文字を絞って読めるようにする。書体のファイルが数 KB で済むので、本文は OS の書体に任せ、ヒーローの見出しなど目立つ所だけ Web フォントにできる
+- `textFontUrl()` は、文言から重なる文字と改行を除き、`text=` 付きの Google Fonts の URL を作る。文字を手で拾わなくてよい
+- `SITE_FONTS_URL` と同じく、表示を止めずに読む
+
+### 1.3.0 からの更新
+
+- 使わないサイトは当てなくてよい。`SITE_TEXT_FONTS` がない `config.php` では何も出力しない
+- 使うサイトは `inc/helpers.php` を置き換え、`templates/site.php` に読み込みの部分を足し、`templates/config.php` に `SITE_TEXT_FONTS` を書く。`site.php` と `config.php` はサイトが書き換えているので、競合したら自分の版に足す
+
+`v1.0.0` から切ったブランチに積んだコミットなので、古い版のサイトにも当てられる (`d3c6702`)。
+
+[1.3.1]: https://github.com/qweldesign/qwel-tools-md-engine/releases/tag/v1.3.1

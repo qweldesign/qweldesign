@@ -4,6 +4,9 @@
 @use "gridSystem" as *;
 
 // 固有のフォント設定
+// 書体名を二重に囲むのは, CSS 変数 (--font-family-base など) に埋め込むと外側の引用符が外れるため
+// font-family に直接書くと引用符が残り, 書体が当たらない. 直接使う変数は "Noto Sans JP" のように 1 重で書く
+// 既定の書体は templates/config.php の SITE_FONTS_URL で読み込む (Noto Sans JP)
 $font-family-sans:       "\"Noto Sans JP\"", "\"游ゴシック\"", "\"Yu Gothic\"", sans-serif !default;
 $font-family-serif:      "\"Noto Serif JP\"", "\"游明朝\"", "\"Yu Mincho\"", serif !default;
 $font-weight-sans:       400 !default; // 游ゴシック固有

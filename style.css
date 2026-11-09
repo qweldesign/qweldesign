@@ -620,9 +620,6 @@ button, input, select, textarea {
   color: var(--color--secondary);
   font-size: 1.25em;
 }
-.main__title > span {
-  font-family: "Cormorant Garamond", serif;
-}
 .main__list {
   margin: var(--spacing--medium) 0;
   padding: 0;

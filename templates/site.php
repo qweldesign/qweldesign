@@ -73,6 +73,18 @@ function renderHeader(array $page = []): void {
 <?php } ?>
     <meta property="og:image:alt" content="<?= e($imageAlt) ?>">
     <meta name="twitter:card" content="summary_large_image">
+<?php $textFontUrls = textFontUrls(); ?>
+<?php if ($textFontUrls) { ?>
+<?php if (!SITE_FONTS_URL) { ?>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<?php } ?>
+    <!-- 文字を絞った書体 (SITE_TEXT_FONTS). 小さいが, 表示を止めずに読む -->
+<?php foreach ($textFontUrls as $textFontUrl) { ?>
+    <link rel="preload" as="style" href="<?= e($textFontUrl) ?>" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="<?= e($textFontUrl) ?>"></noscript>
+<?php } ?>
+<?php } ?>
 <?php if (SITE_FONTS_URL) { ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
