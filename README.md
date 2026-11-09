@@ -144,6 +144,18 @@ const SITE_TEXT_FONTS = [
 - 文言を変えたら `text` も直す。抜けた文字は代わりの書体で表示され、見た目では気づきにくい。健全性チェックは文字の抜けを見ない
 - CSS の `font-family` には、`SITE_FONTS_URL` の書体とは別に、この書体の名前を書く
 
+### 配色の段階
+
+メインカラー (`$colors`) から、色相を保って OKLCH の明度 (`l`) と、必要なら彩度 (`c`) を変えた段階の色を作れる。白地の文字に使う `dark`、帯やカードの面に使う `light` など。既定では作らない。使うときは、`scss/_variables.scss` の `@forward "settings" with (...)` に足す。
+
+```scss
+$color-tones: (dark: (l: 54%), light: (l: 96%, c: 0.02)),
+```
+
+`:root` に `--color--primary--dark: oklch(54% 0.119 238)` のような値が出力され、SCSS では `theme-color("primary", "dark")` で使える。値は丸める (明度は整数の %、彩度は小数第 3 位、色相は整数の度)。画面で出せる色 (sRGB) の外に出るときは、彩度だけを下げて収める。
+
+OKLCH の明度は目の明るさに近いので、同じ `l` なら色が違っても読みやすさがそろう (HSL の明度では、黄色だけ極端に明るくなる)。`dark` が白地で 4.5:1 のコントラストに届かない色は、ビルドのときに警告が出る。色ごとに変えるときは `$color-tone-overrides: (secondary: (dark: (l: 50%)))` のように書く。`oklch()` は Safari 15.4、Chrome 111、Firefox 113 から使える。
+
 ### LCP の画像
 
 CSS の背景画像など、発見が遅れる LCP の候補の画像は、`preloadImage()` で先に読める。URLは実際に表示する画像と同じにする (違うと 2 度読む) ので、`assetUrl()` の `?v=` が付く画像には使わない。

@@ -3,6 +3,7 @@
 @use "sass:color";
 @use "sass:map";
 @use "sass:math";
+@use "sass:string";
 
 // 配色を決定する
 
@@ -24,9 +25,91 @@ $colors:           (
 $theme-colors:     map.merge($grays, $colors) !default;
 $theme-accent:     "primary" !default;
 
-// 配色の配列から色指定を抽出する関数
-@function theme-color($key: $theme-accent) {
-  @return var(--color--#{$key});
+// 配色の段階 (メインカラー $colors の色相を保ち, OKLCH の明度 (l) と, 必要なら彩度 (c) を変える)
+// 既定は空 (段階を出力しない). 使うときは, サイトの変数で段階ごとに指定する (例: (dark: (l: 54%), light: (l: 96%, c: 0.02)))
+//   dark:  白地に置く文字 (4.5:1 以上のコントラストが要る. 足りなければビルドで警告する)
+//   light: 帯やカードの面 (明るくすると彩度が高すぎるので, c で落とす)
+// OKLCH の明度は目の明るさに近いので, 同じ l なら色が違っても読みやすさがそろう
+// 指定すると, :root に --color--{色}--{段階} を oklch() で出力し, theme-color("primary", "dark") で使える
+$color-tones:      () !default;
+
+// 色ごとに段階の指定を変えたい場合 (例: (secondary: (dark: (l: 50%))))
+$color-tone-overrides: () !default;
+
+// メインカラーから段階の色を導く関数 (OKLCH の Sass の色を返す. 画面で出せる色 (sRGB) に収め, 値を丸める)
+@function color-tone($key, $tone: "base") {
+  $color: map.get($colors, $key);
+  @if ($color == null) {
+    @error "color-tone: #{$key} は $colors にありません";
+  }
+  @if ($tone == "base") {
+    @return $color;
+  }
+  $spec: map.get($color-tones, $tone);
+  @if ($spec == null) {
+    @error "color-tone: 段階 #{$tone} は $color-tones にありません";
+  }
+  $override: map.get($color-tone-overrides, $key);
+  @if ($override and map.has-key($override, $tone)) {
+    $spec: map.merge($spec, map.get($override, $tone));
+  }
+  $tone-color: color.change(color.to-space($color, oklch), $lightness: map.get($spec, "l"));
+  @if (map.has-key($spec, "c")) {
+    $tone-color: color.change($tone-color, $chroma: map.get($spec, "c"));
+  }
+  // 明度を変えると sRGB の外に出ることがあるので, 彩度だけを下げて収める
+  // (色相と明度を保つため. color.to-gamut() は最後に sRGB で切り詰めるので, 色相が動く)
+  @while (not color.is-in-gamut($tone-color, $space: rgb) and color.channel($tone-color, "chroma", $space: oklch) > 0) {
+    $tone-color: color.change($tone-color, $chroma: math.max(0, color.channel($tone-color, "chroma", $space: oklch) - 0.001));
+  }
+  @return round-oklch($tone-color);
+}
+
+// OKLCH の値を丸める (明度は整数の %, 彩度は小数第 3 位 (sRGB の外に出ないよう切り捨て), 色相は整数の度)
+@function round-oklch($color) {
+  $l: math.round(color.channel($color, "lightness", $space: oklch));
+  $c: math.div(math.floor(color.channel($color, "chroma", $space: oklch) * 1000), 1000);
+  $h: math.round(color.channel($color, "hue", $space: oklch));
+  @return oklch($l $c $h);
+}
+
+// 色を oklch() の文字列にする (:root の出力用)
+@function oklch-string($color) {
+  $l: color.channel($color, "lightness", $space: oklch);
+  $c: color.channel($color, "chroma", $space: oklch);
+  $h: math.div(color.channel($color, "hue", $space: oklch), 1deg);
+  @return string.unquote("oklch(#{$l} #{$c} #{$h})");
+}
+
+// 相対輝度とコントラスト比 (WCAG 2.x)
+@function relative-luminance($color) {
+  $sum: 0;
+  $weights: ("red": 0.2126, "green": 0.7152, "blue": 0.0722);
+  @each $channel, $weight in $weights {
+    $value: math.div(color.channel($color, $channel, $space: rgb), 255);
+    @if ($value <= 0.04045) {
+      $value: math.div($value, 12.92);
+    } @else {
+      $value: math.pow(math.div($value + 0.055, 1.055), 2.4);
+    }
+    $sum: $sum + $value * $weight;
+  }
+  @return $sum;
+}
+
+@function contrast-ratio($a, $b) {
+  $la: relative-luminance($a) + 0.05;
+  $lb: relative-luminance($b) + 0.05;
+  // 表示しやすいよう, 小数第 2 位までに丸める
+  @return math.div(math.round(math.div(math.max($la, $lb), math.min($la, $lb)) * 100), 100);
+}
+
+// 配色の配列から色指定を抽出する関数 ($tone を付けると段階の色: dark, light. $color-tones の指定が要る)
+@function theme-color($key: $theme-accent, $tone: null) {
+  @if ($tone == null or $tone == "base") {
+    @return var(--color--#{$key});
+  }
+  @return var(--color--#{$key}--#{$tone});
 }
 
 // body の設定
