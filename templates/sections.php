@@ -10,6 +10,7 @@
  * root: 区画のルートの URL のパス (SITE_ROOT. SITE_BASE の下に置く)
  * pages: 投稿タイプ以外のページ (SITE_PAGES. 区画のルートからのパス. サイトマップに載せる)
  * postTypes: 投稿タイプ (SITE_POST_TYPES. 書き方は README の「投稿タイプを増やす」)
+ * templates: その区画のテンプレートの置き場 (任意. ここにあるファイルが templates/ より優先される. inc/bootstrap.php の sectionTemplate())
  */
 
 return [

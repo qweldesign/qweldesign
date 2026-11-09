@@ -10,7 +10,9 @@
  * このファイルはサイトが持つもの. デザインに合わせて書き換えてよい
  */
 
-require_once __DIR__ . '/site.php';
+// レイアウト (renderHeader, renderFooter) は区画ごとに選ぶ (区画の地図の templates にあれば, そちら)
+require_once dirname(__DIR__) . '/inc/bootstrap.php';
+require_once sectionTemplate('site.php');
 
 // パンくず (階層が 2 つ未満なら出さない)
 function renderBreadcrumb(array $crumbs): void {
