@@ -1,0 +1,27 @@
+/**
+ * Header
+ */
+
+@use "sass:map";
+@use "../variables" as *;
+
+.header {
+  width: min(100%, 768px);
+  margin: 0 auto;
+  padding: 0 clamp(0.75rem, 2%, 1.5rem);
+}
+
+.header__logo {
+  width: 7.2rem;
+  margin: 0;
+}
+
+// ナビ (config.php の SITE_NAV)
+.header__nav ul {
+  @include list-unstyled();
+  display: flex;
+  flex-wrap: wrap;
+  gap: space("x-small") space("medium");
+  margin: 0;
+  font-size: font-size("small");
+}

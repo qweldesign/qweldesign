@@ -1,0 +1,770 @@
+/**
+ * Project - Studio
+ * ちいさなサイト工房の紹介ページ (index.php)
+ * qwel.design の「昼の便」の配色を, 青 (つくる) とオレンジ (まもる) の2トーンにしたもの
+ * 白地で読みにくい primary と secondary は, 文字には dark の段階を使う
+ */
+
+@use "sass:map";
+@use "../variables" as *;
+
+// 配色 (settings/_colorSystem.scss のメインカラーから導いた3段だけを使う)
+// base: 線・面, dark: 白地の文字・ボタン, light: 帯・カードの面
+$studio-blue:          theme-color("primary");
+$studio-blue-dark:     theme-color("primary", "dark");
+$studio-blue-light:    theme-color("primary", "light");
+$studio-orange:        theme-color("secondary");
+$studio-orange-dark:   theme-color("secondary", "dark");
+$studio-orange-light:  theme-color("secondary", "light");
+$studio-ink:           theme-color("darkest");
+$studio-ink-dim:       theme-color("darker");
+$studio-rule:          rgba(map.get($colors, "primary"), 0.25);
+
+// 書体
+$studio-font-mincho:   "Shippori Mincho", "游明朝", "Yu Mincho", serif;
+$studio-font-mono:     "IBM Plex Mono", ui-monospace, monospace;
+
+// スマートフォンの固定ボタンの高さ (本文とトップへ戻るボタンを, この分だけ上げる)
+$studio-bar-height:    5.25rem;
+
+// Layout - Header (このサイトでは, ロゴとサービス名だけを置く)
+.header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: space("small") clamp(1.25rem, 4%, 2rem);
+  border-bottom: 3px solid $studio-orange;
+  background-color: theme-color("lightest");
+}
+
+.header__logo {
+  width: auto;
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: space("small");
+    color: $studio-ink;
+    text-decoration: none;
+  }
+
+  img {
+    width: 3rem;
+  }
+}
+
+.header__logoText {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.35;
+}
+
+.header__logoName {
+  font-family: $studio-font-mincho;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.header__logoSub {
+  color: $studio-ink-dim;
+  font-family: $studio-font-mono;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+}
+
+// Project - Studio
+.studio {
+  color: $studio-ink;
+  line-height: 1.8;
+
+  a:not(.studio__button):not(.studio__workLink) {
+    color: $studio-blue-dark;
+
+    &:hover {
+      color: $studio-ink;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  // 帯の中身の幅 (読みやすさを優先して狭くする)
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: space("medium");
+    width: min(100%, 45rem);
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+    box-sizing: border-box;
+  }
+
+  // ファーストビュー
+  &__hero {
+    position: relative;
+    padding-block: space("large") space("medium");
+    background: linear-gradient(to bottom, $studio-blue-light, $studio-blue-light 70%, theme-color("lightest"));
+  }
+
+  &__title {
+    margin: 0;
+    font-family: $studio-font-mincho;
+    font-size: clamp(2rem, 8vw, 3rem);
+    font-weight: 700;
+    line-height: 1.5;
+
+    span {
+      font-size: 0.75em;
+    }
+
+    // スマートフォンだけで折り返す位置
+    @media (min-width: breakpoint("sm")) {
+      br.is-sp {
+        display: none;
+      }
+    }
+  }
+
+  &__tagline {
+    font-family: $studio-font-mincho;
+    font-size: 1.25rem;
+    font-weight: 700;
+
+    span {
+      background: linear-gradient(transparent 50%, $studio-orange 50%);
+    }
+  }
+
+  &__chips {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+  }
+
+  &__chip {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: space("small") space("medium");
+    border: 2px solid $studio-blue;
+    border-radius: space("medium");
+    background-color: theme-color("lightest");
+
+    &.is-care {
+      border-color: $studio-orange;
+    }
+  }
+
+  &__chipLabel {
+    margin-block-start: space("x-small");
+    color: $studio-ink-dim;
+    font-size: 0.875rem;
+  }
+
+  &__chipPrice {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.35;
+
+    small {
+      font-size: 0.875rem;
+    }
+  }
+
+  &__chipNote {
+    color: $studio-ink-dim;
+    font-size: 0.75rem;
+  }
+
+  &__heroImage {
+    margin: space("small") 0 0;
+  }
+
+  // 帯
+  &__section {
+    padding-block: space("large");
+
+    &.is-blue {
+      background-color: $studio-blue-light;
+    }
+
+    &.is-orange {
+      background-color: $studio-orange-light;
+    }
+  }
+
+  &__label {
+    color: $studio-blue-dark;
+    font-family: $studio-font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+
+    &::before {
+      content: "✦ ";
+      color: $studio-orange;
+    }
+  }
+
+  &__heading {
+    margin: -0.5rem 0 0;
+    font-family: $studio-font-mincho;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  &__lead {
+    color: $studio-ink-dim;
+    font-size: 0.9375rem;
+  }
+
+  &__note {
+    color: $studio-ink-dim;
+    font-size: 0.875rem;
+  }
+
+  &__mark {
+    background: linear-gradient(transparent 50%, $studio-orange 50%);
+  }
+
+  // カード (縁の色で, つくる = 青, まもる = オレンジ を表す)
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: space("x-small");
+    padding: 1.25rem;
+    border: 1px solid $studio-rule;
+    border-radius: 1rem;
+    background-color: theme-color("lightest");
+
+    &.is-build {
+      border: 2px solid $studio-blue;
+    }
+
+    &.is-care {
+      border-color: $studio-orange;
+    }
+
+    &.is-muted {
+      border-color: theme-color("lighter");
+      color: $studio-ink-dim;
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__cardTitle {
+    font-weight: 700;
+  }
+
+  &__tag {
+    align-self: flex-start;
+    padding: 0.125rem 0.625rem;
+    border-radius: space("small");
+    background-color: $studio-blue-dark;
+    color: theme-color("lightest");
+    font-family: $studio-font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+
+    &.is-care {
+      background-color: $studio-orange;
+      color: $studio-ink;
+    }
+  }
+
+  // リスト
+  &__checks,
+  &__dashes,
+  &__dots,
+  &__included {
+    @include list-unstyled();
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+
+    // 文中に強調 (span) があっても1行の文として流れるよう, 記号は絶対配置にする
+    li {
+      position: relative;
+      padding-inline-start: space("medium");
+
+      &::before {
+        position: absolute;
+        left: 0;
+        font-weight: 700;
+      }
+    }
+  }
+
+  &__checks li::before {
+    content: "○";
+    color: $studio-blue-dark;
+  }
+
+  &__dashes li::before {
+    content: "－";
+  }
+
+  &__dots {
+    margin-block-start: space("x-small");
+    font-size: 0.875rem;
+
+    li::before {
+      content: "●";
+      color: $studio-orange;
+    }
+  }
+
+  &__included {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: space("x-small") space("small");
+    font-size: 0.9375rem;
+
+    li::before {
+      content: "✓";
+      color: $studio-blue-dark;
+    }
+  }
+
+  // 実績
+  &__works {
+    @include list-unstyled();
+    display: grid;
+    gap: space("medium");
+    margin: 0;
+
+    @media (min-width: breakpoint("sm")) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // 実績カード (画像と名前は個別のページへ, URL は実際のサイトへ)
+  &__work {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: space("small");
+    border: 1px solid $studio-rule;
+    border-radius: space("medium");
+    background-color: theme-color("lightest");
+    box-sizing: border-box;
+    transition: border-color 0.35s ease;
+
+    &:has(a:hover) {
+      border-color: $studio-blue;
+    }
+  }
+
+  &__workImage {
+    display: block;
+    margin-block-end: space("small");
+  }
+
+  &__workName {
+    margin: 0;
+    padding-inline: space("x-small");
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.65;
+
+    .studio__workLink {
+      color: $studio-ink;
+      text-decoration: none;
+
+      &:hover {
+        color: $studio-blue-dark;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__workKind {
+    padding-inline: space("x-small");
+    color: $studio-ink-dim;
+    font-size: 0.875rem;
+  }
+
+  &__workUrl {
+    padding-inline: space("x-small");
+    margin-block-start: space("x-small");
+    color: $studio-blue-dark;
+    font-family: $studio-font-mono;
+    font-size: 0.875rem;
+  }
+
+  // サイトの画面 (画像がまだないときは枠だけ)
+  &__shot {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid $studio-rule;
+    border-radius: space("small");
+    background-color: $studio-blue-light;
+    box-sizing: border-box;
+  }
+
+  .is-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $studio-ink-dim;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+
+  // 壊れにくい理由 (番号はオレンジの文字)
+  &__reasons {
+    @include list-unstyled();
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin: 0;
+    counter-reset: reason;
+
+    li {
+      position: relative;
+      padding-inline-start: 4.5rem;
+      counter-increment: reason;
+
+      &::before {
+        content: counter(reason, decimal-leading-zero);
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        color: $studio-orange;
+        font-family: $studio-font-mono;
+        font-size: 1.375rem;
+      }
+
+      p:not(.studio__cardTitle) {
+        color: $studio-ink-dim;
+        font-size: 0.9375rem;
+      }
+    }
+  }
+
+  // 料金
+  &__prices {
+    display: grid;
+    gap: space("medium");
+
+    @media (min-width: breakpoint("sm")) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  &__priceLabel {
+    margin-block-start: space("x-small") !important;
+    color: $studio-ink-dim;
+    font-size: 0.875rem;
+  }
+
+  &__price {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.35;
+
+    small {
+      font-size: 0.9375rem;
+    }
+  }
+
+  &__promise {
+    padding: space("medium");
+    border-radius: space("small");
+    background-color: $studio-orange-light;
+    font-size: 0.9375rem;
+  }
+
+  // 流れ (オレンジの点線でつなぐ)
+  &__flow {
+    @include list-unstyled();
+    margin: 0 0 0 space("small");
+    border-inline-start: 2px dotted $studio-orange-dark;
+
+    li {
+      padding: 0 0 1.125rem 1.375rem;
+
+      &:last-child {
+        padding-block-end: 0;
+      }
+    }
+  }
+
+  &__step {
+    color: $studio-blue-dark;
+    font-family: $studio-font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+  }
+
+  // よくある不安
+  &__faq {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+
+    .studio__card {
+      padding: 1rem 1.125rem;
+    }
+
+    summary {
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    p {
+      margin-block-start: space("x-small");
+      color: $studio-ink-dim;
+      font-size: 0.9375rem;
+    }
+
+    .is-q {
+      color: $studio-blue-dark;
+    }
+
+    .is-a {
+      color: $studio-orange-dark;
+      font-weight: 700;
+    }
+  }
+
+  // 作る人
+  &__profileHead {
+    display: flex;
+    align-items: center;
+    gap: space("medium");
+  }
+
+  &__face {
+    flex: 0 0 auto;
+    width: 6rem;
+    height: 6rem;
+    border: 2px solid $studio-orange;
+    border-radius: 50%;
+    background-color: $studio-orange-light;
+    object-fit: cover;
+    font-size: 0.75rem;
+  }
+
+  &__profileName {
+    font-family: $studio-font-mincho;
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  &__profileOrg {
+    color: $studio-ink-dim;
+    font-family: $studio-font-mono;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+  }
+
+  // 相談フォーム (/contact/ と同じフォームを, カードの中に置く)
+  &__form {
+    border-color: $studio-orange;
+
+    .main__lead {
+      margin-block-end: space("small");
+      font-size: 0.9375rem;
+    }
+
+    // 必須の印 (薄いオレンジでは読めないので, 濃い色にする)
+    // エンジンの .form label span.is-required より詳細度を上げて上書きする
+    .form label .is-required {
+      margin-inline-start: space("x-small");
+      color: $studio-orange-dark;
+      font-size: 0.75rem;
+      font-weight: 400;
+    }
+
+    .form table {
+      th {
+        width: auto;
+      }
+
+      // スマートフォンでは, 項目名の下に入力欄を置く
+      @media (max-width: breakpoint("sm")) {
+        &, tbody, tr, th, td {
+          display: block;
+          width: 100%;
+        }
+
+        th {
+          padding-block-end: space("x-small");
+          border-bottom: 0;
+        }
+      }
+
+      input, select, textarea {
+        width: 100%;
+        font-size: 1rem; // iOS で入力時に拡大しないよう 16px 以上
+        box-sizing: border-box;
+      }
+    }
+
+    [type="submit"] {
+      width: min(100%, 16rem);
+      border: 0;
+      border-radius: space("medium");
+      background: $studio-orange;
+      color: $studio-ink;
+      font-weight: 700;
+      cursor: pointer;
+
+      &:hover,
+      &:focus {
+        background: color-active("secondary");
+        color: $studio-ink;
+      }
+    }
+  }
+
+  &__line {
+    display: flex;
+    justify-content: center;
+  }
+
+  // ボタン
+  &__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: space("x-small");
+    min-height: 3rem;
+    padding: 0 space("medium");
+    border: 1px solid $studio-blue-dark;
+    border-radius: space("medium");
+    background-color: theme-color("lightest");
+    color: $studio-blue-dark;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    text-decoration: none;
+
+    &.is-main {
+      border-color: $studio-orange;
+      background-color: $studio-orange;
+      color: $studio-ink;
+
+      &::after {
+        content: "→";
+      }
+    }
+  }
+
+  // スマートフォンの画面下に固定する近道 (広い画面では出さない)
+  &__bar {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 900;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.625rem;
+    padding: 0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom));
+    border-top: 3px solid $studio-blue;
+    background-color: theme-color("lightest");
+
+    @media (min-width: breakpoint("md")) {
+      display: none;
+    }
+  }
+}
+
+// 固定ボタンの分, ページの下端とトップへ戻るボタンを上げる
+@media (max-width: breakpoint("md")) {
+  body:has(.studio__bar) {
+    padding-block-end: $studio-bar-height;
+
+    .backToTop {
+      bottom: calc(#{$studio-bar-height} + #{space()});
+    }
+  }
+}
+
+// 固定ヘッダーの下に隠れないよう, ページ内リンクの到着位置をずらす
+.studio [id] {
+  scroll-margin-block-start: space("medium");
+}
+
+// Layout - Footer (濃い青の帯. 白い文字が読める濃さにする)
+.footer {
+  background: $studio-blue-dark;
+  color: theme-color("lightest");
+
+  a {
+    color: theme-color("lightest");
+
+    &:hover {
+      color: $studio-orange;
+    }
+  }
+}
+
+// Project - Work (実績の個別のページ: works/index.php)
+// 業種・担当・サイトの一覧
+.workMeta {
+  display: grid;
+  gap: space("x-small");
+  margin: 0 0 space("medium");
+  padding: space("small") space("medium");
+  border: 2px solid $studio-blue;
+  border-radius: space("medium");
+  font-size: 0.9375rem;
+
+  div {
+    display: flex;
+    gap: space("small");
+  }
+
+  dt {
+    flex: 0 0 4em;
+    color: $studio-blue-dark;
+    font-weight: 700;
+  }
+
+  dd {
+    margin: 0;
+  }
+
+  a {
+    color: $studio-blue-dark;
+  }
+
+  &__image {
+    margin: 0 0 space("medium");
+
+    img {
+      display: block;
+      width: 100%;
+      border: 1px solid $studio-rule;
+      border-radius: space("small");
+    }
+  }
+}
+
+// 相談への案内 (オレンジの帯)
+.workCta {
+  margin-block: space("large") space("medium");
+  padding: space("medium");
+  border-radius: space("medium");
+  background-color: $studio-orange-light;
+  text-align: center;
+
+  p {
+    margin: 0;
+  }
+
+  &__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: space("small");
+    margin-block-start: space("small") !important;
+  }
+}

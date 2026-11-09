@@ -59,4 +59,26 @@ return [
       ],
     ],
   ],
+  // ちいさなサイト工房 (/small-site-studio/). レイアウトと画面は templates/studio/ (なければ templates/)
+  // 実績の一覧はトップの実績のセクション. /works/ はそこへ転送するので, サイトマップには個別のページだけを載せる (list: false)
+  // 実績の frontmatter に category (業種), role (担当範囲), website (実際のサイトの URL) を書く (Co-Pilot と共通の原稿)
+  'studio' => [
+    'config'    => __DIR__ . '/studio/config.php',
+    'root'      => '/small-site-studio/',
+    'pages'     => [
+      'contact/',
+    ],
+    'templates' => __DIR__ . '/studio',
+    'postTypes' => [
+      'works' => [
+        'label'    => '実績',
+        'path'     => 'works/',
+        'dir'      => 'content/works',
+        'list'     => false,
+        'count'    => null,
+        'showDate' => false,
+        'sort'     => 'order',
+      ],
+    ],
+  ],
 ];

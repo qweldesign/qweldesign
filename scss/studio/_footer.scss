@@ -1,0 +1,48 @@
+/**
+ * Layout - Footer
+ */
+
+@use "sass:map";
+@use "../variables" as *;
+
+.footer {
+  padding: space("x-large") 0;
+  @include background("primary");
+  text-align: center;
+
+  &__inner {
+    @include row(center);
+    gap: space("large");
+    @include container();
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    @include small-text();
+
+    .icon {
+      margin-inline-end: space("x-small");
+    }
+  }
+
+  // サイト内のリンク (config.php の SITE_FOOTER_LINKS)
+  &__nav ul {
+    @include list-unstyled();
+    @include row(center);
+    gap: space("x-small") space("medium");
+    margin: 0 auto space("medium");
+    @include small-text();
+  }
+
+  &__copyright {
+    display: block;
+    margin-block-start: space("medium");
+  }
+
+  small {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    letter-spacing: 0.02em;
+  }
+}

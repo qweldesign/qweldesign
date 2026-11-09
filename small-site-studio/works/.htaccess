@@ -1,0 +1,32 @@
+# 投稿タイプのディレクトリの URL を整える (Apache の mod_rewrite が必要)
+#   ./           → index.php           (一覧)
+#   ./page/2/    → index.php?page=2    (一覧の2ページ目以降)
+#   ./xxx/       → index.php?slug=xxx  (個別記事)
+# ディレクトリの場所を書いていないので, 投稿タイプを増やすときはこのファイルをそのままコピーできる
+# ※ slug に "page" は使えない (ページ送りの URL と重なるため)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # このディレクトリの URL (例: /blog/) を BASE に入れる (RewriteBase を書かずに済むように)
+  RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+  RewriteRule ^(.*)$ - [E=BASE:%1]
+
+  # 旧形式の URL (?slug=xxx, ?page=2) で来た場合は, 新しい URL へ恒久的に転送する
+  # (THE_REQUEST を見ることで, 下の内部の書き換えでは転送がループしない)
+  RewriteCond %{THE_REQUEST} \s[^?\s]*\?(?:[^\s&]*&)*slug=([A-Za-z0-9_-]+)[\s&]
+  RewriteRule ^(?:index\.php)?$ %{ENV:BASE}%1/? [R=301,L]
+  RewriteCond %{THE_REQUEST} \s[^?\s]*\?(?:[^\s&]*&)*page=1[\s&]
+  RewriteRule ^(?:index\.php)?$ %{ENV:BASE}? [R=301,L]
+  RewriteCond %{THE_REQUEST} \s[^?\s]*\?(?:[^\s&]*&)*page=([0-9]+)[\s&]
+  RewriteRule ^(?:index\.php)?$ %{ENV:BASE}page/%1/? [R=301,L]
+
+  # 末尾のスラッシュがない場合は付けて転送する (URL の表記を1つに揃える)
+  RewriteRule ^(page/[0-9]+|[A-Za-z0-9_-]+)$ %{ENV:BASE}$1/ [R=301,L]
+
+  # ページ送り
+  RewriteRule ^page/([0-9]+)/$ index.php?page=$1 [L,QSA]
+
+  # 個別記事 (slug は英数字, ハイフン, アンダースコア)
+  RewriteRule ^([A-Za-z0-9_-]+)/$ index.php?slug=$1 [L,QSA]
+</IfModule>

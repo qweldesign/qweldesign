@@ -1,0 +1,46 @@
+@charset "utf-8";
+
+/**
+ * studio.css (ちいさなサイト工房の区画)
+ * 本家 (style.scss) と同じ部品は scss/ から, 工房だけの部品・工房で形の違う部品は scss/studio/ から読む
+ * © 2026 QWEL.DESIGN (https://qwel.design)
+ * Released under the MIT License.
+ * See LICENSE file for details.
+ */
+
+// 工房の値 (渡さない値は settings/ の既定値. 書体・ブレイクポイントなどは既定値のまま使う)
+// メインカラーは本家の tertiary を使わない. 段階の色 (dark, light) は scss/studio/_studio.scss が使う
+@use "variables" with (
+  $colors: (
+    primary: #209fdf, // oklch(66.7% 0.139 238)
+    secondary: #ffc080 // oklch(85.2% 0.108 66)
+  ),
+  $color-tones: (dark: (l: 54%), light: (l: 96%, c: 0.02))
+);
+
+// Foundation
+@use "root";
+@use "normalize";
+
+// Layout
+@use "studio/header";
+@use "studio/main";
+@use "studio/footer";
+
+// Components
+@use "icon";
+@use "breadcrumb";
+@use "backToTop";
+
+// Projects
+@use "studio/form";
+@use "studio/studio";
+
+// Utility
+@use "utilities/scroll-offset";
+@use "utilities/scroll-inview";
+//@use "utilities/flex";
+//@use "utilities/flex-item";
+@use "utilities/spacing";
+@use "utilities/text";
+@use "utilities/visibility";

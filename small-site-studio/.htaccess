@@ -1,0 +1,8 @@
+# ちいさなサイト工房の区画 (/small-site-studio/) の設定 (Apache)
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # サイトマップは本家と1つにまとめた (/sitemap.xml). 以前の工房のサイトマップの URL から転送する
+  RewriteRule ^sitemap\.xml$ /sitemap.xml [R=301,L]
+</IfModule>

@@ -7,7 +7,29 @@
  * See LICENSE file for details.
  */
 
-// 変数と mixin は, 各部品が _variables.scss から読み込む
+// 本家の値 (各部品は _variables.scss から読む. 最初に読むここで, settings/ の既定値を上書きする)
+@use "sass:math";
+@use "variables" with (
+  $breakpoints: (sm: 600px, md: 800px, lg: 1000px),
+  $container-widths: (sm: 600px, md: 800px, lg: 1000px),
+  $gutter: math.div(6rem, 5),
+  $container-pads: (sm: math.div(6rem, 5), md: math.div(6rem, 5), lg: math.div(6rem, 5)),
+  $font-family-sans: ("Noto Sans", sans-serif),
+  $font-family-serif: ("Cormorant Garamond", "Noto Serif", serif),
+  $font-weight-serif: 500,
+  $body-typography: (font-family: ("Noto Sans", sans-serif), font-weight: 400, line-height: 1.8, letter-spacing: 0.02em),
+  $heading-typography: (margin-block-start: 1.5rem, margin-block-end: 0.75rem, font-family: ("Cormorant Garamond", "Noto Serif", serif), font-weight: 500, line-height: 1.2, letter-spacing: 0.04em),
+  $icon-bg: var(--flight-icon-bg, #209fdf),
+  $icon-color: var(--flight-icon-color, #ffffff),
+  $icon-hover-bg: var(--flight-icon-hover-bg, #1680b8),
+  $icon-hover-color: var(--flight-icon-hover-color, #ffffff),
+  $drawer-color: var(--flight-drawer-color, #ffffff),
+  $button-gradient-enabled: true,
+  $button-transform-enabled: false,
+  $back-to-top-pad: 1.5rem,
+  $drawer-pad: 1.5rem,
+  $drawer-breakpoint: 1000px
+);
 
 // Foundation
 @use "root";
